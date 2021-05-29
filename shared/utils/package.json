@@ -1,0 +1,15 @@
+{
+  "name": "@remote-mixer/utils",
+  "version": "0.0.1",
+  "main": "dist/src/index.js",
+  "repository": "https://github.com/kryops/remote-mixer",
+  "author": "Michael Strobel <michael@kryops.de>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@remote-mixer/types": "*"
+  }
+}

@@ -1,6 +1,10 @@
 {
   "recommendations": [
     "EditorConfig.EditorConfig",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "christian-kohler.npm-intellisense",
+    "jpoissonnier.vscode-styled-components",
+    "stylelint.vscode-stylelint"
   ]
 }

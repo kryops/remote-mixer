@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": ["es2019"],
+    "noEmit": false,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "declaration": true,
+    "composite": true,
+    "incremental": true
+  },
+  "include": ["./src", "./test"],
+  "references": [{ "path": "../types" }]
+}

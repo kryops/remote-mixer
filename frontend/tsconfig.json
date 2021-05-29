@@ -1,17 +1,17 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "strict": true,
-    "skipLibCheck": true,
-    "module": "esnext",
-    "types": [
-      "svelte",
-      "snowpack-env"
-    ]
+    "target": "es2019",
+    "lib": ["es2019", "dom"],
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "incremental": true,
+    "importsNotUsedAsValues": "preserve"
   },
-  "exclude": [
-    "node_modules/*",
-    "__sapper__/*",
-    "public/*"
-  ],
+  "include": ["./src", "./test", "../@types"],
+  "references": [
+    { "path": "../shared/controls" },
+    { "path": "../shared/types" },
+    { "path": "../shared/utils" }
+  ]
 }

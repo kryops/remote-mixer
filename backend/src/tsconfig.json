@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "../dist",
+    "rootDir": ".",
+    "composite": true,
+    "incremental": true
+  },
+  "include": ["."],
+  "references": [
+    { "path": "../../shared/controls" },
+    { "path": "../../shared/types" },
+    { "path": "../../shared/utils" }
+  ]
+}

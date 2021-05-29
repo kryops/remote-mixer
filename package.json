@@ -1,9 +1,58 @@
 {
-  "name": "remote-mixer",
-  "workspaces": [
-    "frontend"
-  ],
+  "name": "@kryops/remote-mixer",
+  "version": "0.0.1",
+  "main": "backend/dist/index.js",
+  "repository": "https://github.com/kryops/remote-mixer",
+  "author": "Michael Strobel <michael@kryops.de>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "backend",
+      "frontend",
+      "shared/*"
+    ]
+  },
+  "scripts": {
+    "all": "yarn lint && yarn test && yarn build",
+    "clean": "yarn workspaces run clean && rimraf node_modules/.cache .linaria-cache .eslintcache tsconfig.tsbuildinfo",
+    "backend": "yarn --cwd backend",
+    "build": "yarn run clean && run-p 'backend build' 'frontend build'",
+    "frontend": "yarn --cwd frontend",
+    "lint": "run-p --continue-on-error lint:eslint lint:ts 'frontend lint:css'",
+    "lint:eslint": "eslint --cache 'frontend/**/*.@(ts|tsx)' 'backend/**/*.ts' 'shared/**/*.ts'",
+    "lint:ts": "tsc -b frontend backend",
+    "lint:ts:watch": "tsc -b frontend backend --watch",
+    "postinstall": "rimraf node_modules/.cache .linaria-cache",
+    "prepare": "yarn build",
+    "prettier": "prettier --write '{backend,frontend,shared}/**/*.{ts,tsx}'",
+    "prod": "run-s build start:prod",
+    "start": "run-p 'backend start' 'frontend start' 'backend build --watch --preserveWatchOutput' 'frontend tsc:watch'",
+    "start:prod": "cross-env NODE_ENV=production && node .",
+    "test": "jest"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "tslib": "^2.2.0"
+  },
   "devDependencies": {
-    "prettier": "^2.2.1"
+    "@types/jest": "^26.0.23",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "jest": "^27.0.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.0.0",
+    "type-fest": "^1.1.3",
+    "typescript": "^4.3.2"
   }
 }

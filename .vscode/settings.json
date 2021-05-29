@@ -1,12 +1,17 @@
 {
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+    // "source.fixAll.stylelint": true
+  },
+  "eslint.validate": ["typescript", "typescriptreact", "javascript"],
   "typescript.preferences.quoteStyle": "single",
   "typescript.tsdk": "node_modules/typescript/lib",
+
   "search.exclude": {
-    "**/node_modules": true
-  },
-  "[svelte]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode"
-  },
+    "**/node_modules": true,
+    "backend/dist": true,
+    "frontend/dist": true
+  }
 }

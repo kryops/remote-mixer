@@ -168,5 +168,5 @@ $RECYCLE.BIN/
 ###
 
 dist
-.snowpack
-build
+.linaria-cache
+*.tsbuildinfo

@@ -1,0 +1,10 @@
+{
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "ts,js",
+  "exec": "node ./dist/index.js",
+  "ignore": ["**/*.test.ts"],
+  "watch": ["dist", "../frontend/webpack.config.ts", "../shared/*/dist"],
+  "delay": 500
+}

@@ -1,0 +1,49 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ESLint",
+      "type": "npm",
+      "script": "lint:eslint",
+      "problemMatcher": ["$eslint-stylish"],
+      "presentation": {
+        "reveal": "never"
+      }
+    },
+    {
+      "label": "TypeScript",
+      "type": "npm",
+      "script": "lint:ts",
+      "problemMatcher": ["$tsc"],
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "TypeScript watch",
+      "type": "npm",
+      "script": "lint:ts:watch",
+      "problemMatcher": ["$tsc-watch"],
+      "isBackground": true,
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "never",
+        "echo": false,
+        "focus": false,
+        "panel": "dedicated"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}

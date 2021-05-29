@@ -1,0 +1,79 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "webpack",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/webpack/bin/webpack.js",
+      "args": [
+        "--project",
+        "--config",
+        "frontend/webpack.config.ts",
+        "--progress",
+        "--env profile"
+      ],
+      "runtimeArgs": ["--nolazy"],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "name": "Backend (ts-node)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/.bin/ts-node",
+      "args": [
+        "--project",
+        "./backend/tsconfig.json",
+        "./backend/src/index.ts"
+      ],
+      "runtimeArgs": ["--nolazy"],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/ts-node/dist/bin.js"
+      }
+    },
+    {
+      "name": "Backend (node)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/backend/dist/index.js",
+      "runtimeArgs": ["--nolazy"],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "preLaunchTask": "npm: prepare",
+      "outFiles": ["${workspaceRoot}/backend/dist/**"]
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Node.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest Current File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["${relativeFile}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      }
+    }
+  ]
+}

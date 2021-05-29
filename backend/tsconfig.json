@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": ["esnext"],
+    "noEmit": true
+  },
+  "include": ["./src", "./test", "./clients", "../@types"],
+  "references": [
+    { "path": "../shared/controls" },
+    { "path": "../shared/types" },
+    { "path": "../shared/utils" }
+  ]
+}
