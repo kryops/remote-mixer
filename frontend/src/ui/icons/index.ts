@@ -12,8 +12,10 @@ import {
   mdiChevronDown,
   mdiChevronUp,
   mdiGauge,
+  mdiLoading,
 } from '@mdi/js'
 
+export const iconLoading = mdiLoading
 export const iconClose = mdiClose
 export const iconOk = mdiCheck
 export const iconOn = mdiPower

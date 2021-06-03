@@ -6,14 +6,17 @@ import { MainContainer } from './ui/main/main-container'
 import { ErrorBoundary } from './util/error-boundary'
 import { SettingsWrapper } from './settings'
 import { OverlayContainer } from './ui/overlays/overlay'
+import { ApiWrapper } from './api/api-wrapper'
 
 const App = () => (
   <StrictMode>
     <ErrorBoundary>
       <SettingsWrapper>
-        <OverlayContainer>
-          <MainContainer />
-        </OverlayContainer>
+        <ApiWrapper>
+          <OverlayContainer>
+            <MainContainer />
+          </OverlayContainer>
+        </ApiWrapper>
       </SettingsWrapper>
     </ErrorBoundary>
   </StrictMode>

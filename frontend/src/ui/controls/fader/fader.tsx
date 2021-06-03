@@ -17,6 +17,7 @@ export interface FaderProps {
   step?: number
   label?: string
   subLabel?: string
+  meterRef?: React.RefObject<HTMLDivElement>
   onChange: (value: number) => void
   className?: string
 }

@@ -33,9 +33,10 @@ const track = css`
 
 const meterTrack = css`
   background: ${iconShade(1)};
-  transform-origin: bottom;
-  transform: scaleY(0.8);
-  transition: transform 0.1s ease-out;
+  top: auto;
+  bottom: ${trackOffset}px;
+  will-change: height;
+  transition: height 0.1s ease-out;
 `
 
 export interface FaderBaseProps {
@@ -43,6 +44,7 @@ export interface FaderBaseProps {
   onTouch?: (fraction: number) => void
   onUp?: () => void
   children?: ReactNode
+  meterRef?: React.RefObject<HTMLDivElement>
 }
 
 export function FaderBase({
@@ -50,6 +52,7 @@ export function FaderBase({
   onTouch,
   onUp,
   children,
+  meterRef,
 }: FaderBaseProps) {
   const trackRef = useRef<HTMLDivElement>(null)
 
@@ -67,7 +70,7 @@ export function FaderBase({
       onUp={onUp}
     >
       <div className={track} ref={trackRef} />
-      <div className={cx(track, meterTrack)} />
+      {meterRef && <div className={cx(track, meterTrack)} ref={meterRef} />}
       {children}
     </Touchable>
   )

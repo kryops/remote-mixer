@@ -1,1 +1,1 @@
-export {}
+export { StateManager } from './state-manager'

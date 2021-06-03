@@ -3,9 +3,8 @@ import { css } from '@linaria/core'
 import { baseline, iconShade } from '../styles'
 import { memoInProduction } from '../../util/development'
 import { Tabs } from '../containers/tabs'
-import { EntryControl } from '../../controls/entry-control'
-import { EntryContainer } from '../containers/entry-container'
-import { EntryDialog } from '../../controls/entry-dialog'
+import { useDeviceConfiguration } from '../../api/state'
+import { CategoryControl } from '../../controls/category-control'
 
 import { CornerOverlay } from './corner-overlay'
 
@@ -35,29 +34,17 @@ const content = css`
 `
 
 export const MainContainer = memoInProduction(() => {
+  const { categories } = useDeviceConfiguration()
+
   return (
     <div className={mainContainer}>
       <div className={content}>
         <Tabs
-          tabs={[
-            {
-              id: 1,
-              content: (
-                <EntryContainer>
-                  <EntryControl />
-                  <EntryControl />
-                  <EntryControl />
-                  <EntryControl />
-                </EntryContainer>
-              ),
-              label: 'Tab 1',
-            },
-            {
-              id: 2,
-              content: <EntryDialog />,
-              label: 'Tab 2',
-            },
-          ]}
+          tabs={categories.map(category => ({
+            id: category.key,
+            label: category.label,
+            content: <CategoryControl category={category} />,
+          }))}
         />
       </div>
       <CornerOverlay />
