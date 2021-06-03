@@ -22,11 +22,6 @@ const faderBase = css`
   margin: ${baseline(1.5)};
 `
 
-const colorPickerFader = css`
-  margin-left: ${baseline(3.5)};
-  margin-right: ${baseline(3.5)};
-`
-
 const track = css`
   position: absolute;
   top: ${trackOffset}px;
@@ -36,22 +31,14 @@ const track = css`
   height: ${trackHeight}px;
 `
 
-const cornerLabelStyle = css`
-  position: absolute;
-  font-size: 0.65rem;
-  z-index: 3;
-  top: ${baseline(0.5)};
-  left: ${baseline(1)};
-`
-
-const cornerLabel_overflow = css`
-  min-width: ${baseline(32)};
+const meterTrack = css`
+  background: ${iconShade(1)};
+  transform-origin: bottom;
+  transform: scaleY(0.8);
+  transition: transform 0.1s ease-out;
 `
 
 export interface FaderBaseProps {
-  cornerLabel?: string
-  cornerLabelOverflow?: boolean
-  colorPicker?: boolean
   className?: string
   onTouch?: (fraction: number) => void
   onUp?: () => void
@@ -59,9 +46,6 @@ export interface FaderBaseProps {
 }
 
 export function FaderBase({
-  cornerLabel,
-  cornerLabelOverflow,
-  colorPicker,
   className,
   onTouch,
   onUp,
@@ -71,7 +55,7 @@ export function FaderBase({
 
   return (
     <Touchable
-      className={cx(faderBase, colorPicker && colorPickerFader, className)}
+      className={cx(faderBase, className)}
       onTouch={event => {
         const offset = getTouchEventOffset(event, trackRef)
         if (!offset) {
@@ -83,17 +67,8 @@ export function FaderBase({
       onUp={onUp}
     >
       <div className={track} ref={trackRef} />
+      <div className={cx(track, meterTrack)} />
       {children}
-      {cornerLabel && (
-        <div
-          className={cx(
-            cornerLabelStyle,
-            cornerLabelOverflow && cornerLabel_overflow
-          )}
-        >
-          {cornerLabel}
-        </div>
-      )}
     </Touchable>
   )
 }

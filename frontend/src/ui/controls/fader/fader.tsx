@@ -17,10 +17,7 @@ export interface FaderProps {
   step?: number
   label?: string
   subLabel?: string
-  cornerLabel?: string
-  cornerLabelOverflow?: boolean
   onChange: (value: number) => void
-  colorPicker?: boolean
   className?: string
 }
 

@@ -45,6 +45,7 @@ const modal = css`
   box-sizing: border-box;
   padding: ${baseline(6)} ${baseline(8)};
   background: ${primaryShade(3)};
+  --background: ${primaryShade(3)};
 
   @media (max-width: 500px) {
     width: 94vw;
@@ -109,7 +110,7 @@ export function Modal<T>({
       onClick={closeOnBackDrop ? () => onClose(null as any) : undefined}
     >
       <div className={modalContainer}>
-        <div className={modal}>
+        <div className={modal} onClick={e => e.stopPropagation()}>
           {showCloseButton && (
             <Icon
               icon={iconClose}
@@ -121,7 +122,7 @@ export function Modal<T>({
           {title && <h2 className={titleStyle}>{title}</h2>}
           {content}
           {Content && <Content onClose={onClose} />}
-          {buttons && (
+          {buttons && buttons.length > 0 && (
             <div className={buttonContainer}>
               {buttons.map(({ icon, label, value }, index) => (
                 <a

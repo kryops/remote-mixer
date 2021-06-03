@@ -9,14 +9,12 @@ export function baseline(factor = 1): string {
 
 export const inputWidth = baseline(64)
 
-export const zNavigation = 10
 export const zOverlay = 20
 export const zCornerOverlay = 30
 
 const backgroundColorVariable = '--bg'
 export const backgroundColor = `var(${backgroundColorVariable})`
 
-export type ColorPercentage = 100 | 50 | 20 | 10 | 5
 export type ColorShade = 0 | 1 | 2 | 3 | 4
 
 export type ThemeColor =

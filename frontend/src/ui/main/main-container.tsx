@@ -2,7 +2,10 @@ import { css } from '@linaria/core'
 
 import { baseline, iconShade } from '../styles'
 import { memoInProduction } from '../../util/development'
-import { Fader } from '../controls/fader/fader'
+import { Tabs } from '../containers/tabs'
+import { EntryControl } from '../../controls/entry-control'
+import { EntryContainer } from '../containers/entry-container'
+import { EntryDialog } from '../../controls/entry-dialog'
 
 import { CornerOverlay } from './corner-overlay'
 
@@ -13,7 +16,7 @@ const mainContainer = css`
 
 const content = css`
   flex: 1 1 auto;
-  padding: ${baseline(4)};
+  padding: ${baseline(3)};
   height: 100%;
   box-sizing: border-box;
   overflow-y: auto;
@@ -35,8 +38,27 @@ export const MainContainer = memoInProduction(() => {
   return (
     <div className={mainContainer}>
       <div className={content}>
-        <Fader value={0} onChange={() => {}} />
-        ...
+        <Tabs
+          tabs={[
+            {
+              id: 1,
+              content: (
+                <EntryContainer>
+                  <EntryControl />
+                  <EntryControl />
+                  <EntryControl />
+                  <EntryControl />
+                </EntryContainer>
+              ),
+              label: 'Tab 1',
+            },
+            {
+              id: 2,
+              content: <EntryDialog />,
+              label: 'Tab 2',
+            },
+          ]}
+        />
       </div>
       <CornerOverlay />
     </div>
