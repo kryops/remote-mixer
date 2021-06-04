@@ -1,4 +1,4 @@
-import { DeviceConfiguration } from './configuration'
+import { DeviceConfiguration } from './device'
 import { RemoteMixerState } from './state'
 
 export interface ApiChangeMessage {
@@ -12,7 +12,7 @@ export interface ApiChangeMessage {
 export interface ApiSyncMessage {
   type: 'sync'
   state: RemoteMixerState
-  device: DeviceConfiguration
+  device?: DeviceConfiguration
 }
 
 export interface ApiMetersMessage {

@@ -1,3 +1,3 @@
 export * from './api'
-export * from './configuration'
+export * from './device'
 export * from './state'

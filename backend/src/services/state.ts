@@ -1,7 +1,7 @@
 import { StateManager } from '@remote-mixer/controls'
 import {
   ApiInMessage,
-  ApiOutMessage,
+  DeviceMessage,
   RemoteMixerState,
 } from '@remote-mixer/types'
 
@@ -12,7 +12,7 @@ export function getState(): RemoteMixerState {
 }
 
 export function applyStateFromMessage(
-  message: ApiInMessage | ApiOutMessage
+  message: ApiInMessage | DeviceMessage
 ): void {
   stateManager.handleMessage(message)
 }

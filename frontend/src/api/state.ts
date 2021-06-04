@@ -30,11 +30,13 @@ export function handleApiMessage(message: ApiOutMessage): void {
 
   switch (message.type) {
     case 'sync':
-      deviceConfiguration = message.device
-      deviceConfigurationMap.clear()
-      message.device.categories.forEach(category =>
-        deviceConfigurationMap.set(category.key, category)
-      )
+      if (message.device) {
+        deviceConfiguration = message.device
+        deviceConfigurationMap.clear()
+        message.device.categories.forEach(category =>
+          deviceConfigurationMap.set(category.key, category)
+        )
+      }
       stateEvents.emit(syncEvent)
       break
 

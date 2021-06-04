@@ -5,7 +5,8 @@
 /** @type {Partial<import('../backend/src/services/config').RemoteMixerConfiguration>} */
 const userConfig = {
   // httpPort: 8080,
-  // logLevel: 'debug'
+  // logLevel: 'debug',
+  // devive: 'dummy',
 }
 
 module.exports = userConfig

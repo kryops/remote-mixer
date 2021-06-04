@@ -35,6 +35,7 @@ const meterTrack = css`
   background: ${iconShade(1)};
   top: auto;
   bottom: ${trackOffset}px;
+  height: 0;
   will-change: height;
   transition: height 0.1s ease-out;
 `

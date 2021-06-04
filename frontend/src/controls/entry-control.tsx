@@ -48,7 +48,7 @@ export function EntryControl({ category, id }: EntryControlProps) {
         subLabel={state.name}
         meterRef={meterRef}
       />
-      {categoryInfo.faderProperties && (
+      {false && categoryInfo.faderProperties && (
         <Icon
           icon={iconDetails}
           hoverable

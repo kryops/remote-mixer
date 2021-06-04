@@ -18,7 +18,7 @@ export function useMeter(
     const updateMeter = () => {
       if (!meterRef.current) return
       const value = getState().meters[category.key + id]
-      if (value !== oldValue) {
+      if (value !== oldValue && value !== undefined) {
         oldValue = value
         meterRef.current.style.height = (value / 255) * trackHeight + 'px'
       }

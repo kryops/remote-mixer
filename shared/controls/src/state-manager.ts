@@ -1,6 +1,7 @@
 import {
   ApiInMessage,
   ApiOutMessage,
+  DeviceMessage,
   RemoteMixerState,
 } from '@remote-mixer/types'
 import { assertNever } from '@remote-mixer/utils'
@@ -11,7 +12,7 @@ export class StateManager {
     meters: {},
   }
 
-  handleMessage(message: ApiInMessage | ApiOutMessage): void {
+  handleMessage(message: ApiInMessage | ApiOutMessage | DeviceMessage): void {
     switch (message.type) {
       case 'sync':
         this.state = message.state

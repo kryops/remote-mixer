@@ -7,6 +7,7 @@ import { isDevelopment } from './env'
 export interface RemoteMixerConfiguration {
   httpPort: number
   logLevel: LogLevel | `${LogLevel}`
+  device: string | { type: string; options: any }
 }
 
 export const configDirectoryPath = join(__dirname, '../../../config')
@@ -31,3 +32,4 @@ export const logLevel = c(
   'logLevel',
   isDevelopment ? LogLevel.Debug : LogLevel.Info
 ) as LogLevel
+export const device = c('device', 'dummy')
