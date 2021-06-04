@@ -49,13 +49,7 @@ export function EntryControl({ category, id }: EntryControlProps) {
         meterRef={meterRef}
       />
       {false && categoryInfo.faderProperties && (
-        <Icon
-          icon={iconDetails}
-          hoverable
-          inline
-          padding
-          onClick={showEntryDialog}
-        />
+        <Icon icon={iconDetails} hoverable padding onClick={showEntryDialog} />
       )}
     </Entry>
   )

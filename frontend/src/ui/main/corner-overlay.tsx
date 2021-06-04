@@ -8,6 +8,7 @@ import { zCornerOverlay, baseline } from '../styles'
 const cornerOverlay = css`
   position: absolute;
   z-index: ${zCornerOverlay};
+  transform: translate3d(0, 0, 0);
   bottom: 0;
   right: 0;
 `

@@ -20,7 +20,7 @@ export function useMeter(
       const value = getState().meters[category.key + id]
       if (value !== oldValue && value !== undefined) {
         oldValue = value
-        meterRef.current.style.height = (value / 255) * trackHeight + 'px'
+        meterRef.current.style.transform = `scaleY(${value / 255})`
       }
     }
 

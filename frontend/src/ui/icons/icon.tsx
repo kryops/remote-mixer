@@ -30,10 +30,10 @@ const icon_clickable = css`
 `
 
 const icon_hoverable = css`
-  opacity: 0.5;
+  fill: var(--color1);
 
-  &:hover {
-    opacity: 1;
+  svg:hover > & {
+    fill: var(--color2);
   }
 `
 
@@ -73,20 +73,24 @@ export const Icon = memoInProduction(
         className={cx(
           iconSvg,
           inline && icon_inline,
-          hoverable && icon_hoverable,
           onClick && icon_clickable,
           padding && icon_padding,
           className
         )}
-        style={
-          size ? { width: baseline(size), height: baseline(size) } : undefined
-        }
+        style={{
+          fill: color ?? iconShade(shade),
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          '--color1': color ? color : iconShade(shade + 1),
+          '--color2': color ? color : iconShade(shade),
+          width: size ? baseline(size) : undefined,
+          height: size ? baseline(size) : undefined,
+        }}
         onClick={onClick}
       >
         <path
           d={icon}
-          className={pathClassName}
-          style={{ fill: color ?? iconShade(shade) }}
+          className={cx(pathClassName, hoverable && icon_hoverable)}
         />
       </svg>
     )

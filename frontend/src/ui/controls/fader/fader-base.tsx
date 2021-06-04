@@ -16,6 +16,7 @@ export const trackOffset = (faderHeight - trackHeight) / 2
 
 const faderBase = css`
   position: relative;
+  transform: translate3d(0, 0, 0);
   flex: 0 0 auto;
   width: ${faderWidth}px;
   height: ${faderHeight}px;
@@ -23,9 +24,8 @@ const faderBase = css`
 `
 
 const track = css`
-  position: absolute;
-  top: ${trackOffset}px;
-  left: ${trackMargin}px;
+  margin-top: ${trackOffset}px;
+  margin-left: ${trackMargin}px;
   background: ${iconShade(3)};
   width: ${trackWidth}px;
   height: ${trackHeight}px;
@@ -33,11 +33,10 @@ const track = css`
 
 const meterTrack = css`
   background: ${iconShade(1)};
-  top: auto;
-  bottom: ${trackOffset}px;
-  height: 0;
-  will-change: height;
-  transition: height 0.1s ease-out;
+  height: ${trackHeight}px;
+  will-change: transform;
+  transform-origin: bottom;
+  transition: transform 0.1s ease-out;
 `
 
 export interface FaderBaseProps {
@@ -70,9 +69,10 @@ export function FaderBase({
       }}
       onUp={onUp}
     >
-      <div className={track} ref={trackRef} />
-      {meterRef && <div className={cx(track, meterTrack)} ref={meterRef} />}
       {children}
+      <div className={track} ref={trackRef}>
+        {meterRef && <div className={meterTrack} ref={meterRef} />}
+      </div>
     </Touchable>
   )
 }

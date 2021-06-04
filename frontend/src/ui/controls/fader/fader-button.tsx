@@ -19,6 +19,7 @@ const button = css`
   align-items: center;
   justify-content: center;
   text-align: center;
+  will-change: transform;
 `
 
 const button_small = smallText
