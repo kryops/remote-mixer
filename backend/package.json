@@ -21,6 +21,7 @@
     "@remote-mixer/utils": "*",
     "compression": "^1.7.4",
     "express": "^4.16.4",
+    "midi": "^1.0.4",
     "source-map-support": "^0.5.19",
     "ws": "^7.4.6"
   },
