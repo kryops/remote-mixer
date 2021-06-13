@@ -12,6 +12,10 @@ export function sendApiMessage(message: ApiInMessage) {
   logger.trace('Sending WebSocket message', message)
   if (!socket || socket.readyState !== socket.OPEN) return
   socket.send(JSON.stringify(message))
+
+  // we keep the UI more responsive by applying the new state straight away
+  // instead of waiting for the response
+  handleApiMessage(message)
 }
 
 export function ApiWrapper({ children }: { children: JSX.Element }) {

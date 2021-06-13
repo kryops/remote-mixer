@@ -25,7 +25,7 @@ export async function initWebSocketServer(): Promise<void> {
     sockets.push(socket)
     socket.on('message', (message: ApiInMessage) => {
       logger.trace('incoming message:', message)
-      handleApiMessage(JSON.parse(message.toString()))
+      handleApiMessage(JSON.parse(message.toString()), socket)
     })
 
     socket.on('close', () => removeSocket(socket))
@@ -35,11 +35,13 @@ export async function initWebSocketServer(): Promise<void> {
   })
 }
 
-export function broadcastToSockets(message: ApiOutMessage): void {
+export function broadcastToSockets(message: ApiOutMessage, exclude?: ws): void {
   if (!sockets.length) {
     return
   }
   logger.trace('broadcast WebSocket message', message)
   const messageString = JSON.stringify(message)
-  sockets.forEach(socket => socket.send(messageString))
+  sockets.forEach(socket => {
+    if (exclude !== socket) socket.send(messageString)
+  })
 }

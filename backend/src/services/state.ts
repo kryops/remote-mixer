@@ -13,6 +13,6 @@ export function getState(): RemoteMixerState {
 
 export function applyStateFromMessage(
   message: ApiInMessage | DeviceMessage
-): void {
-  stateManager.handleMessage(message)
+): boolean {
+  return stateManager.handleMessage(message)
 }

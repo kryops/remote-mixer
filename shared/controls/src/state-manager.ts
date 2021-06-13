@@ -12,7 +12,9 @@ export class StateManager {
     meters: {},
   }
 
-  handleMessage(message: ApiInMessage | ApiOutMessage | DeviceMessage): void {
+  handleMessage(
+    message: ApiInMessage | ApiOutMessage | DeviceMessage
+  ): boolean {
     switch (message.type) {
       case 'sync':
         this.state = message.state
@@ -24,7 +26,11 @@ export class StateManager {
 
       case 'change':
         const { category, id, property, value } = message
+
         const categoryEntry = this.state.categories[category]
+
+        if (categoryEntry?.[id]?.[property] === value) return false
+
         if (!categoryEntry) {
           this.state.categories[category] = { [id]: { [property]: value } }
         } else if (!categoryEntry[id]) {
@@ -37,5 +43,7 @@ export class StateManager {
       default:
         assertNever(message)
     }
+
+    return true
   }
 }

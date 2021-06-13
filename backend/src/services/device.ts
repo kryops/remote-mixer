@@ -11,8 +11,9 @@ const DeviceController: DeviceControllerConstructor = require('../devices/' +
 
 export const deviceController = new DeviceController(
   deviceMessage => {
-    applyStateFromMessage(deviceMessage)
-    broadcastToSockets(deviceMessage)
+    if (applyStateFromMessage(deviceMessage)) {
+      broadcastToSockets(deviceMessage)
+    }
   },
   typeof device === 'object' ? device.options : undefined
 )
