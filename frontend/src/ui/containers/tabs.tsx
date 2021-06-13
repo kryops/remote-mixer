@@ -43,6 +43,7 @@ export function Tabs({ tabs }: TabsProps) {
     }
   }, [tabs, activeTab])
 
+  if (tabs.length === 0) return null
   if (tabs.length === 1) return <>{tabs[0].content}</>
 
   return (

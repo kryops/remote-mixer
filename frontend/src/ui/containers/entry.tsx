@@ -13,7 +13,7 @@ const entry = css`
 `
 
 const entryInactive = css`
-  opacity: 0.5;
+  opacity: 0.6;
 `
 
 export interface EntryProps {

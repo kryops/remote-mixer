@@ -51,15 +51,12 @@ export function EntryControl({
         subLabel={state.name}
         meterRef={meterRef}
       />
-      {categoryInfo.faderProperties &&
-        categoryInfo.faderProperties.length > 1 && (
-          <Icon
-            icon={iconDetails}
-            hoverable
-            padding
-            onClick={() => showEntryDialog({ category, id })}
-          />
-        )}
+      <Icon
+        icon={iconDetails}
+        hoverable
+        padding
+        onClick={() => showEntryDialog({ category, id })}
+      />
     </Entry>
   )
 }

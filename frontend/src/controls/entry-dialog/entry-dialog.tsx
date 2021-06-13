@@ -1,16 +1,23 @@
 import { css } from '@linaria/core'
 import { StateCategoryEntry } from '@remote-mixer/types'
+import { isTruthy } from '@remote-mixer/utils'
 
 import { Tabs } from '../../ui/containers/tabs'
 import { showDialog } from '../../ui/overlays/dialog'
 import { useDeviceCategory, useEntryState } from '../../api/state'
 import { sendApiMessage } from '../../api/api-wrapper'
 import { Button } from '../../ui/buttons/button'
+import { TextInput } from '../../ui/forms/typed-input'
+import { baseline } from '../../ui/styles'
 
 import { EntryDialogFaders } from './entry-dialog-faders'
 
 const container = css`
   min-width: 80vw;
+`
+
+const nameInput = css`
+  width: ${baseline(24)};
 `
 
 export interface EntryDialogProps {
@@ -37,6 +44,12 @@ export function EntryDialog({ category, id }: EntryDialogProps) {
       <h2>
         {categoryInfo.namePrefix}
         {id}
+        &nbsp;
+        <TextInput
+          className={nameInput}
+          value={state.name}
+          onChange={newValue => change('name', newValue)}
+        />
         &nbsp;
         <Button onDown={() => change('on', !state.on)} active={state.on}>
           {state.on ? 'ON' : 'OFF'}
