@@ -9,7 +9,7 @@ const entry = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: ${baseline(2)} ${baseline()};
+  margin: ${baseline(2)} 0;
 `
 
 const entryInactive = css`

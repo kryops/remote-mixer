@@ -9,7 +9,7 @@ import {
 
 import { getCssVariableDefinitions } from './ui/styles'
 
-const lightTheme = css`
+export const lightTheme = css`
   ${getCssVariableDefinitions(true)}
 `
 

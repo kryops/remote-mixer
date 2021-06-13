@@ -2,7 +2,6 @@ import { DeviceConfigurationCategory } from '@remote-mixer/types'
 import React, { useEffect, useRef } from 'react'
 
 import { getState, metersEvent, stateEvents } from '../api/state'
-import { trackHeight } from '../ui/controls/fader/fader-base'
 
 export function useMeter(
   category: DeviceConfigurationCategory,

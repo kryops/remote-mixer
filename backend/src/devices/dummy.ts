@@ -14,7 +14,14 @@ export default class DummyDeviceController implements DeviceController {
         label: 'Channels',
         count: 32,
         meters: true,
-        faderProperties: ['aux1', 'aux2', 'aux3', 'aux4'],
+        namePrefix: 'CH',
+        faderProperties: [
+          { key: 'value', label: 'CH' },
+          { key: 'aux1', label: 'AUX1' },
+          { key: 'aux2', label: 'AUX2' },
+          { key: 'aux3', label: 'AUX3' },
+          { key: 'aux4', label: 'AUX4' },
+        ],
       },
       {
         key: 'aux',
@@ -42,7 +49,7 @@ export default class DummyDeviceController implements DeviceController {
       }
 
       this.listener(message)
-    }, 200)
+    }, 1000)
 
     setInterval(() => {
       const message: DeviceChangeMessage = {

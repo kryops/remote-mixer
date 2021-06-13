@@ -9,10 +9,11 @@ const tabBar = css`
   display: flex;
   flex-wrap: wrap;
   border-bottom: 1px solid ${iconShade(1)};
+  margin-bottom: ${baseline(2)};
 `
 
 const tabStyle = css`
-  padding: ${baseline(2)};
+  padding: ${baseline(2)} ${baseline(1.5)};
   margin: 0 ${baseline(1 / 2)};
   margin-bottom: -1px;
   white-space: nowrap;
@@ -42,8 +43,10 @@ export function Tabs({ tabs }: TabsProps) {
     }
   }, [tabs, activeTab])
 
+  if (tabs.length === 1) return <>{tabs[0].content}</>
+
   return (
-    <div>
+    <>
       <div className={tabBar}>
         {tabs.map(tab => (
           <Clickable
@@ -56,6 +59,6 @@ export function Tabs({ tabs }: TabsProps) {
         ))}
       </div>
       {tabs.find(tab => tab.id === activeTab)?.content}
-    </div>
+    </>
   )
 }

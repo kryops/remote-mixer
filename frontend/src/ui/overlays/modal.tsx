@@ -2,8 +2,15 @@ import { ReactElement, ComponentType } from 'react'
 import { css } from '@linaria/core'
 
 import { Icon } from '../icons/icon'
-import { zOverlay, primaryShade, baseline, iconShade } from '../styles'
+import {
+  zOverlay,
+  primaryShade,
+  baseline,
+  iconShade,
+  backgroundColor,
+} from '../styles'
 import { iconClose } from '../icons'
+import { lightTheme } from '../../settings'
 
 import { removeOverlay, addOverlay } from './overlay'
 import { ModalButton } from './buttons'
@@ -24,9 +31,13 @@ const backDrop = css`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(50, 50, 50, 0.8);
   overflow-y: auto;
   z-index: ${zOverlay};
+
+  .${lightTheme} & {
+    background: rgba(200, 200, 200, 0.8);
+  }
 `
 
 const modalContainer = css`
@@ -44,8 +55,8 @@ const modal = css`
   max-width: 96vw;
   box-sizing: border-box;
   padding: ${baseline(6)} ${baseline(8)};
-  background: ${primaryShade(3)};
-  --background: ${primaryShade(3)};
+  background: ${backgroundColor};
+  --background: ${backgroundColor};
 
   @media (max-width: 500px) {
     width: 94vw;
@@ -57,6 +68,10 @@ const closeButton = css`
   float: right;
   margin: ${baseline(-6)};
   padding: ${baseline(2)};
+
+  @media (max-width: 500px) {
+    margin: ${baseline(-4)};
+  }
 `
 
 const titleStyle = css`

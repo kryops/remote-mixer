@@ -6,13 +6,18 @@ export type DeviceMessage = DeviceChangeMessage | DeviceMetersMessage
 
 export type DeviceMessageListener = (message: DeviceMessage) => void
 
+export interface FaderProperty {
+  key: string
+  label: string
+}
+
 export interface DeviceConfigurationCategory {
   key: string
   label: string
   count: number
   namePrefix?: string
   meters?: boolean
-  faderProperties?: string[]
+  faderProperties?: FaderProperty[]
 }
 
 export interface DeviceConfiguration {

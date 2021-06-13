@@ -7,7 +7,6 @@ import { baseline } from '../styles'
 export const container = css`
   display: flex;
   flex-wrap: wrap;
-  margin-top: ${baseline(2)};
   padding-right: ${baseline(8)};
 `
 

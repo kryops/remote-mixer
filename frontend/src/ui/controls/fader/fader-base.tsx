@@ -32,7 +32,7 @@ const track = css`
 `
 
 const meterTrack = css`
-  background: ${iconShade(1)};
+  background: ${iconShade(2)};
   height: ${trackHeight}px;
   will-change: transform;
   transform-origin: bottom;
