@@ -1,6 +1,5 @@
 import { css } from '@linaria/core'
 import { StateCategoryEntry } from '@remote-mixer/types'
-import { isTruthy } from '@remote-mixer/utils'
 
 import { Tabs } from '../../ui/containers/tabs'
 import { showDialog } from '../../ui/overlays/dialog'

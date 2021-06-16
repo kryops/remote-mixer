@@ -26,7 +26,7 @@ export interface DeviceConfiguration {
 
 export interface DeviceController {
   deviceConfig: DeviceConfiguration
-  change(category: string, id: string, property: string, value: any): void
+  change(category: string, id: string, property: string, value: unknown): void
 }
 
 export interface DeviceControllerConstructor {
