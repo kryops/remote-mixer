@@ -18,6 +18,7 @@ export interface DeviceConfigurationCategory {
   namePrefix?: string
   meters?: boolean
   faderProperties?: FaderProperty[]
+  additionalProperties?: string[]
 }
 
 export interface DeviceConfiguration {

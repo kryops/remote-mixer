@@ -10,13 +10,7 @@
 * Set *Tx* and *Rx* in the *PARAMETER CHANGE* row to *ON*, all other options to *OFF*
 * Set *Fader Resolution* to *LOW*
 
-## Protocol
-
-The Yamaha 01v96 uses a MIDI protocol.
-
-> TODO document message formats that are used
-
 ## Links
 
-* Manual: https://europe.yamaha.com/files/download/other_assets/2/325222/01v96i_en_rm_a0.pdf
-* MIDI protocol: https://europe.yamaha.com/files/download/other_assets/4/312474/01V96i_midiptcl100.zip
+* Manual: https://europe.yamaha.com/files/download/other_assets/5/334235/01v96v2_om_en_f0.pdf
+* MIDI protocol: https://europe.yamaha.com/files/download/other_assets/4/311524/01v96v2_midiptcl100.zip
