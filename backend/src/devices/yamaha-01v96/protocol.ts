@@ -20,6 +20,8 @@
 import { DeviceMessage } from '@remote-mixer/types'
 import { logger } from '@remote-mixer/utils'
 
+import { delay } from '../../util/time'
+
 import { sendMessage } from './connection'
 import { deviceConfig } from './device-config'
 import { messageMapping } from './mapping'
@@ -80,8 +82,9 @@ function isMessage(message: number[]) {
     message[0] === sysexStart &&
     message[1] === manufacturer &&
     message[2] === subStatus.parameterChange &&
-    (message[3] === modelId.universal ||
-      message[3] === modelId.deviceSpecific) &&
+    message[3] === groupId &&
+    (message[4] === modelId.universal ||
+      message[4] === modelId.deviceSpecific) &&
     message[message.length - 1] === sysexEnd
   )
 }
@@ -129,7 +132,7 @@ export function getRequestMessage(
   return null
 }
 
-export function sync(): void {
+export async function sync(): Promise<void> {
   for (const category of deviceConfig.categories) {
     for (let id = 1; id <= category.count; id++) {
       const properties = [
@@ -141,8 +144,15 @@ export function sync(): void {
 
       for (const property of properties) {
         const message = getRequestMessage(category.key, String(id), property)
+        logger.trace(
+          '==>',
+          `request ${category.key} ${id} ${property} =>`,
+          formatMessage(message)
+        )
         if (message) sendMessage(message)
       }
+      // if we send all messages synchronously, we only get a part of them back
+      await delay(20)
     }
   }
 }

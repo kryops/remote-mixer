@@ -40,5 +40,5 @@ export function channelAux2Offset(aux: number): number {
 }
 
 export function offset2ChannelAux(binary: number): number {
-  return (binary % channelAuxRange) + 1
+  return Math.floor(binary / channelAuxRange) + 1
 }

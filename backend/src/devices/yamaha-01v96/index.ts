@@ -11,6 +11,9 @@ import {
 } from './protocol'
 import { formatMessage } from './utils'
 
+// The 01v96 sends its meters 20 times a second, we only want to use half of them
+let skipNextMeterMessage = false
+
 export default class Yamaha01v96DeviceController implements DeviceController {
   deviceConfig = deviceConfig
 
@@ -18,18 +21,27 @@ export default class Yamaha01v96DeviceController implements DeviceController {
     connect(message => {
       // TODO handle long MIDI messages? (>1024 bytes)
       const internalMessage = interpretIncomingMessage(message)
-      logger.trace(
-        'Incoming MIDI message',
-        formatMessage(message),
-        '=>',
-        internalMessage
-      )
-      if (internalMessage) this.listener(internalMessage)
+      if (internalMessage?.type !== 'meters') {
+        logger.trace(
+          '<==',
+          formatMessage(message),
+          '<=',
+          ...Object.values(internalMessage ?? { foo: null })
+        )
+      }
+      if (internalMessage) {
+        if (internalMessage.type === 'meters') {
+          skipNextMeterMessage = !skipNextMeterMessage
+          if (!skipNextMeterMessage) this.listener(internalMessage)
+        } else {
+          this.listener(internalMessage)
+        }
+      }
     })
 
     sync()
 
-    sendMessage(getMeterReqest())
+    setTimeout(() => sendMessage(getMeterReqest()), 1000)
 
     setInterval(() => {
       sendMessage(getMeterReqest())
@@ -38,6 +50,10 @@ export default class Yamaha01v96DeviceController implements DeviceController {
 
   change(category: string, id: string, property: string, value: unknown): void {
     const message = getChangeMessage(category, id, property, value)
+    logger.debug(
+      `==> change ${category} ${id} ${property} ${value} =>`,
+      formatMessage(message)
+    )
     if (message) sendMessage(message)
   }
 }

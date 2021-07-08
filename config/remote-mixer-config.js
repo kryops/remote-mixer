@@ -6,7 +6,7 @@
 const userConfig = {
   // httpPort: 8080,
   // logLevel: 'debug',
-  // devive: 'dummy',
+  device: 'yamaha-01v96',
 }
 
 module.exports = userConfig

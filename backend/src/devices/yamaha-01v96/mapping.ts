@@ -15,7 +15,7 @@ import { MessageArgs, sync } from './protocol'
 import { formatMessage } from './utils'
 
 const defaultDataType = 0x01
-const defaultParameter = 0x01
+const defaultParameter = 0x00
 
 const elements = {
   channelFader: 0x1c,
@@ -26,7 +26,7 @@ const elements = {
   auxOn: 0x36,
 
   busFader: 0x2b,
-  busOn: 0x41,
+  busOn: 0x29,
 
   sumFader: 0x4f,
   sumOn: 0x4d,
@@ -171,7 +171,7 @@ export const messageMapping: MessageMapping[] = [
         type: 'change',
         category: 'ch',
         id: String(message[8] + 1),
-        property: 'aux' + offset2ChannelAux(message[6]),
+        property: 'aux' + offset2ChannelAux(message[7]),
         value: data2Fader(data),
       }
     },
