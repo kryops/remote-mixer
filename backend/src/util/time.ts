@@ -1,7 +1,7 @@
 import { logger } from '@remote-mixer/utils'
 
 export async function delay(ms: number): Promise<void> {
-  await new Promise(resolve => setTimeout(resolve, ms))
+  await new Promise(resolve => setTimeout(resolve, ms, undefined))
 }
 
 export function howLong(start: number, label: string): void {
