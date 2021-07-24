@@ -1,5 +1,9 @@
 # Yamaha 01v96
 
+## Computer setup
+
+Depending on your operating system, you might have to install a USB-MIDI driver.
+
 ## Device Setup
 
 * Press the **DIO/SETUP** button and go to the **MIDI/HOST** tab
@@ -12,5 +16,4 @@
 
 ## Links
 
-* Manual: https://europe.yamaha.com/files/download/other_assets/5/334235/01v96v2_om_en_f0.pdf
-* MIDI protocol: https://europe.yamaha.com/files/download/other_assets/4/311524/01v96v2_midiptcl100.zip
+* Downloads: https://europe.yamaha.com/en/products/proaudio/mixers/01v96vcm/downloads.html

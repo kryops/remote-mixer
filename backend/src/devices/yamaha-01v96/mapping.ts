@@ -1,43 +1,28 @@
 import { DeviceMessage } from '@remote-mixer/types'
-import { logger } from '@remote-mixer/utils'
 
 import {
   channelAux2Offset,
   data2Fader,
   data2On,
-  DataBytes,
   fader2Data,
-  isDataBytes,
   offset2ChannelAux,
   on2Data,
 } from './converters'
-import { MessageArgs, sync } from './protocol'
-import { formatMessage } from './utils'
+import { MidiMessage, MidiMessageArgs } from './message'
+import { changeName, handleNameMessage, isNameMessage } from './names'
+import { sync } from './sync'
 
 const defaultDataType = 0x01
 const defaultParameter = 0x00
 
-const elements = {
-  channelFader: 0x1c,
-  channelOn: 0x1a,
-  channelAuxFader: 0x23,
-
-  auxFader: 0x39,
-  auxOn: 0x36,
-
-  busFader: 0x2b,
-  busOn: 0x29,
-
-  sumFader: 0x4f,
-  sumOn: 0x4d,
-}
-
+const channelAuxFaderElement = 0x23
 export const channelAuxRange = 3
 const channelAuxSendOffset = 2
 
 interface SimpleMapping {
   category: string
   property: string
+  deviceSpecific?: boolean
   element: number
   dataType?: number
   parameter?: number
@@ -47,62 +32,53 @@ const simpleMapping: SimpleMapping[] = [
   {
     category: 'ch',
     property: 'value',
-    element: elements.channelFader,
+    element: 0x1c,
   },
   {
     category: 'ch',
     property: 'on',
-    element: elements.channelOn,
+    element: 0x1a,
   },
   {
     category: 'aux',
     property: 'value',
-    element: elements.auxFader,
+    element: 0x39,
   },
   {
     category: 'aux',
     property: 'on',
-    element: elements.auxOn,
+    element: 0x36,
   },
   {
     category: 'bus',
     property: 'value',
-    element: elements.busFader,
+    element: 0x2b,
   },
   {
     category: 'bus',
     property: 'on',
-    element: elements.busOn,
+    element: 0x29,
   },
   {
     category: 'sum',
     property: 'value',
-    element: elements.sumFader,
+    element: 0x4f,
   },
   {
     category: 'sum',
     property: 'on',
-    element: elements.sumOn,
+    element: 0x4d,
   },
 ]
 
-function extractData(message: number[]): DataBytes | null {
-  const data = message.slice(9, -1)
-  if (!isDataBytes(data)) {
-    logger.warn('Invalid MIDI message (data too short)', formatMessage(message))
-    return null
-  }
-  return data
-}
-
 interface MessageMapping {
-  incoming(message: number[]): DeviceMessage | null
+  incoming(message: MidiMessage): DeviceMessage | null
   outgoing?(
     category: string,
     id: string,
     property: string,
     value?: unknown
-  ): MessageArgs | null
+  ): MidiMessageArgs | null
 }
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -112,24 +88,25 @@ export const messageMapping: MessageMapping[] = [
   // - on buttons
   {
     incoming: message => {
+      if (!message.data) return null
       const matchingMapping = simpleMapping.find(
         entry =>
-          message[5] === (entry.dataType ?? defaultDataType) &&
-          entry.element === message[6] &&
-          message[7] === (entry.parameter ?? defaultParameter)
+          message.deviceSpecific === (entry.deviceSpecific ?? false) &&
+          message.dataType === (entry.dataType ?? defaultDataType) &&
+          message.element === entry.element &&
+          message.parameter === (entry.parameter ?? defaultParameter)
       )
       if (!matchingMapping) return null
-
-      const data = extractData(message)
-      if (!data) return null
 
       return {
         type: 'change',
         category: matchingMapping.category,
-        id: String(message[8] + 1),
+        id: String(message.channel + 1),
         property: matchingMapping.property,
         value:
-          matchingMapping.property === 'on' ? data2On(data) : data2Fader(data),
+          matchingMapping.property === 'on'
+            ? data2On(message.data)
+            : data2Fader(message.data),
       }
     },
 
@@ -158,21 +135,19 @@ export const messageMapping: MessageMapping[] = [
   {
     incoming: message => {
       if (
-        message[6] !== elements.channelAuxFader ||
-        message[7] % channelAuxRange !== channelAuxSendOffset
+        message.element !== channelAuxFaderElement ||
+        message.parameter % channelAuxRange !== channelAuxSendOffset ||
+        !message.data
       ) {
         return null
       }
 
-      const data = extractData(message)
-      if (!data) return null
-
       return {
         type: 'change',
         category: 'ch',
-        id: String(message[8] + 1),
-        property: 'aux' + offset2ChannelAux(message[7]),
-        value: data2Fader(data),
+        id: String(message.channel + 1),
+        property: 'aux' + offset2ChannelAux(message.parameter),
+        value: data2Fader(message.data),
       }
     },
 
@@ -182,7 +157,7 @@ export const messageMapping: MessageMapping[] = [
       return {
         channel: parseInt(id) - 1,
         dataType: 0x01,
-        element: elements.channelAuxFader,
+        element: channelAuxFaderElement,
         parameter: channelAux2Offset(aux) + channelAuxSendOffset,
         data: value !== undefined ? fader2Data(value) : undefined,
       }
@@ -192,10 +167,11 @@ export const messageMapping: MessageMapping[] = [
   // meters
   {
     incoming: message => {
-      if (message[5] !== 0x21) return null
+      if (!message.deviceSpecific || message.dataType !== 0x21 || !message.data)
+        return null
       // echo messages from meter requests are accidentally
       // recognized as meter messages
-      if (message.length < 71) return null
+      if (message.raw.length < 71) return null
 
       const outMessage: DeviceMessage = {
         type: 'meters',
@@ -203,17 +179,33 @@ export const messageMapping: MessageMapping[] = [
       }
 
       for (let channel = 1; channel <= 32; channel++) {
-        outMessage.meters[`ch${channel}`] = message[9 + 2 * (channel - 1)]
+        outMessage.meters[`ch${channel}`] = message.data[2 * (channel - 1)]
       }
 
       return outMessage
     },
   },
 
+  // names
+  {
+    incoming: message => {
+      return isNameMessage(message) ? handleNameMessage(message) : null
+    },
+
+    outgoing: (category, id, property, value) => {
+      if (property !== 'name') return null
+      changeName(category, id, value as string)
+
+      // Changing the name usually requires multiple messages, which the handler
+      // does internally
+      return null
+    },
+  },
+
   // program change -> sync
   {
     incoming: message => {
-      if (message[5] === 0x10) {
+      if (message.dataType === 0x10) {
         sync()
       }
       return null

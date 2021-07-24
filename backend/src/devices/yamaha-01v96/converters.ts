@@ -1,10 +1,5 @@
 import { channelAuxRange } from './mapping'
-
-export type DataBytes = [number, number, number, number]
-
-export function isDataBytes(data: number[]): data is DataBytes {
-  return data.length >= 4
-}
+import { DataBytes } from './message'
 
 /**
  * 10bit fader values are transmitted in 4 bytes
