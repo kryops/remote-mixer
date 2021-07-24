@@ -40,6 +40,10 @@ export class StateManager {
         }
         break
 
+      case 'sync-device':
+        // do nothing
+        break
+
       default:
         assertNever(message)
     }

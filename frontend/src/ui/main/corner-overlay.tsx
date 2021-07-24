@@ -1,7 +1,8 @@
 import { css } from '@linaria/core'
 
+import { sendApiMessage } from '../../api/api-wrapper'
 import { useSettings } from '../../hooks/settings'
-import { iconLight } from '../icons'
+import { iconLight, iconSync } from '../icons'
 import { Icon } from '../icons/icon'
 import { zCornerOverlay, baseline } from '../styles'
 
@@ -22,6 +23,12 @@ export function CornerOverlay() {
   return (
     <>
       <div className={cornerOverlay}>
+        <Icon
+          className={cornerIcon}
+          icon={iconSync}
+          hoverable
+          onClick={() => sendApiMessage({ type: 'sync-device' })}
+        />
         <Icon
           className={cornerIcon}
           icon={iconLight}

@@ -1,6 +1,10 @@
 import { DeviceConfiguration } from './device'
 import { RemoteMixerState } from './state'
 
+export interface ApiSyncDeviceMessage {
+  type: 'sync-device'
+}
+
 export interface ApiChangeMessage {
   type: 'change'
   category: string
@@ -21,5 +25,5 @@ export interface ApiMetersMessage {
   meters: Record<string, number>
 }
 
-export type ApiInMessage = ApiChangeMessage
+export type ApiInMessage = ApiChangeMessage | ApiSyncDeviceMessage
 export type ApiOutMessage = ApiSyncMessage | ApiMetersMessage | ApiChangeMessage

@@ -1,4 +1,4 @@
-import { ApiChangeMessage, ApiMetersMessage } from './api'
+import { ApiChangeMessage, ApiMetersMessage, ApiSyncDeviceMessage } from './api'
 
 export type DeviceChangeMessage = ApiChangeMessage
 export type DeviceMetersMessage = ApiMetersMessage
@@ -28,6 +28,7 @@ export interface DeviceConfiguration {
 export interface DeviceController {
   deviceConfig: DeviceConfiguration
   change(category: string, id: string, property: string, value: unknown): void
+  sync?(): void
 }
 
 export interface DeviceControllerConstructor {

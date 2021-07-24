@@ -53,4 +53,9 @@ export default class Yamaha01v96DeviceController implements DeviceController {
     )
     if (message) sendMessage(message)
   }
+
+  sync(): void {
+    logger.debug('==> synchronizing...')
+    sync()
+  }
 }
