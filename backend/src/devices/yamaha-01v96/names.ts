@@ -3,6 +3,8 @@ import { DeviceMessage } from '@remote-mixer/types'
 import { sendMessage } from './connection'
 import { message, MidiMessage } from './message'
 
+// TODO switch to message types
+
 const nameDataType = 0x02
 const parameterOffset = 4
 

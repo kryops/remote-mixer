@@ -1,6 +1,6 @@
 import { logger } from '@remote-mixer/utils'
 
-import { formatMessage } from './utils'
+import { bytesByMessageType } from './message-types'
 
 /*
  * General message format:
@@ -31,7 +31,7 @@ const subStatus = {
   parameterRequest: 0x30, // 0011nnnn 3n n=0-15 (Device number=MIDI Channel)
 }
 
-const modelId = {
+export const modelId = {
   deviceSpecific: 0x0d, // 01v96i: 0x1a
   universal: 0x7f,
 }
@@ -43,6 +43,7 @@ export function isDataBytes(data: number[]): data is DataBytes {
 }
 
 export interface MidiMessage {
+  type?: string
   isRequest: boolean
   dataType: number
   element: number
@@ -53,14 +54,19 @@ export interface MidiMessage {
   raw: number[]
 }
 
-export interface MidiMessageArgs
-  extends Omit<MidiMessage, 'raw' | 'isRequest' | 'data' | 'deviceSpecific'> {
+export interface MidiMessageArgs {
+  type?: string
   isRequest?: boolean
-  data?: number[]
   deviceSpecific?: boolean
+  dataType?: number
+  element?: number
+  parameter?: number
+  channel: number
+  data?: number[]
 }
 
 export function message({
+  type,
   isRequest,
   dataType,
   element,
@@ -69,15 +75,21 @@ export function message({
   data,
   deviceSpecific,
 }: MidiMessageArgs): number[] {
+  const bytes = type === undefined ? undefined : bytesByMessageType.get(type)
+
   return [
     sysexStart,
     manufacturer,
     isRequest ? subStatus.parameterRequest : subStatus.parameterChange,
     groupId,
-    deviceSpecific ? modelId.deviceSpecific : modelId.universal,
-    dataType,
-    element,
-    parameter,
+    bytes
+      ? bytes[0]
+      : deviceSpecific
+      ? modelId.deviceSpecific
+      : modelId.universal,
+    dataType ?? bytes?.[1] ?? 0,
+    element ?? bytes?.[2] ?? 0,
+    parameter ?? bytes?.[3] ?? 0,
     channel,
     ...(data ?? []),
     sysexEnd,
@@ -106,8 +118,25 @@ export function isMessage(message: number[]): boolean {
   )
 }
 
+function hashBytes(bytes: number[]) {
+  return bytes.join(',')
+}
+
+const messageTypeByBytes = new Map<string, string>(
+  [...bytesByMessageType.entries()].map(([type, bytes]) => [
+    hashBytes(bytes),
+    type,
+  ])
+)
+
+function getMessageType(message: number[]): string | undefined {
+  if (message.length > 14) return undefined
+  return messageTypeByBytes.get(hashBytes(message.slice(4, 8)))
+}
+
 export function parseMessage(message: number[]): MidiMessage {
   return {
+    type: getMessageType(message),
     isRequest: message[2] === subStatus.parameterRequest,
     deviceSpecific: message[4] === modelId.deviceSpecific,
     dataType: message[5],
@@ -117,4 +146,24 @@ export function parseMessage(message: number[]): MidiMessage {
     data: extractData(message) ?? undefined,
     raw: message,
   }
+}
+
+export function formatMessage(message: number[] | null): string {
+  if (!message) return 'null'
+
+  const type = getMessageType(message)
+
+  const hex = `${type ?? ''} [${message
+    .map(it => {
+      const str = it.toString(16)
+      return str.length === 1 ? `0${str}` : str
+    })
+    .join(' ')}]`
+
+  const data = message.slice(9, -1)
+  if (data.length && type && type.match(/name|title/i)) {
+    return `${hex} (${data.map(it => String.fromCharCode(it)).join(' ')})`
+  }
+
+  return hex
 }

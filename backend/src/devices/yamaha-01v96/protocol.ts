@@ -1,9 +1,8 @@
 import { DeviceMessage } from '@remote-mixer/types'
 import { logger } from '@remote-mixer/utils'
 
-import { isMessage, message, parseMessage } from './message'
+import { formatMessage, isMessage, message, parseMessage } from './message'
 import { messageMapping } from './mapping'
-import { formatMessage } from './utils'
 
 export function interpretIncomingMessage(
   message: number[]

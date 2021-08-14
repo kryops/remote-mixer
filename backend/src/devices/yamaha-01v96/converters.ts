@@ -1,4 +1,3 @@
-import { channelAuxRange } from './mapping'
 import { DataBytes } from './message'
 
 /**
@@ -25,15 +24,17 @@ export function data2On(data: DataBytes): boolean {
   return !!data[3]
 }
 
-/**
- * AUX1: 0-2 (2: fader)
- * AUX2: 3-5 (5: fader)
- * ...
- */
-export function channelAux2Offset(aux: number): number {
-  return (aux - 1) * channelAuxRange
+export interface DataConverter {
+  outgoing: (value: any) => DataBytes
+  incoming: (data: DataBytes) => any
 }
 
-export function offset2ChannelAux(binary: number): number {
-  return Math.floor(binary / channelAuxRange) + 1
+export const faderConverter: DataConverter = {
+  incoming: data2Fader,
+  outgoing: fader2Data,
+}
+
+export const onConverter: DataConverter = {
+  incoming: data2On,
+  outgoing: on2Data,
 }

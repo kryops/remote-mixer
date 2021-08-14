@@ -1,75 +1,96 @@
 import { DeviceMessage } from '@remote-mixer/types'
 
 import {
-  channelAux2Offset,
   data2Fader,
-  data2On,
+  DataConverter,
   fader2Data,
-  offset2ChannelAux,
-  on2Data,
+  faderConverter,
+  onConverter,
 } from './converters'
 import { MidiMessage, MidiMessageArgs } from './message'
+import { bytesByMessageType } from './message-types'
 import { changeName, handleNameMessage, isNameMessage } from './names'
 import { sync } from './sync'
 
-const defaultDataType = 0x01
-const defaultParameter = 0x00
-
-const channelAuxFaderElement = 0x23
-export const channelAuxRange = 3
-const channelAuxSendOffset = 2
-
 interface SimpleMapping {
+  type: string
   category: string
   property: string
-  deviceSpecific?: boolean
-  element: number
-  dataType?: number
-  parameter?: number
+  converter: DataConverter
 }
 
 const simpleMapping: SimpleMapping[] = [
+  // channel
   {
+    type: 'kInputFader/kFader',
     category: 'ch',
     property: 'value',
-    element: 0x1c,
+    converter: faderConverter,
   },
   {
+    type: 'kInputChannelOn/kChannelOn',
     category: 'ch',
     property: 'on',
-    element: 0x1a,
+    converter: onConverter,
   },
+
+  // aux
   {
+    type: 'kAUXFader/kFader',
     category: 'aux',
     property: 'value',
-    element: 0x39,
+    converter: faderConverter,
   },
   {
+    type: 'kAUXChannelOn/kChannelOn',
     category: 'aux',
     property: 'on',
-    element: 0x36,
+    converter: onConverter,
   },
+
+  // bus
   {
+    type: 'kBusFader/kFader',
     category: 'bus',
     property: 'value',
-    element: 0x2b,
+    converter: faderConverter,
   },
   {
+    type: 'kBusChannelOn/kChannelOn',
     category: 'bus',
     property: 'on',
-    element: 0x29,
+    converter: onConverter,
   },
+
+  // sum
   {
+    type: 'kStereoFader/kFader',
     category: 'sum',
     property: 'value',
-    element: 0x4f,
+    converter: faderConverter,
   },
   {
+    type: 'kStereoChannelOn/kChannelOn',
     category: 'sum',
     property: 'on',
-    element: 0x4d,
+    converter: onConverter,
   },
 ]
+
+const simpleMappingByType = new Map<string, SimpleMapping>(
+  simpleMapping.map(mapping => [mapping.type, mapping])
+)
+
+function hashChange(category: string, property: string) {
+  return `${category}/${property}`
+}
+
+const simpleMappingByChange = new Map<string, SimpleMapping>(
+  simpleMapping.map(mapping => [
+    hashChange(mapping.category, mapping.property),
+    mapping,
+  ])
+)
 
 interface MessageMapping {
   incoming(message: MidiMessage): DeviceMessage | null
@@ -84,81 +105,64 @@ interface MessageMapping {
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const messageMapping: MessageMapping[] = [
   // simple mapping
-  // - faders
-  // - on buttons
   {
     incoming: message => {
-      if (!message.data) return null
-      const matchingMapping = simpleMapping.find(
-        entry =>
-          message.deviceSpecific === (entry.deviceSpecific ?? false) &&
-          message.dataType === (entry.dataType ?? defaultDataType) &&
-          message.element === entry.element &&
-          message.parameter === (entry.parameter ?? defaultParameter)
-      )
-      if (!matchingMapping) return null
+      const matchingMapping =
+        message.type && simpleMappingByType.get(message.type)
+      if (!matchingMapping || !message.data) return null
 
       return {
         type: 'change',
         category: matchingMapping.category,
         id: String(message.channel + 1),
         property: matchingMapping.property,
-        value:
-          matchingMapping.property === 'on'
-            ? data2On(message.data)
-            : data2Fader(message.data),
+        value: matchingMapping.converter.incoming(message.data),
       }
     },
-
     outgoing: (category, id, property, value) => {
-      const matchingMapping = simpleMapping.find(
-        entry => entry.category === category && entry.property === property
+      const matchingMapping = simpleMappingByChange.get(
+        hashChange(category, property)
       )
       if (!matchingMapping) return null
 
       return {
+        type: matchingMapping.type,
         channel: parseInt(id) - 1,
-        dataType: matchingMapping.dataType ?? defaultDataType,
-        element: matchingMapping.element,
-        parameter: matchingMapping.parameter ?? defaultParameter,
         data:
           value !== undefined
-            ? property === 'on'
-              ? on2Data(value)
-              : fader2Data(value)
+            ? matchingMapping.converter.outgoing(value)
             : undefined,
       }
     },
   },
 
-  // AUX send
+  // aux send
   {
     incoming: message => {
-      if (
-        message.element !== channelAuxFaderElement ||
-        message.parameter % channelAuxRange !== channelAuxSendOffset ||
-        !message.data
-      ) {
-        return null
-      }
+      if (!message.type || !message.data) return null
+      const aux = message.type.match(/^kInputAUX\/kAUX(\d+)Level$/)?.[1]
+      if (!aux) return null
 
       return {
         type: 'change',
         category: 'ch',
         id: String(message.channel + 1),
-        property: 'aux' + offset2ChannelAux(message.parameter),
+        property: 'aux' + aux,
         value: data2Fader(message.data),
       }
     },
 
     outgoing: (category, id, property, value) => {
-      if (category !== 'ch' || !property.startsWith('aux')) return null
-      const aux = parseInt(property.slice(3))
+      if (category !== 'ch' && !property.startsWith('aux')) return null
+
+      const aux = property.slice(3)
+      const type = `kInputAUX/kAUX${aux}Level`
+      const bytes = bytesByMessageType.get(type)
+      if (!bytes) return null
+
       return {
+        type,
         channel: parseInt(id) - 1,
-        dataType: 0x01,
-        element: channelAuxFaderElement,
-        parameter: channelAux2Offset(aux) + channelAuxSendOffset,
         data: value !== undefined ? fader2Data(value) : undefined,
       }
     },

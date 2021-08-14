@@ -10,7 +10,7 @@ import {
   interpretIncomingMessage,
 } from './protocol'
 import { sync } from './sync'
-import { formatMessage } from './utils'
+import { formatMessage } from './message'
 
 // The 01v96 sends its meters 20 times a second, we only want to use half of them
 let skipNextMeterMessage = false

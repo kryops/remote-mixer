@@ -3041,4 +3041,4 @@ export const bytesByMessageType = new Map<string, number[]>([
   ['kEffectAdditional/kEffectAddParam2', [13, 4, 110, 1]],
   ['kEffectAdditional/kEffectAddParam3', [13, 4, 110, 2]],
   ['kEffectAdditional/kEffectAddParam4', [13, 4, 110, 3]],
-]);
+])
