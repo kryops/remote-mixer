@@ -11,7 +11,7 @@ import { formatMessage } from './utils'
  *     3n parameter request n=0-15 (Device number=MIDI Channel)
  * [3] 3E MODEL ID (digital mixer)
  * [4] 7F Universal
- *     1A device-specific
+ *     0D device-specific (01v96i: 1A)
  * [5] tt Data type
  * [6] ee Element no.
  * [7] pp Parameter no.

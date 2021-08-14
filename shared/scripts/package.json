@@ -1,0 +1,18 @@
+{
+  "name": "@remote-mixer/scripts",
+  "version": "0.0.1",
+  "main": "dist/src/index.js",
+  "repository": "https://github.com/kryops/remote-mixer",
+  "author": "Michael Strobel <michael@kryops.de>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist",
+    "sucrase": "sucrase-node"
+  },
+  "dependencies": {
+    "@remote-mixer/types": "*",
+    "sucrase": "^3.20.1",
+    "xlsx": "^0.17.0"
+  }
+}
