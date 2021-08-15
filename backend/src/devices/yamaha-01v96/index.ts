@@ -21,15 +21,17 @@ export default class Yamaha01v96DeviceController implements DeviceController {
   constructor(private listener: DeviceMessageListener) {
     connect(message => {
       const internalMessage = interpretIncomingMessage(message)
-      if (internalMessage) {
+      if (internalMessage && typeof internalMessage === 'object') {
         if (internalMessage.type === 'meters') {
           skipNextMeterMessage = !skipNextMeterMessage
           if (!skipNextMeterMessage) this.listener(internalMessage)
         } else {
           this.listener(internalMessage)
         }
-      } else {
-        logger.debug('<==', formatMessage(message), '<= null')
+      }
+
+      if (message === null) {
+        logger.debug('<== unhandled message', formatMessage(message))
       }
     })
 

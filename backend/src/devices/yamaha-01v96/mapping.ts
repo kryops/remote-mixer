@@ -9,7 +9,7 @@ import {
 } from './converters'
 import { MidiMessage, MidiMessageArgs } from './message'
 import { bytesByMessageType } from './message-types'
-import { changeName, handleNameMessage, isNameMessage } from './names'
+import { changeName, handleNameMessage } from './names'
 import { sync } from './sync'
 
 interface SimpleMapping {
@@ -93,13 +93,13 @@ const simpleMappingByChange = new Map<string, SimpleMapping>(
 )
 
 interface MessageMapping {
-  incoming(message: MidiMessage): DeviceMessage | null
+  incoming(message: MidiMessage): DeviceMessage | true | null
   outgoing?(
     category: string,
     id: string,
     property: string,
     value?: unknown
-  ): MidiMessageArgs | null
+  ): MidiMessageArgs | true | null
 }
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -192,9 +192,7 @@ export const messageMapping: MessageMapping[] = [
 
   // names
   {
-    incoming: message => {
-      return isNameMessage(message) ? handleNameMessage(message) : null
-    },
+    incoming: handleNameMessage,
 
     outgoing: (category, id, property, value) => {
       if (property !== 'name') return null
@@ -202,7 +200,7 @@ export const messageMapping: MessageMapping[] = [
 
       // Changing the name usually requires multiple messages, which the handler
       // does internally
-      return null
+      return true
     },
   },
 

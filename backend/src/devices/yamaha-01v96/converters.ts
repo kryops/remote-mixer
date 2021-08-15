@@ -24,6 +24,18 @@ export function data2On(data: DataBytes): boolean {
   return !!data[3]
 }
 
+/**
+ * ASCII characters
+ */
+export function character2Data(character: unknown): DataBytes {
+  if (typeof character !== 'string') return character2Data(' ')
+  return [0, 0, 0, character.charCodeAt(0)]
+}
+
+export function data2Character(data: DataBytes): string {
+  return String.fromCharCode(data[3])
+}
+
 export interface DataConverter {
   outgoing: (value: any) => DataBytes
   incoming: (data: DataBytes) => any

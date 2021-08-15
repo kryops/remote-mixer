@@ -6,7 +6,7 @@ import { messageMapping } from './mapping'
 
 export function interpretIncomingMessage(
   message: number[]
-): DeviceMessage | null {
+): DeviceMessage | true | null {
   if (!isMessage(message)) {
     logger.warn('Invalid MIDI message', formatMessage(message))
     return null
@@ -30,7 +30,8 @@ export function getChangeMessage(
 ): number[] | null {
   for (const { outgoing } of messageMapping) {
     const result = outgoing?.(category, id, property, value)
-    if (result) return message(result)
+    if (result && typeof result === 'object') return message(result)
+    if (result) break
   }
 
   return null
@@ -43,7 +44,9 @@ export function getRequestMessage(
 ): number[] | null {
   for (const { outgoing } of messageMapping) {
     const result = outgoing?.(category, id, property)
-    if (result) return message({ ...result, isRequest: true })
+    if (result && typeof result === 'object')
+      return message({ ...result, isRequest: true })
+    if (result) break
   }
 
   return null
