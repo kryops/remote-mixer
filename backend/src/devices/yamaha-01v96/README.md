@@ -1,5 +1,13 @@
 # Yamaha 01v96
 
+## Configuration
+
+```js
+{
+  device: 'yamaha-01v96'
+}
+```
+
 ## Computer setup
 
 Depending on your operating system, you might have to install a USB-MIDI driver.
