@@ -109,13 +109,15 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
     stats: profile ? 'normal' : 'minimal',
     performance: false,
     devServer: {
-      publicPath: '/',
-      hot: true,
-      stats: 'minimal',
+      client: {
+        logging: 'error',
+      },
+      devMiddleware: {
+        publicPath: '/',
+      },
       port: 8001,
       open: true,
-      clientLogLevel: 'error',
-      disableHostCheck: true,
+      allowedHosts: 'all',
       historyApiFallback: true,
       proxy: {
         '/api': {
