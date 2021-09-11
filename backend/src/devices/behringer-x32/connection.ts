@@ -1,3 +1,4 @@
+import { logger } from '@remote-mixer/utils'
 import { UDPPort, OSC } from 'osc'
 
 export interface X32Options {
@@ -21,12 +22,19 @@ export async function connect(
   port = new UDPPort({
     remoteAddress: options.remoteAddress,
     remotePort: options.remotePort,
+    // by default osc binds to 127.0.0.1, which is not allowed to send packets to remote hosts
+    localAddress: '0.0.0.0',
   })
-
   port.on('message', listener)
+  port.on('error', error => logger.error('OSC error', error))
+
+  port.open()
 
   await new Promise<void>(resolve => {
-    port.on('ready', resolve)
+    port.on('ready', () => {
+      logger.info('OSC connection ready')
+      resolve()
+    })
   })
 
   requestUpdates()

@@ -1,5 +1,5 @@
-export function fader2Data(value: number): number {
-  return value / 255
+export function fader2Data(value: number): any {
+  return { type: 'f', value: value / 255 }
 }
 
 export function data2Fader(data: unknown): number {
@@ -7,8 +7,8 @@ export function data2Fader(data: unknown): number {
   return Math.round(data * 255)
 }
 
-export function on2Data(on: boolean): number {
-  return on ? 1 : 0
+export function on2Data(on: boolean): any {
+  return { type: 'i', value: on ? 1 : 0 }
 }
 
 export function data2On(data: unknown): boolean {
@@ -40,5 +40,5 @@ export const onConverter: DataConverter = {
 
 export const nameConverter: DataConverter = {
   incoming: name => name,
-  outgoing: name => name.slice(0, 12),
+  outgoing: name => name?.slice(0, 12),
 }

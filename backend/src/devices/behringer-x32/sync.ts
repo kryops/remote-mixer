@@ -1,4 +1,4 @@
-import { OSC, timeTag } from 'osc'
+import { OSC } from 'osc'
 
 import { sendMessage } from './connection'
 import { deviceConfig } from './device-config'
@@ -24,8 +24,11 @@ export async function sync(): Promise<void> {
     }
   }
 
-  sendMessage({
-    timeTag: timeTag(0),
-    packets: messages,
-  })
+  messages.forEach(sendMessage)
+
+  // TODO bundle does not work with the emulator, does it work with the real device?
+  // sendMessage({
+  //   timeTag: timeTag(0),
+  //   packets: messages,
+  // })
 }

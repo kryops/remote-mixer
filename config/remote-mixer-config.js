@@ -7,11 +7,11 @@ const userConfig = {
   // httpPort: 8080,
   // logLevel: 'debug',
   //device: 'yamaha-01v96',
-  device: {
+   device: {
     type: 'behringer-x32',
     options: {
-      remoteAddress: '192.168.2.7',
-      port: 12345
+      remoteAddress: '192.168.2.231',
+      remotePort: 10023
     }
   }
 }

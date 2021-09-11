@@ -51,6 +51,7 @@ export declare class UDPPort {
   on(event: 'osc', listener: (packet: Packet, info: any) => void): void
   on(event: 'raw', listener: (data: Uint8Array, info: any) => void): void
   on(event: 'error', listener: (error: Error) => void): void
+  open(): void
 }
 
 export declare function readPacket(

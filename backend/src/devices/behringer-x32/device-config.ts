@@ -9,6 +9,7 @@ export const deviceConfig: DeviceConfiguration = {
       meters: true,
       additionalProperties: ['on'],
       faderProperties: [
+        { key: 'value', label: 'CH' },
         // TODO mix?
       ],
     },

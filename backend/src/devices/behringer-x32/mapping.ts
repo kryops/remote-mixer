@@ -51,10 +51,9 @@ function simpleMapping(
       for (const [prefix, c] of Object.entries(categoryByPrefix)) {
         if (c === category) {
           const address = prefix + id2Data(id) + suffix
-          const arg = converter.outgoing(value)
           return {
             address,
-            args: [arg],
+            args: value !== undefined ? [converter.outgoing(value)] : [],
           }
         }
       }
