@@ -3,7 +3,8 @@
   "compilerOptions": {
     "target": "es2018",
     "lib": ["esnext"],
-    "noEmit": true
+    "noEmit": true,
+    "noEmitOnError": false
   },
   "include": ["./src", "./test", "./clients", "../@types"],
   "references": [

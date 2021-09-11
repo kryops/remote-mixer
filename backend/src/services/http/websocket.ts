@@ -19,7 +19,7 @@ function sendSocketMessage(socket: ws, message: ApiOutMessage) {
 }
 
 export async function initWebSocketServer(): Promise<void> {
-  const wsServer = new ws.Server({ server: httpServer, path: '/ws' })
+  const wsServer = new ws.Server({ server: httpServer, path: '/websocket' })
   wsServer.on('connection', socket => {
     logger.info('Socket connected')
     sockets.push(socket)

@@ -11,7 +11,6 @@ import {
   Configuration,
   DefinePlugin,
   HotModuleReplacementPlugin,
-  WebpackPluginInstance,
 } from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin'
@@ -123,7 +122,7 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
         '/api': {
           target: 'http://localhost:8000/',
         },
-        '/ws': {
+        '/websocket': {
           target: 'ws://localhost:8000/',
           ws: true,
         },
@@ -165,11 +164,14 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
 
       // development
       !isProduction && new HotModuleReplacementPlugin(),
-      !isProduction && new ReactRefreshPlugin(),
+      !isProduction &&
+        new ReactRefreshPlugin({
+          overlay: false,
+        }),
 
       // analyze
       analyze && new BundleAnalyzerPlugin(),
-    ].filter(Boolean) as WebpackPluginInstance[],
+    ].filter(<T>(x: T | false): x is T => !!x),
 
     optimization: {
       minimizer: [

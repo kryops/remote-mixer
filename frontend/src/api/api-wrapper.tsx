@@ -23,7 +23,7 @@ export function ApiWrapper({ children }: { children: JSX.Element }) {
 
   useEffect(() => {
     function connectWebSocket() {
-      socket = new WebSocket(`ws://${self.location.host}/ws`)
+      socket = new WebSocket(`ws://${self.location.host}/websocket`)
 
       socket.onopen = () => {
         logger.info('WebSocket connection established')
