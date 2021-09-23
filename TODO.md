@@ -2,8 +2,5 @@
 
 * Colors
 * Highlight pairs/groups
+* On buttons for fader properties
 + EQ
-
-## 01V96
-
-* Pairs/groups state

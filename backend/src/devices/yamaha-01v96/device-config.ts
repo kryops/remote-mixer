@@ -1,4 +1,5 @@
 import { DeviceConfiguration } from '@remote-mixer/types'
+import { arrayRange } from '@remote-mixer/utils'
 
 export const deviceConfig: DeviceConfiguration = {
   categories: [
@@ -7,16 +8,10 @@ export const deviceConfig: DeviceConfiguration = {
       label: 'Channels',
       count: 32,
       meters: true,
+      namePrefix: 'CH',
       faderProperties: [
         { key: 'value', label: 'CH' },
-        { key: 'aux1', label: 'AUX1' },
-        { key: 'aux2', label: 'AUX2' },
-        { key: 'aux3', label: 'AUX3' },
-        { key: 'aux4', label: 'AUX4' },
-        { key: 'aux5', label: 'AUX5' },
-        { key: 'aux6', label: 'AUX6' },
-        { key: 'aux7', label: 'AUX7' },
-        { key: 'aux8', label: 'AUX8' },
+        ...arrayRange(1, 8, it => ({ key: 'aux' + it, label: 'AUX' + it })),
       ],
       additionalProperties: ['on'],
     },

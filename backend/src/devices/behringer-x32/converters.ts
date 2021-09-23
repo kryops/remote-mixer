@@ -7,6 +7,15 @@ export function data2Fader(data: unknown): number {
   return Math.round(data * 255)
 }
 
+export function level2Data(value: number): any {
+  return { type: 'f', value: (value / 255) * 100 - 90 }
+}
+
+export function data2Level(data: unknown): number {
+  if (typeof data !== 'number') return 0
+  return Math.round(((data + 90) / 100) * 255)
+}
+
 export function on2Data(on: boolean): any {
   return { type: 'i', value: on ? 1 : 0 }
 }
@@ -31,6 +40,11 @@ export interface DataConverter {
 export const faderConverter: DataConverter = {
   incoming: data2Fader,
   outgoing: fader2Data,
+}
+
+export const levelConverter: DataConverter = {
+  incoming: data2Level,
+  outgoing: level2Data,
 }
 
 export const onConverter: DataConverter = {

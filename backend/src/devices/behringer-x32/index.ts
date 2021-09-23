@@ -3,7 +3,11 @@ import { logger } from '@remote-mixer/utils'
 
 import { connect, sendMessage, X32Options } from './connection'
 import { deviceConfig } from './device-config'
-import { getChangeMessage, interpretIncomingMessage } from './protocol'
+import {
+  getChangeMessage,
+  getMeterRequest,
+  interpretIncomingMessage,
+} from './protocol'
 import { sync } from './sync'
 
 // The X32 sends its meters 20 times a second, we only want to use half of them
@@ -27,7 +31,13 @@ export default class BehringerX32DeviceController implements DeviceController {
       if (message === null) {
         logger.debug('<== unhandled message', message)
       }
-    }, options).then(sync)
+    }, options).then(async () => {
+      await sync()
+
+      setInterval(() => {
+        sendMessage(getMeterRequest())
+      }, 9000)
+    })
   }
 
   change(category: string, id: string, property: string, value: unknown): void {

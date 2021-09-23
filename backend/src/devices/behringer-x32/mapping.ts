@@ -2,10 +2,12 @@ import { DeviceMessage } from '@remote-mixer/types'
 import { OSC } from 'osc'
 
 import {
+  data2Fader,
   data2Id,
   DataConverter,
   faderConverter,
   id2Data,
+  levelConverter,
   nameConverter,
   onConverter,
 } from './converters'
@@ -14,8 +16,12 @@ const categoryByPrefix: { [prefix: string]: string } = {
   '/ch/': 'ch',
   '/bus/': 'bus',
   '/mtx/': 'mtx',
-  '/main/st/': 'sum',
+  '/dca/': 'dca',
+  '/main/st': 'sum',
 }
+
+const globalCategories = new Set(['sum'])
+const categoriesWithoutPadding = new Set(['dca'])
 
 function simpleMapping(
   suffix: string,
@@ -28,9 +34,9 @@ function simpleMapping(
 
       for (const [prefix, category] of Object.entries(categoryByPrefix)) {
         if (message.address.startsWith(prefix)) {
-          const id = data2Id(
-            message.address.slice(prefix.length, prefix.length + 2)
-          )
+          const id = globalCategories.has(category)
+            ? '1'
+            : data2Id(message.address.slice(prefix.length, prefix.length + 2))
 
           const value = converter.incoming(message.args[0])
           return {
@@ -50,7 +56,12 @@ function simpleMapping(
 
       for (const [prefix, c] of Object.entries(categoryByPrefix)) {
         if (c === category) {
-          const address = prefix + id2Data(id) + suffix
+          const idData = globalCategories.has(category)
+            ? ''
+            : categoriesWithoutPadding.has(category)
+            ? id
+            : id2Data(id)
+          const address = prefix + idData + suffix
           return {
             address,
             args: value !== undefined ? [converter.outgoing(value)] : [],
@@ -73,6 +84,7 @@ interface MessageMapping {
   ): OSC.Message | true | null
 }
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const messageMapping: MessageMapping[] = [
   // fader
   simpleMapping('/mix/fader', 'value', faderConverter),
@@ -83,5 +95,74 @@ export const messageMapping: MessageMapping[] = [
   // name
   simpleMapping('/config/name', 'name', nameConverter),
 
-  // TODO meters
+  // mix
+  {
+    incoming: message => {
+      const match = message.address.match(/\/mix\/(\d+)\/level$/)
+      if (!match) return null
+
+      for (const [prefix, category] of Object.entries(categoryByPrefix)) {
+        if (message.address.startsWith(prefix)) {
+          const id = globalCategories.has(category)
+            ? '1'
+            : data2Id(message.address.slice(prefix.length, prefix.length + 2))
+
+          const value = levelConverter.incoming(message.args[0])
+          return {
+            type: 'change',
+            category,
+            id,
+            property: 'mix' + data2Id(match[1]),
+            value,
+          }
+        }
+      }
+
+      return null
+    },
+    outgoing: (category, id, p, value) => {
+      if (!p.startsWith('mix')) return null
+
+      for (const [prefix, c] of Object.entries(categoryByPrefix)) {
+        if (c === category) {
+          const idData = globalCategories.has(category)
+            ? ''
+            : categoriesWithoutPadding.has(category)
+            ? id
+            : id2Data(id)
+          const mix = id2Data(p.slice(3))
+          const address = prefix + idData + '/mix/' + mix + '/level'
+          return {
+            address,
+            args: value !== undefined ? [levelConverter.outgoing(value)] : [],
+          }
+        }
+      }
+
+      return null
+    },
+  },
+
+  // meters
+  {
+    incoming: message => {
+      if (message.address !== '/meters/13') return null
+
+      const data = Buffer.from(message.args[0])
+
+      const outMessage: DeviceMessage = {
+        type: 'meters',
+        meters: {},
+      }
+
+      for (let channel = 1; channel <= 32; channel++) {
+        outMessage.meters[`ch${channel}`] = data2Fader(
+          data.readFloatLE(8 + (channel - 1) * 4)
+        )
+      }
+
+      return outMessage
+    },
+  },
 ]
+/* eslint-enable @typescript-eslint/explicit-module-boundary-types */

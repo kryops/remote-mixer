@@ -21,7 +21,7 @@ export async function connect(
 ): Promise<void> {
   port = new UDPPort({
     remoteAddress: options.remoteAddress,
-    remotePort: options.remotePort,
+    remotePort: options.remotePort ?? 10023,
     // by default osc binds to 127.0.0.1, which is not allowed to send packets to remote hosts
     localAddress: '0.0.0.0',
   })

@@ -47,7 +47,7 @@ export function EntryDialog({ category, id }: EntryDialogProps) {
         <TextInput
           className={nameInput}
           value={state.name}
-          onChange={newValue => change('name', newValue)}
+          onChange={newValue => change('name', newValue ?? '')}
         />
         &nbsp;
         <Button onDown={() => change('on', !state.on)} active={state.on}>

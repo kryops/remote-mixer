@@ -4,8 +4,6 @@ Also works for
 
 * Midas M32
 
-> This device driver is work in progress!
-
 ## Configuration
 
 ```js
@@ -13,8 +11,8 @@ Also works for
   device: {
     type: 'behringer-x32',
     options: {
-      remoteAddress: '192.168.2.7',
-      port: 12345
+      remoteAddress: '192.168.2.7', // IP address here
+      remotePort: 10023
     }
   }
 }

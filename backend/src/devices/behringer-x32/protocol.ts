@@ -42,3 +42,13 @@ export function getRequestMessage(
 
   return null
 }
+
+export function getMeterRequest(): OSC.Message {
+  return {
+    address: '/meters',
+    args: [
+      '/meters/13',
+      { type: 'i', value: 2 }, // time factor = 100ms
+    ],
+  }
+}
