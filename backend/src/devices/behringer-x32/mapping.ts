@@ -156,8 +156,13 @@ export const messageMapping: MessageMapping[] = [
       }
 
       for (let channel = 1; channel <= 32; channel++) {
+        // offset 4: first int (byte length) is cut off by osc.js
+        const dataOffset = 4
+        // TODO the X32 emulator seems to report the wrong byte length.
+        // Check with actual console if it behaves the same
+        if (data.length < dataOffset + channel * 4) break
         outMessage.meters[`ch${channel}`] = data2Fader(
-          data.readFloatLE(8 + (channel - 1) * 4)
+          data.readFloatLE(dataOffset + (channel - 1) * 4)
         )
       }
 
