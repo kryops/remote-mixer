@@ -2,6 +2,7 @@ import { DeviceMessage } from '@remote-mixer/types'
 
 import {
   data2Fader,
+  data2On,
   DataConverter,
   fader2Data,
   faderConverter,
@@ -10,6 +11,11 @@ import {
 import { MidiMessage, MidiMessageArgs } from './message'
 import { bytesByMessageType } from './message-types'
 import { changeName, handleNameMessage } from './names'
+import {
+  updateChannelPair,
+  updateGroupActive,
+  updateGroupChannelMembership,
+} from './pairs-groups'
 import { sync } from './sync'
 
 interface SimpleMapping {
@@ -199,6 +205,47 @@ export const messageMapping: MessageMapping[] = [
 
       // Changing the name usually requires multiple messages, which the handler
       // does internally
+      return true
+    },
+  },
+
+  // pairs
+  {
+    incoming: message => {
+      if (message.type !== 'kInputPair/kPair' || !message.data) return null
+      updateChannelPair(String(message.channel + 1), data2On(message.data))
+      return true
+    },
+  },
+
+  // groups: members
+  {
+    incoming: message => {
+      if (!message.type || !message.data) return null
+      const groupMatch = message.type.match(
+        /^kInputGroup\/kInGroup((?:Fader|Mute)\d)$/
+      )
+      if (!groupMatch) return null
+
+      updateGroupChannelMembership(
+        groupMatch[1],
+        String(message.channel + 1),
+        data2On(message.data)
+      )
+      return true
+    },
+  },
+
+  // groups: active
+  {
+    incoming: message => {
+      if (!message.type || !message.data) return null
+      const groupMatch = message.type.match(
+        /^kSceneInputGroup\/kIn(Fader|Mute)Group(\d)$/
+      )
+      if (!groupMatch) return null
+
+      updateGroupActive(groupMatch[1] + groupMatch[2], data2On(message.data))
       return true
     },
   },

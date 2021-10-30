@@ -11,6 +11,7 @@ import {
 } from './protocol'
 import { sync } from './sync'
 import { formatMessage } from './message'
+import { refreshDependentChannels } from './pairs-groups'
 
 // The 01v96 sends its meters 20 times a second, we only want to use half of them
 let skipNextMeterMessage = false
@@ -54,6 +55,10 @@ export default class Yamaha01v96DeviceController implements DeviceController {
       formatMessage(message)
     )
     if (message) sendMessage(message)
+
+    if (category === 'ch' && (property === 'value' || property === 'on')) {
+      refreshDependentChannels(id, property)
+    }
   }
 
   sync(): void {

@@ -3,6 +3,7 @@ import { delay } from '../../util/time'
 import { sendMessage } from './connection'
 import { deviceConfig } from './device-config'
 import { requestName } from './names'
+import { syncPairsAndGroups } from './pairs-groups'
 import { getRequestMessage } from './protocol'
 
 export async function sync(): Promise<void> {
@@ -28,4 +29,6 @@ export async function sync(): Promise<void> {
       await delay(20)
     }
   }
+
+  await syncPairsAndGroups()
 }
