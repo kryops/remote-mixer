@@ -7,20 +7,21 @@ import {
   DataConverter,
   faderConverter,
   id2Data,
-  levelConverter,
   nameConverter,
   onConverter,
 } from './converters'
 
 const categoryByPrefix: { [prefix: string]: string } = {
   '/ch/': 'ch',
+  '/auxin/': 'auxin',
   '/bus/': 'bus',
   '/mtx/': 'mtx',
   '/dca/': 'dca',
-  '/main/st': 'sum',
+  '/main/st': 'st',
+  '/main/m': 'm',
 }
 
-const globalCategories = new Set(['sum'])
+const globalCategories = new Set(['st', 'm'])
 const categoriesWithoutPadding = new Set(['dca'])
 
 function simpleMapping(
@@ -106,7 +107,7 @@ export const messageMapping: MessageMapping[] = [
             ? '1'
             : data2Id(message.address.slice(prefix.length, prefix.length + 2))
 
-          const value = levelConverter.incoming(message.args[0])
+          const value = faderConverter.incoming(message.args[0])
           return {
             type: 'change',
             category,
@@ -133,7 +134,7 @@ export const messageMapping: MessageMapping[] = [
           const address = prefix + idData + '/mix/' + mix + '/level'
           return {
             address,
-            args: value !== undefined ? [levelConverter.outgoing(value)] : [],
+            args: value !== undefined ? [faderConverter.outgoing(value)] : [],
           }
         }
       }
@@ -154,14 +155,26 @@ export const messageMapping: MessageMapping[] = [
         meters: {},
       }
 
+      // offset 4: first int (byte length) is cut off by osc.js
+      const dataOffset = 4
+
       for (let channel = 1; channel <= 32; channel++) {
-        // offset 4: first int (byte length) is cut off by osc.js
-        const dataOffset = 4
-        // TODO the X32 emulator seems to report the wrong byte length.
-        // Check with actual console if it behaves the same
+        // the X32 emulator seems to report the wrong byte length.
         if (data.length < dataOffset + channel * 4) break
+
         outMessage.meters[`ch${channel}`] = data2Fader(
           data.readFloatLE(dataOffset + (channel - 1) * 4)
+        )
+      }
+
+      const auxInOffset = dataOffset + 32 * 4
+
+      for (let auxin = 1; auxin <= 8; auxin++) {
+        // the X32 emulator seems to report the wrong byte length.
+        if (data.length < auxInOffset + auxin * 4) break
+
+        outMessage.meters[`auxin${auxin}`] = data2Fader(
+          data.readFloatLE(auxInOffset + (auxin - 1) * 4)
         )
       }
 

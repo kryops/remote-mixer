@@ -19,8 +19,9 @@ export async function sync(): Promise<void> {
         const message = getRequestMessage(category.key, String(id), property)
         if (message) sendMessage(message)
       }
+
+      // If we don't wait, some messages will get lost and the sync will be incomplete
+      await delay(20)
     }
-    // not sure if needed, sometimes the X32 does not sync completely
-    await delay(10)
   }
 }

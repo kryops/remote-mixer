@@ -16,6 +16,18 @@ export const deviceConfig: DeviceConfiguration = {
       ],
     },
     {
+      key: 'auxin',
+      label: 'AUX In',
+      count: 8,
+      meters: true,
+      namePrefix: 'A',
+      additionalProperties: ['on'],
+      faderProperties: [
+        { key: 'value', label: 'AUX' },
+        ...arrayRange(1, 16, it => ({ key: 'mix' + it, label: 'MIX' + it })),
+      ],
+    },
+    {
       key: 'bus',
       label: 'Bus',
       count: 16,
@@ -41,13 +53,24 @@ export const deviceConfig: DeviceConfiguration = {
       additionalProperties: ['on'],
     },
     {
-      key: 'sum',
-      label: 'Master',
+      key: 'st',
+      label: 'ST',
       count: 1,
-      namePrefix: 'SUM',
+      namePrefix: 'ST',
       additionalProperties: ['on'],
       faderProperties: [
-        { key: 'value', label: 'SUM' },
+        { key: 'value', label: 'ST' },
+        ...arrayRange(1, 6, it => ({ key: 'mix' + it, label: 'MIX' + it })),
+      ],
+    },
+    {
+      key: 'm',
+      label: 'M',
+      count: 1,
+      namePrefix: 'M',
+      additionalProperties: ['on'],
+      faderProperties: [
+        { key: 'value', label: 'M' },
         ...arrayRange(1, 6, it => ({ key: 'mix' + it, label: 'MIX' + it })),
       ],
     },
