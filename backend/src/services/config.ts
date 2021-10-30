@@ -5,8 +5,16 @@ import { LogLevel } from '@remote-mixer/utils'
 import { isDevelopment } from './env'
 
 export interface RemoteMixerConfiguration {
+  /** HTTP port the server is opened on. Defaults to 8000 */
   httpPort: number
+
+  /** Level for logging. Defaults to info in production, debug in development */
   logLevel: LogLevel | `${LogLevel}`
+
+  /**
+   * Mixing console device controller to load.
+   * Refer to the README of the device controller for configuration options
+   */
   device: string | { type: string; options: any }
 }
 
