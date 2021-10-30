@@ -100,9 +100,7 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
                 'scheduler/tracing': 'scheduler/tracing-profiling',
               }
             : {}
-          : {
-              'react-dom': '@hot-loader/react-dom',
-            }),
+          : {}),
       },
     },
     stats: profile ? 'normal' : 'minimal',
