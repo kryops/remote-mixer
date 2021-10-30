@@ -19,7 +19,7 @@ export function useMeter(
       const value = getState().meters[category.key + id]
       if (value !== oldValue && value !== undefined) {
         oldValue = value
-        meterRef.current.style.transform = `scaleY(${value / 255})`
+        meterRef.current.style.transform = `scaleY(${Math.min(value / 255, 1)})`
       }
     }
 
