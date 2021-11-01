@@ -11,19 +11,22 @@ const groupsByChannel = new Map<string, Set<string>>()
 
 const groupTypes = ['Fader', 'Mute']
 
-function refreshChannel(
-  channelId: string,
-  properties = ['value', 'on'],
-  alreadyRefreshed?: Set<string>
+async function refreshChannels(
+  channelIds: Set<string>,
+  properties = ['value', 'on']
 ) {
-  if (alreadyRefreshed?.has(channelId)) return
+  let messageCount = 0
 
-  for (const property of properties) {
-    const message = getRequestMessage('ch', channelId, property)
-    if (message) sendMessage(message)
+  for (const channelId of channelIds) {
+    for (const property of properties) {
+      const message = getRequestMessage('ch', channelId, property)
+      if (message) {
+        sendMessage(message)
+        messageCount++
+        if (messageCount % 20 === 0) await delay(20)
+      }
+    }
   }
-
-  alreadyRefreshed?.add(channelId)
 }
 
 export async function syncPairsAndGroups(): Promise<void> {
@@ -69,9 +72,7 @@ export async function refreshDependentChannels(
   channelId: string,
   property?: string
 ): Promise<void> {
-  await delay(20)
-
-  const refreshedChannels = new Set<string>()
+  const channelsToRefresh = new Set<string>()
 
   // pairs
   if (pairedChannels.has(channelId)) {
@@ -79,7 +80,7 @@ export async function refreshDependentChannels(
     const dependentChannel = String(
       channelIdNumber + (channelIdNumber % 2 === 0 ? -1 : 1)
     )
-    refreshChannel(dependentChannel, undefined, refreshedChannels)
+    channelsToRefresh.add(dependentChannel)
   }
 
   // groups
@@ -91,16 +92,17 @@ export async function refreshDependentChannels(
       if (property === 'value' && !group.startsWith('Fader')) continue
       if (property === 'on' && !group.startsWith('Mute')) continue
 
-      const groupChannels = Array.from(channelsByGroup.get(group) ?? []).filter(
-        it => it !== channelId
-      )
-      groupChannels.forEach(it =>
-        refreshChannel(it, property ? [property] : undefined, refreshedChannels)
-      )
-
-      await delay(20)
+      channelsByGroup.get(group)?.forEach(it => {
+        if (it !== channelId) channelsToRefresh.add(it)
+      })
     }
   }
+
+  if (!channelsToRefresh.size) return
+
+  await delay(20)
+
+  await refreshChannels(channelsToRefresh, property ? [property] : undefined)
 }
 
 export function updateChannelPair(channelId: string, paired: boolean): void {
