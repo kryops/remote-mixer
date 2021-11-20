@@ -1,6 +1,7 @@
 import { DeviceMessage } from '@remote-mixer/types'
 
 import {
+  convertMeterLevel,
   data2Fader,
   data2On,
   DataConverter,
@@ -188,7 +189,9 @@ export const messageMapping: MessageMapping[] = [
       }
 
       for (let channel = 1; channel <= 32; channel++) {
-        outMessage.meters[`ch${channel}`] = message.data[2 * (channel - 1)]
+        outMessage.meters[`ch${channel}`] = convertMeterLevel(
+          message.data[2 * (channel - 1)]
+        )
       }
 
       return outMessage

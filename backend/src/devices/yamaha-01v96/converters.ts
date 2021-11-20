@@ -36,6 +36,11 @@ export function data2Character(data: DataBytes): string {
   return String.fromCharCode(data[3])
 }
 
+export function convertMeterLevel(deviceLevel: number): number {
+  // the level ranges from 0-32, but does not seem to be linear
+  return (1 - Math.pow(deviceLevel, 2) / Math.pow(32, 2)) * 255
+}
+
 export interface DataConverter {
   outgoing: (value: any) => DataBytes
   incoming: (data: DataBytes) => any
