@@ -55,15 +55,15 @@
     "typescript": "^4.5.4"
   },
   "resolutions": {
-    "@linaria/babel-preset": "3.0.0-beta.14",
-    "@linaria/core": "3.0.0-beta.13",
-    "@linaria/preeval": "3.0.0-beta.14",
-    "@linaria/react": "3.0.0-beta.14",
-    "@linaria/shaker": "3.0.0-beta.14",
-    "@linaria/stylelint": "3.0.0-beta.14",
-    "@linaria/webpack-loader": "3.0.0-beta.14",
-    "@linaria/webpack4-loader": "3.0.0-beta.14",
-    "@linaria/webpack5-loader": "3.0.0-beta.14"
+    "@linaria/babel-preset": "3.0.0-beta.15",
+    "@linaria/core": "3.0.0-beta.15",
+    "@linaria/preeval": "3.0.0-beta.15",
+    "@linaria/react": "3.0.0-beta.15",
+    "@linaria/shaker": "3.0.0-beta.15",
+    "@linaria/stylelint": "3.0.0-beta.15",
+    "@linaria/webpack-loader": "3.0.0-beta.15",
+    "@linaria/webpack4-loader": "3.0.0-beta.15",
+    "@linaria/webpack5-loader": "3.0.0-beta.15"
   },
   "packageManager": "yarn@3.1.1"
 }
