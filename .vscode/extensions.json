@@ -4,7 +4,7 @@
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "christian-kohler.npm-intellisense",
-    "jpoissonnier.vscode-styled-components",
+    "styled-components.vscode-styled-components",
     "stylelint.vscode-stylelint"
   ]
 }
