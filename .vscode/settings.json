@@ -10,6 +10,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
 
   "search.exclude": {
+    "**/.yarn": true,
     "**/node_modules": true,
     "backend/dist": true,
     "frontend/dist": true

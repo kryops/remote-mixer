@@ -15,16 +15,15 @@
   },
   "scripts": {
     "all": "yarn lint && yarn test && yarn build",
-    "clean": "yarn workspaces run clean && rimraf node_modules/.cache .linaria-cache .eslintcache tsconfig.tsbuildinfo",
-    "backend": "yarn --cwd backend",
+    "clean": "yarn workspaces foreach run clean && rimraf node_modules/.cache .linaria-cache .eslintcache tsconfig.tsbuildinfo",
+    "backend": "yarn workspace @remote-mixer/backend",
     "build": "yarn run clean && run-p 'backend build' 'frontend build'",
-    "frontend": "yarn --cwd frontend",
+    "frontend": "yarn workspace @remote-mixer/frontend",
     "lint": "run-p --continue-on-error lint:eslint lint:ts 'frontend lint:css'",
     "lint:eslint": "eslint --cache 'frontend/**/*.@(ts|tsx)' 'backend/**/*.ts' 'shared/**/*.ts'",
     "lint:ts": "tsc -b frontend backend",
     "lint:ts:watch": "tsc -b frontend backend --watch",
-    "postinstall": "rimraf node_modules/.cache .linaria-cache",
-    "prepare": "yarn build",
+    "postinstall": "rimraf node_modules/.cache .linaria-cache && yarn build",
     "prettier": "prettier --write '{backend,frontend,shared}/**/*.{ts,tsx}'",
     "prod": "run-s build start:prod",
     "start": "run-p 'backend start' 'frontend start' 'backend build --watch --preserveWatchOutput' 'frontend tsc:watch'",
@@ -54,5 +53,6 @@
     "ts-node": "^10.4.0",
     "type-fest": "^2.5.1",
     "typescript": "^4.4.4"
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }

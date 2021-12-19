@@ -170,3 +170,12 @@ $RECYCLE.BIN/
 dist
 .linaria-cache
 *.tsbuildinfo
+
+# yarn 3
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
