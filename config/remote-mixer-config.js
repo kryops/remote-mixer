@@ -6,7 +6,16 @@
 const userConfig = {
   // httpPort: 8080,
   // logLevel: 'debug',
-  // device: 'dummy'
+  //device: 'yamaha-01v96',
+  //  device: {
+  //   type: 'behringer-x32',
+  //   options: {
+  //     //remoteAddress: '192.168.2.231',
+  //     remoteAddress: '192.168.0.6',
+  //     remotePort: 10023
+  //   }
+  // }
+  device: 'dummy'
 }
 
 module.exports = userConfig
