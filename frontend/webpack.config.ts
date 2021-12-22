@@ -139,7 +139,6 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
       }),
       new ExtractCssPlugin({
         ignoreOrder: true,
-        filename: 'styles.css',
       }),
       !profile &&
         new ForkCheckerPlugin({
@@ -196,8 +195,7 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
           defaultVendors: false,
           styles: {
             name: 'styles',
-            idHint: 'styles',
-            test: /\.css$/,
+            type: 'css/mini-extract',
             chunks: 'all',
             enforce: true,
           },
