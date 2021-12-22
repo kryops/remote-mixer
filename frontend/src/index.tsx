@@ -1,5 +1,10 @@
-import { render } from 'react-dom'
+/// <reference types="react/next" />
+/// <reference types="react-dom/next" />
+
+import { createRoot } from 'react-dom'
 
 import App from './app'
 
-render(<App />, document.getElementById('root'))
+const root = createRoot(document.getElementById('root')!)
+
+root.render(<App />)

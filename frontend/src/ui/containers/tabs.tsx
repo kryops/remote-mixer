@@ -1,5 +1,5 @@
 import { css } from '@linaria/core'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useDeferredValue, useEffect, useState } from 'react'
 
 import { cx } from '../../util/styles'
 import { backgroundColor, baseline, iconShade } from '../styles'
@@ -43,6 +43,8 @@ export function Tabs({ tabs }: TabsProps) {
     }
   }, [tabs, activeTab])
 
+  const deferredActiveTab = useDeferredValue(activeTab)
+
   if (tabs.length === 0) return null
   if (tabs.length === 1) return <>{tabs[0].content}</>
 
@@ -59,7 +61,7 @@ export function Tabs({ tabs }: TabsProps) {
           </Clickable>
         ))}
       </div>
-      {tabs.find(tab => tab.id === activeTab)?.content}
+      {tabs.find(tab => tab.id === deferredActiveTab)?.content}
     </>
   )
 }
