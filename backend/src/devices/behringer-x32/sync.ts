@@ -11,6 +11,7 @@ export async function sync(): Promise<void> {
         ...(category.faderProperties?.map(property => property.key) ?? []),
         ...(category.additionalProperties ?? []),
         'name',
+        'color',
       ]
 
       if (!properties.includes('value')) properties.push('value')

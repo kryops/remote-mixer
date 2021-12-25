@@ -2,6 +2,7 @@ import { DeviceMessage } from '@remote-mixer/types'
 import { OSC } from 'osc'
 
 import {
+  colorConverter,
   data2Fader,
   data2Id,
   DataConverter,
@@ -94,6 +95,9 @@ export const messageMapping: MessageMapping[] = [
 
   // name
   simpleMapping('/config/name', 'name', nameConverter),
+
+  // color
+  simpleMapping('/config/color', 'color', colorConverter),
 
   // mix
   {

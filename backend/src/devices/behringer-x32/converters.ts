@@ -1,3 +1,5 @@
+import { colors } from './colors'
+
 export function fader2Data(value: number): any {
   return { type: 'f', value: value / 255 }
 }
@@ -41,4 +43,17 @@ export const onConverter: DataConverter = {
 export const nameConverter: DataConverter = {
   incoming: name => name,
   outgoing: name => name?.slice(0, 12),
+}
+
+export const colorConverter: DataConverter = {
+  incoming: colorIndex => {
+    if (colorIndex === 0) return null
+    return colors[(colorIndex as number) - 1] ?? null
+  },
+  outgoing: color => {
+    if (!color) return 0
+    const index = colors.indexOf(color)
+    if (index === -1) return 0
+    return index + 1
+  },
 }
