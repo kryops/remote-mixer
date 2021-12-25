@@ -1,1 +1,1 @@
-yarn upgrade-interactive --latest && rm yarn.lock && yarn
+yarn upgrade-interactive && rm yarn.lock && yarn
