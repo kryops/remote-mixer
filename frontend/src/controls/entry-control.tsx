@@ -49,6 +49,7 @@ export function EntryControl({
         step={1}
         label={(categoryInfo.namePrefix ?? '') + id}
         subLabel={state.name}
+        color={state.color ?? undefined}
         meterRef={meterRef}
       />
       <Icon

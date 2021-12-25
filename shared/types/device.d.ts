@@ -23,6 +23,7 @@ export interface DeviceConfigurationCategory {
 
 export interface DeviceConfiguration {
   categories: DeviceConfigurationCategory[]
+  colors?: boolean | string[]
 }
 
 export interface DeviceController {

@@ -20,6 +20,10 @@ const button = css`
   justify-content: center;
   text-align: center;
   will-change: transform;
+  border: ${baseline()} solid ${primaryShade(0)};
+  border-left: none;
+  border-right: none;
+  box-sizing: border-box;
 `
 
 const button_small = smallText
@@ -38,6 +42,7 @@ export interface FaderButtonProps {
   label?: string
   subLabel?: string
   height?: number
+  color?: string
   className?: string
 }
 
@@ -46,6 +51,7 @@ export function FaderButton({
   label,
   subLabel,
   height = faderWidth * 1.25,
+  color,
   className,
 }: FaderButtonProps) {
   const offset = Math.max(0, (faderHeight - trackHeight) / 2 - height / 2)
@@ -59,7 +65,11 @@ export function FaderButton({
         label && label.length > 3 && button_small,
         className
       )}
-      style={{ height: `${height}px`, transform: `translateY(${y}px)` }}
+      style={{
+        height: `${height}px`,
+        borderBottomColor: color,
+        transform: `translateY(${y}px)`,
+      }}
     >
       {label}
       {subLabel && <div className={subLabelStyle}>{subLabel}</div>}

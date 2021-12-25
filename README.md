@@ -41,6 +41,7 @@ This project tries to bridge these limitations by supporting basic controls for 
 * Names
 * Meters
 * Categories (tabs), 2 levels deep
+* Colors
 
 
 ## Getting Started

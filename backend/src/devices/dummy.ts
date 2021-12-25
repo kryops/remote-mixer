@@ -1,5 +1,6 @@
 import {
   DeviceChangeMessage,
+  DeviceConfiguration,
   DeviceController,
   DeviceMessageListener,
   DeviceMetersMessage,
@@ -7,7 +8,7 @@ import {
 import { logger } from '@remote-mixer/utils'
 
 export default class DummyDeviceController implements DeviceController {
-  deviceConfig = {
+  deviceConfig: DeviceConfiguration = {
     categories: [
       {
         key: 'ch',
@@ -36,6 +37,7 @@ export default class DummyDeviceController implements DeviceController {
         namePrefix: 'SUM',
       },
     ],
+    colors: true,
   }
 
   constructor(private listener: DeviceMessageListener) {

@@ -17,6 +17,7 @@ export interface FaderProps {
   step?: number
   label?: string
   subLabel?: string
+  color?: string
   meterRef?: React.RefObject<HTMLDivElement>
   onChange: (value: number) => void
   className?: string
@@ -30,6 +31,7 @@ export const Fader = memoInProduction(
     step,
     label,
     subLabel,
+    color,
     onChange,
     ...passThrough
   }: FaderProps) => {
@@ -54,6 +56,7 @@ export const Fader = memoInProduction(
           fraction={valueToFraction(valueToUse, min, max)}
           label={label}
           subLabel={subLabel}
+          color={color}
         />
       </FaderBase>
     )

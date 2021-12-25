@@ -3,13 +3,20 @@ import { StateCategoryEntry } from '@remote-mixer/types'
 
 import { Tabs } from '../../ui/containers/tabs'
 import { showDialog } from '../../ui/overlays/dialog'
-import { useDeviceCategory, useEntryState } from '../../api/state'
+import {
+  useDeviceCategory,
+  useDeviceConfiguration,
+  useEntryState,
+} from '../../api/state'
 import { sendApiMessage } from '../../api/api-wrapper'
 import { Button } from '../../ui/buttons/button'
 import { TextInput } from '../../ui/forms/typed-input'
 import { baseline } from '../../ui/styles'
+import { Icon } from '../../ui/icons/icon'
+import { iconColor } from '../../ui/icons'
 
 import { EntryDialogFaders } from './entry-dialog-faders'
+import { showColorDialog } from './color-dialog'
 
 const container = css`
   min-width: 80vw;
@@ -25,6 +32,7 @@ export interface EntryDialogProps {
 }
 
 export function EntryDialog({ category, id }: EntryDialogProps) {
+  const configuration = useDeviceConfiguration()
   const categoryInfo = useDeviceCategory(category)
   const state = useEntryState(category, id) ?? ({} as StateCategoryEntry)
 
@@ -49,6 +57,23 @@ export function EntryDialog({ category, id }: EntryDialogProps) {
           value={state.name}
           onChange={newValue => change('name', newValue ?? '')}
         />
+        {configuration.colors && (
+          <>
+            &nbsp;
+            <Icon
+              icon={iconColor}
+              inline
+              hoverable
+              color={state.color ?? undefined}
+              onClick={() =>
+                showColorDialog({
+                  color: state.color,
+                  onChange: newColor => change('color', newColor),
+                })
+              }
+            />
+          </>
+        )}
         &nbsp;
         <Button onDown={() => change('on', !state.on)} active={state.on}>
           {state.on ? 'ON' : 'OFF'}

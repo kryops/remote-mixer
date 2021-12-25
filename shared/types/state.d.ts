@@ -2,6 +2,7 @@ export interface StateCategoryEntry {
   name?: string
   on?: boolean
   value?: number
+  color?: string | null
   [otherProperties: string]: number
 }
 
