@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-nodejs-modules
 import { join } from 'path'
 
+import type { JsMinifyOptions as SwcOptions } from '@swc/core'
 import ForkCheckerPlugin from 'fork-ts-checker-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ExtractCssPlugin from 'mini-css-extract-plugin'
@@ -172,11 +173,11 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
 
     optimization: {
       minimizer: [
-        new TerserPlugin({
+        new TerserPlugin<SwcOptions>({
+          minify: TerserPlugin.swcMinify,
           parallel: true,
           terserOptions: {
             mangle: true,
-            ie8: false,
             ...(profileReact
               ? {
                   keep_classnames: true,
