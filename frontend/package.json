@@ -49,6 +49,7 @@
     "babel-loader": "^8.2.3",
     "cnbuilder": "^3.0.1",
     "core-js": "^3.20.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.3.0",
     "emittery": "^0.10.0",
