@@ -11,7 +11,7 @@ module.exports = function (api) {
         {
           modules: isTest ? 'commonjs' : false,
           useBuiltIns: 'entry',
-          corejs: 3,
+          corejs: '3.21',
         },
       ],
       [
