@@ -5,7 +5,6 @@
 import { join } from 'path'
 
 import type { JsMinifyOptions as SwcOptions } from '@swc/core'
-import ForkCheckerPlugin from 'fork-ts-checker-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ExtractCssPlugin from 'mini-css-extract-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
@@ -144,19 +143,6 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
       new ExtractCssPlugin({
         ignoreOrder: true,
       }),
-      !profile &&
-        new ForkCheckerPlugin({
-          typescript: {
-            configFile: join(__dirname, 'tsconfig.json'),
-            configOverwrite: {
-              compilerOptions: {
-                noUnusedLocals: false,
-                noUnusedParameters: false,
-              },
-            },
-            mode: 'write-references',
-          },
-        }),
 
       // development
       !isProduction && new HotModuleReplacementPlugin(),
