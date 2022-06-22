@@ -17,6 +17,8 @@ Simple web-based interface to remote-control mixing consoles.
 > I'm still not sure about the general direction for this project.
 > Feel free to fork and experiment - PRs welcome.
 
+> 💡 Also check out this project's companion app [vlight](https://github.com/kryops/vlight) for controlling DMX lights.
+
 ## Features
 
 This project is not meant to control every little functionality of a certain mixing console; usually, there are better alternatives around for that. However, many of them
