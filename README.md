@@ -47,14 +47,23 @@ This project tries to bridge these limitations by supporting basic controls for 
 
 ## Getting Started
 
-### Software Needed
+### Using a Docker container (EXPERIMENTAL)
+
+You can build and run this project through Docker (in a Linux container):
+
+```
+> ./docker-build.sh
+> ./docker-run.sh
+```
+
+### Normal installation
+
+Software needed:
 
 - [Node.js](https://nodejs.org/en/)
 - [Yarn](https://yarnpkg.com/lang/en/)
 
 Build tools for native Node.js addons are also needed depending on your platform. If the installation fails, install the tools listed in the [node-gyp documentation](https://github.com/nodejs/node-gyp/blob/master/README.md#installation).
-
-### Setup
 
 Install and setup:
 
