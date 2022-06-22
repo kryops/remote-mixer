@@ -2,11 +2,11 @@
 
 Simple web-based interface to remote-control mixing consoles.
 
-* 🎚 Compatible with different mixers
-* 📱Responsive and mobile-friendly
-* 🚀 Lightweight and performant
-* 🕸️ Connect multiple clients
-* 🌓 Light and dark mode
+- 🎚 Compatible with different mixers
+- 📱Responsive and mobile-friendly
+- 🚀 Lightweight and performant
+- 🕸️ Connect multiple clients
+- 🌓 Light and dark mode
 
 ![Screenshot](./assets/screenshot.png)
 
@@ -21,28 +21,27 @@ Simple web-based interface to remote-control mixing consoles.
 
 This project is not meant to control every little functionality of a certain mixing console; usually, there are better alternatives around for that. However, many of them
 
-* only work for a single mixing console model
-* only run on a single platform like Windows or iOS
-* only support a single connected client at the same time
-* are not mobile-friendly
+- only work for a single mixing console model
+- only run on a single platform like Windows or iOS
+- only support a single connected client at the same time
+- are not mobile-friendly
 
 This project tries to bridge these limitations by supporting basic controls for different mixing consoles, accessible from any device (mouse or touch), and multiple devices at once.
 
 ### Supported Mixing Consoles
 
-* [Yamaha 01v96](./backend/src/devices/yamaha-01v96/README.md)
-* [Behringer X32 / Midas M32](./backend/src/devices/behringer-x32/README.md)
-* *Add your own ([see below](#adding-support-for-other-mixing-consoles))*
+- [Yamaha 01v96](./backend/src/devices/yamaha-01v96/README.md)
+- [Behringer X32 / Midas M32](./backend/src/devices/behringer-x32/README.md)
+- _Add your own ([see below](#adding-support-for-other-mixing-consoles))_
 
 ### Available Controls
 
-* Faders
-* On/Off buttons
-* Names
-* Meters
-* Categories (tabs), 2 levels deep
-* Colors
-
+- Faders
+- On/Off buttons
+- Names
+- Meters
+- Categories (tabs), 2 levels deep
+- Colors
 
 ## Getting Started
 
@@ -81,7 +80,7 @@ Edit the `config/remote-mixer-config.js` file. Instructions on how to configure 
 const userConfig = {
   httpPort: 8080,
   logLevel: 'info',
-  device: 'dummy'
+  device: 'dummy',
 }
 
 module.exports = userConfig
@@ -135,5 +134,5 @@ Checkout the [dummy device](./backend/src/devices/dummy.ts) for a minimal exampl
 
 You can use existing device controllers as a baseline for similar consoles:
 
-* [Yamaha 01v96](./backend/src/devices/yamaha-01v96/index.ts) for a MIDI controller
-* [Behringer X32](./backend/src/devices/behringer-x32/index.ts) for an OSC controller
+- [Yamaha 01v96](./backend/src/devices/yamaha-01v96/index.ts) for a MIDI controller
+- [Behringer X32](./backend/src/devices/behringer-x32/index.ts) for an OSC controller

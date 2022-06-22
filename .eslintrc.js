@@ -6,7 +6,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'plugin:import/typescript',
-    'plugin:prettier/recommended',
     'plugin:jest/recommended',
   ],
   parserOptions: {
@@ -37,7 +36,6 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
-    'prettier/prettier': 'warn',
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',

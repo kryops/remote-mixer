@@ -2,7 +2,7 @@
 
 ## Roadmap
 
-* Highlight pairs/groups
-* On buttons for fader properties
-* EQ
-* Dynamics
+- Highlight pairs/groups
+- On buttons for fader properties
+- EQ
+- Dynamics
