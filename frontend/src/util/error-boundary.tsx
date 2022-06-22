@@ -11,7 +11,10 @@ interface ErrorBoundaryState {
   componentStack?: string
 }
 
-export class ErrorBoundary extends Component<{}, ErrorBoundaryState> {
+export class ErrorBoundary extends Component<
+  { children?: any },
+  ErrorBoundaryState
+> {
   state: ErrorBoundaryState = {}
 
   componentDidCatch(error: Error, info: ErrorInfo) {
