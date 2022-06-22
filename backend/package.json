@@ -12,8 +12,8 @@
   "scripts": {
     "build": "tsc -b ./src",
     "clean": "rimraf dist",
-    "start": "yarn build && nodemon",
-    "start:prod": "cross-env NODE_ENV=production && node ."
+    "dev": "yarn build && nodemon",
+    "start": "cross-env NODE_ENV=production && node ."
   },
   "dependencies": {
     "@remote-mixer/controls": "*",

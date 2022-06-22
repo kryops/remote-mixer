@@ -13,7 +13,7 @@
     "build:profileReact": "webpack --config ./webpack.config.ts --env profileReact",
     "clean": "rimraf dist",
     "lint:css": "stylelint '**/*.@(ts|tsx)'",
-    "start": "webpack serve --config ./webpack.config.ts",
+    "dev": "webpack serve --config ./webpack.config.ts",
     "tsc:watch": "tsc -b --watch"
   },
   "dependencies": {

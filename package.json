@@ -26,9 +26,9 @@
     "lint:prettier": "prettier --check --cache '{backend,frontend,shared}/**/*.{ts,tsx}'",
     "prepare": "rimraf node_modules/.cache .linaria-cache && yarn build",
     "prettier": "prettier --cache --write '{backend,frontend,shared}/**/*.{ts,tsx}'",
-    "prod": "run-s build start:prod",
-    "start": "run-p 'backend start' 'frontend start' 'backend build --watch --preserveWatchOutput' 'frontend tsc:watch'",
-    "start:prod": "cross-env NODE_ENV=production && node .",
+    "prod": "run-s build start",
+    "dev": "run-p 'backend dev' 'frontend dev' 'backend build --watch --preserveWatchOutput' 'frontend tsc:watch'",
+    "start": "cross-env NODE_ENV=production && node .",
     "test": "jest"
   },
   "dependencies": {

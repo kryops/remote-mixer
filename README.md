@@ -60,16 +60,10 @@ Install and setup:
 > yarn
 ```
 
-Start in development mode with hot reloading:
-
-```shellscript
-> yarn start
-```
-
 Start in production mode:
 
 ```shellscript
-> yarn start:prod
+> yarn start
 ```
 
 ## Configuration
@@ -87,6 +81,12 @@ module.exports = userConfig
 ```
 
 ## Development
+
+Start in development mode with hot reloading:
+
+```shellscript
+> yarn dev
+```
 
 ### Adding support for other mixing consoles
 
