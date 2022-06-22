@@ -23,7 +23,7 @@
     "lint:eslint": "eslint --cache 'frontend/**/*.@(ts|tsx)' 'backend/**/*.ts' 'shared/**/*.ts'",
     "lint:ts": "tsc -b frontend backend",
     "lint:ts:watch": "tsc -b frontend backend --watch",
-    "postinstall": "rimraf node_modules/.cache .linaria-cache && yarn build",
+    "prepare": "rimraf node_modules/.cache .linaria-cache && yarn build",
     "prettier": "prettier --write '{backend,frontend,shared}/**/*.{ts,tsx}'",
     "prod": "run-s build start:prod",
     "start": "run-p 'backend start' 'frontend start' 'backend build --watch --preserveWatchOutput' 'frontend tsc:watch'",
