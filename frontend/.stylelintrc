@@ -1,14 +1,15 @@
 {
-  "extends": [
-    "stylelint-config-recommended",
-    "@linaria/stylelint"
-  ],
+  "extends": ["stylelint-config-recommended"],
+  "customSyntax": "@linaria/postcss-linaria",
   "rules": {
     "block-no-empty": null,
     "no-descending-specificity": null,
     "no-empty-source": null,
     "no-invalid-double-slash-comments": null,
-    "selector-pseudo-class-no-unknown": [true, { "ignorePseudoClasses": ["global"] }],
-    "selector-type-no-unknown": [true, {"ignoreTypes": ["@media"]}]
+    "selector-pseudo-class-no-unknown": [
+      true,
+      { "ignorePseudoClasses": ["global"] }
+    ],
+    "selector-type-no-unknown": [true, { "ignoreTypes": ["@media"] }]
   }
 }
