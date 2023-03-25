@@ -2,7 +2,11 @@ import { ApiInMessage, ApiOutMessage } from '@remote-mixer/types'
 import ws from 'ws'
 import { removeFromMutableArray, logger } from '@remote-mixer/utils'
 
-import { getSyncMessage, handleApiMessage } from '../api'
+import {
+  getApiHeartBeatMessage,
+  getSyncMessage,
+  handleApiMessage,
+} from '../api'
 
 import { httpServer } from './express'
 
@@ -33,6 +37,10 @@ export async function initWebSocketServer(): Promise<void> {
 
     sendSocketMessage(socket, getSyncMessage())
   })
+
+  setInterval(() => {
+    broadcastToSockets(getApiHeartBeatMessage())
+  }, 2000)
 }
 
 export function broadcastToSockets(message: ApiOutMessage, exclude?: ws): void {

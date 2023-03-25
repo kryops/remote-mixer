@@ -1,5 +1,9 @@
 import ws from 'ws'
-import { ApiInMessage, ApiSyncMessage } from '@remote-mixer/types'
+import {
+  ApiHeartBeatMessage,
+  ApiInMessage,
+  ApiSyncMessage,
+} from '@remote-mixer/types'
 import { assertNever } from '@remote-mixer/utils'
 
 import { deviceController } from './device'
@@ -31,4 +35,8 @@ export function getSyncMessage(): ApiSyncMessage {
     state: getState(),
     device: deviceController.deviceConfig,
   }
+}
+
+export function getApiHeartBeatMessage(): ApiHeartBeatMessage {
+  return { type: 'heartbeat' }
 }

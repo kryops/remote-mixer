@@ -7,6 +7,8 @@ import { LoadingScreen } from '../ui/main/loading-screen'
 import { handleApiMessage } from './state'
 
 let socket: WebSocket | undefined
+/** The last time a heartbeat was received from the server. */
+let lastHeartBeat: number | undefined
 
 export function sendApiMessage(message: ApiInMessage) {
   logger.trace('Sending WebSocket message', message)
@@ -35,6 +37,9 @@ export function ApiWrapper({ children }: { children: JSX.Element }) {
           logger.trace('WebSocket message', message)
           handleApiMessage(message)
           if (message.type === 'sync') setConnected(true)
+          if (message.type === 'heartbeat') {
+            lastHeartBeat = Date.now()
+          }
         } catch (e) {
           logger.error(
             'WebSocket message parse error',
@@ -45,23 +50,34 @@ export function ApiWrapper({ children }: { children: JSX.Element }) {
         }
       }
 
-      socket.onclose = () => {
-        logger.warn('WebSocket connection was closed, reconnecting...')
-        setConnected(false)
-        socket = undefined
-        setTimeout(connectWebSocket, 1000)
-      }
+      socket.onclose = handleClose
 
       socket.onerror = e => logger.error('WebSocket error', e)
     }
 
+    function handleClose() {
+      logger.warn('WebSocket connection was closed, reconnecting...')
+      setConnected(false)
+      socket = undefined
+      lastHeartBeat = undefined
+      setTimeout(connectWebSocket, 1000)
+    }
+
     if (!socket || socket.readyState !== socket.OPEN) connectWebSocket()
+
+    const interval = setInterval(() => {
+      if (!lastHeartBeat || Date.now() - lastHeartBeat < 5000) return
+
+      logger.error('No heartbeat received, reconnecting...')
+      handleClose()
+    }, 2000)
 
     return () => {
       if (socket) {
         socket.close()
         socket = undefined
       }
+      clearInterval(interval)
     }
   }, [])
 

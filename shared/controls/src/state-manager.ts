@@ -41,6 +41,7 @@ export class StateManager {
         break
 
       case 'sync-device':
+      case 'heartbeat':
         // do nothing
         break
 

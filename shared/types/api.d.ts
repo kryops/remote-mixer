@@ -25,5 +25,13 @@ export interface ApiMetersMessage {
   meters: Record<string, number>
 }
 
+export interface ApiHeartBeatMessage {
+  type: 'heartbeat'
+}
+
 export type ApiInMessage = ApiChangeMessage | ApiSyncDeviceMessage
-export type ApiOutMessage = ApiSyncMessage | ApiMetersMessage | ApiChangeMessage
+export type ApiOutMessage =
+  | ApiHeartBeatMessage
+  | ApiSyncMessage
+  | ApiMetersMessage
+  | ApiChangeMessage

@@ -48,6 +48,9 @@ export function handleApiMessage(message: ApiOutMessage): void {
       stateEvents.emit(message.category + message.id)
       break
 
+    case 'heartbeat':
+      break // handled further up
+
     default:
       assertNever(message)
   }
