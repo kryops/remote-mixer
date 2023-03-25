@@ -2,7 +2,7 @@ import { css } from '@linaria/core'
 
 import { sendApiMessage } from '../../api/api-wrapper'
 import { useSettings } from '../../hooks/settings'
-import { iconLight, iconSync } from '../icons'
+import { iconFullscreen, iconLight, iconSync } from '../icons'
 import { Icon } from '../icons/icon'
 import { zCornerOverlay, baseline } from '../styles'
 
@@ -17,6 +17,14 @@ const cornerOverlay = css`
 const cornerIcon = css`
   padding: ${baseline(2)};
 `
+
+function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen()
+  } else if (document.exitFullscreen) {
+    document.exitFullscreen()
+  }
+}
 
 export function CornerOverlay() {
   const { lightMode, updateSettings } = useSettings()
@@ -34,6 +42,12 @@ export function CornerOverlay() {
           icon={iconLight}
           hoverable
           onClick={() => updateSettings({ lightMode: !lightMode })}
+        />
+        <Icon
+          className={cornerIcon}
+          icon={iconFullscreen}
+          hoverable
+          onClick={toggleFullScreen}
         />
       </div>
     </>
