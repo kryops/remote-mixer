@@ -5,8 +5,7 @@
     "lib": ["es2019", "dom"],
     "jsx": "react-jsx",
     "noEmit": true,
-    "incremental": true,
-    "importsNotUsedAsValues": "preserve"
+    "incremental": true
   },
   "include": ["./src", "./test", "../@types"],
   "references": [

@@ -2,9 +2,9 @@ import { createServer } from 'http'
 import { join } from 'path'
 
 import compression from 'compression'
-import express from 'express'
+import express, { type Express } from 'express'
 
-export const expressApp = express()
+export const expressApp: Express = express()
 export const httpServer = createServer(expressApp)
 
 export async function initExpressApp(): Promise<void> {
