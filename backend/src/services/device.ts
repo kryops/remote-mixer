@@ -6,8 +6,9 @@ import { applyStateFromMessage } from './state'
 
 const deviceName = typeof device === 'object' ? device.type : device
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const DeviceController: DeviceControllerConstructor = require('../devices/' +
-  deviceName).default
+const DeviceController: DeviceControllerConstructor = require(
+  '../devices/' + deviceName
+).default
 
 export const deviceController = new DeviceController(
   deviceMessage => {

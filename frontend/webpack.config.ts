@@ -63,6 +63,16 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
               loader: 'babel-loader',
               options: {
                 cacheDirectory: true,
+                plugins: [
+                  // needs to be put here instead of the global Babel config
+                  // https://github.com/callstack/linaria/issues/1063
+                  !isProduction && [
+                    'react-refresh/babel',
+                    {
+                      skipEnvCheck: true,
+                    },
+                  ],
+                ].filter(Boolean),
               },
             },
             {

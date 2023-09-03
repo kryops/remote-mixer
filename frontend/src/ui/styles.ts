@@ -1,6 +1,4 @@
-// Linaria has problems importing from polished directly on some systems
-// https://github.com/callstack/linaria/issues/1207
-import mix from 'polished/lib/color/mix'
+import { mix } from 'polished'
 
 export const baselinePx = 4
 export const fontSizePx = 16

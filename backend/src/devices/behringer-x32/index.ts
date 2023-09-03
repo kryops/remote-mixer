@@ -18,7 +18,10 @@ let skipNextMeterMessage = false
 export default class BehringerX32DeviceController implements DeviceController {
   deviceConfig = deviceConfig
 
-  constructor(private listener: DeviceMessageListener, options: X32Options) {
+  constructor(
+    private listener: DeviceMessageListener,
+    options: X32Options
+  ) {
     connect(message => {
       const internalMessage = interpretIncomingMessage(message)
       if (internalMessage && typeof internalMessage === 'object') {
