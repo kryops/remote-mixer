@@ -85,8 +85,8 @@ export function message({
     bytes
       ? bytes[0]
       : deviceSpecific
-      ? modelId.deviceSpecific
-      : modelId.universal,
+        ? modelId.deviceSpecific
+        : modelId.universal,
     dataType ?? bytes?.[1] ?? 0,
     element ?? bytes?.[2] ?? 0,
     parameter ?? bytes?.[3] ?? 0,

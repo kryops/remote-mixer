@@ -24,16 +24,15 @@
     "midi": "^2.0.0",
     "osc": "^2.4.4",
     "source-map-support": "^0.5.21",
-    "ws": "^8.13.0"
+    "ws": "^8.14.2"
   },
   "devDependencies": {
-    "@types/compression": "^1.7.2",
-    "@types/express": "^4.17.17",
-    "@types/node": "^20.5.9",
-    "@types/prettier": "^3.0.0",
-    "@types/source-map-support": "^0.5.7",
-    "@types/ws": "^8.5.5",
+    "@types/compression": "^1.7.5",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.3",
+    "@types/source-map-support": "^0.5.10",
+    "@types/ws": "^8.5.10",
     "cross-env": "^7.0.3",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.2"
   }
 }

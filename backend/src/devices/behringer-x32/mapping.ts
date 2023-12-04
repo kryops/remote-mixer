@@ -61,8 +61,8 @@ function simpleMapping(
           const idData = globalCategories.has(category)
             ? ''
             : categoriesWithoutPadding.has(category)
-            ? id
-            : id2Data(id)
+              ? id
+              : id2Data(id)
           const address = prefix + idData + suffix
           return {
             address,
@@ -132,8 +132,8 @@ export const messageMapping: MessageMapping[] = [
           const idData = globalCategories.has(category)
             ? ''
             : categoriesWithoutPadding.has(category)
-            ? id
-            : id2Data(id)
+              ? id
+              : id2Data(id)
           const mix = id2Data(p.slice(3))
           const address = prefix + idData + '/mix/' + mix + '/level'
           return {
