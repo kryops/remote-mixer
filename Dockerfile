@@ -1,7 +1,7 @@
 # https://nodejs.org/de/docs/guides/nodejs-docker-webapp/
 # https://docs.docker.com/engine/reference/builder/
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
