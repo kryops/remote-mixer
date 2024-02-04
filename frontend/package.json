@@ -2,7 +2,7 @@
   "name": "@remote-mixer/frontend",
   "version": "0.0.1",
   "repository": "https://github.com/kryops/remote-mixer",
-  "author": "Michael Strobel <michael@kryops.de>",
+  "author": "Michael Manzinger <michael@kryops.de>",
   "license": "MIT",
   "private": true,
   "scripts": {
