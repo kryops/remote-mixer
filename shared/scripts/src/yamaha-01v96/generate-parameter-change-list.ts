@@ -1,13 +1,13 @@
 import { writeFileSync } from 'fs'
 import { join } from 'path'
 
-import xlsx from 'xlsx'
+import { readFile } from 'xlsx'
 
 function parseHex(hex: string): number {
   return parseInt(hex, 16)
 }
 
-const workbook = xlsx.readFile(join(__dirname, 'source.xlsx'))
+const workbook = readFile(join(__dirname, 'source.xlsx'))
 const worksheet = workbook.Sheets[workbook.SheetNames[1]]
 
 interface Definition {

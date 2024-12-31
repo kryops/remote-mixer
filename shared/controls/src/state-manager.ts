@@ -24,7 +24,7 @@ export class StateManager {
         Object.assign(this.state.meters, message.meters)
         break
 
-      case 'change':
+      case 'change': {
         const { category, id, property, value } = message
 
         const categoryEntry = this.state.categories[category]
@@ -39,7 +39,7 @@ export class StateManager {
           this.state.categories[category][id][property] = value
         }
         break
-
+      }
       case 'sync-device':
       case 'heartbeat':
         // do nothing

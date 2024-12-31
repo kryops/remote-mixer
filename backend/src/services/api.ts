@@ -14,12 +14,12 @@ export function handleApiMessage(message: ApiInMessage, source: ws): void {
   if (!applyStateFromMessage(message)) return
 
   switch (message.type) {
-    case 'change':
+    case 'change': {
       const { category, id, property, value } = message
       deviceController.change(category, id, property, value)
       broadcastToSockets(message, source)
       break
-
+    }
     case 'sync-device':
       deviceController.sync?.()
       break
