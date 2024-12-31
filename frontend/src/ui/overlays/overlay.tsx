@@ -1,34 +1,29 @@
-import { ComponentType, useEffect, useState, PropsWithChildren } from 'react'
-import { addToMutableArray, removeFromMutableArray } from '@remote-mixer/utils'
+import { ComponentType, PropsWithChildren, useSyncExternalStore } from 'react'
 
 export interface OverlayProps {
   onClose?: () => void
 }
 
-const overlays: ComponentType<OverlayProps>[] = []
-
+let currentOverlays: ComponentType<OverlayProps>[] = []
 let overlaysChanged: (() => void) | null = null
 
 export function addOverlay(component: ComponentType<OverlayProps>) {
-  addToMutableArray(overlays, component)
+  currentOverlays = [...currentOverlays, component]
   overlaysChanged?.()
 }
 
 export function removeOverlay(component: ComponentType<OverlayProps>) {
-  removeFromMutableArray(overlays, component)
+  currentOverlays = currentOverlays.filter(it => it !== component)
   overlaysChanged?.()
 }
 
+function subscribe(callback: () => void) {
+  overlaysChanged = callback
+  return () => (overlaysChanged = null)
+}
+
 export const OverlayContainer = ({ children }: PropsWithChildren) => {
-  const [, setCounter] = useState(0)
-
-  useEffect(() => {
-    overlaysChanged = () => setCounter(count => count + 1)
-
-    return () => {
-      overlaysChanged = null
-    }
-  }, [])
+  const overlays = useSyncExternalStore(subscribe, () => currentOverlays)
 
   return (
     <>
