@@ -21,7 +21,7 @@ module.exports = function (api) {
         },
       ],
       '@babel/preset-typescript',
-      '@linaria',
+      '@wyw-in-js',
     ],
     plugins: [
       [

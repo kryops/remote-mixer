@@ -72,7 +72,7 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
               },
             },
             {
-              loader: '@linaria/webpack-loader',
+              loader: '@wyw-in-js/webpack-loader',
               options: {
                 sourceMap: true,
               },
@@ -160,7 +160,7 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
         }),
 
       // analyze
-      analyze && (new BundleAnalyzerPlugin() as any),
+      analyze && new BundleAnalyzerPlugin(),
     ].filter(<T>(x: T | false): x is T => !!x),
 
     optimization: {
