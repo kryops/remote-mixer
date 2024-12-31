@@ -25,14 +25,17 @@ module.exports = function (api) {
     ],
     plugins: [
       [
+        'babel-plugin-react-compiler',
+        {
+          sources: fileName => fileName.includes('/frontend/'),
+        },
+      ],
+      [
         '@babel/plugin-transform-runtime',
         {
           useESModules: !isTest,
         },
       ],
-
-      // optimization
-      '@babel/plugin-transform-react-constant-elements',
-    ].filter(Boolean),
+    ],
   }
 }
