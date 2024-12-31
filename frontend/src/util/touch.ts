@@ -42,7 +42,7 @@ export interface OffsetCoordinates {
 
 export function getTouchEventOffset(
   e: NormalizedTouchEvent<HTMLElement>,
-  ref: RefObject<HTMLElement>
+  ref: RefObject<HTMLElement | null>
 ): OffsetCoordinates | null {
   if (!ref.current) {
     return null

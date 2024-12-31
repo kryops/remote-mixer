@@ -19,7 +19,7 @@ export function removeOverlay(component: ComponentType<OverlayProps>) {
   overlaysChanged?.()
 }
 
-export const OverlayContainer = ({ children }: PropsWithChildren<{}>) => {
+export const OverlayContainer = ({ children }: PropsWithChildren) => {
   const [, setCounter] = useState(0)
 
   useEffect(() => {

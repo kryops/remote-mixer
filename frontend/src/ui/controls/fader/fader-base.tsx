@@ -44,7 +44,7 @@ export interface FaderBaseProps {
   onTouch?: (fraction: number) => void
   onUp?: () => void
   children?: ReactNode
-  meterRef?: React.RefObject<HTMLDivElement>
+  meterRef?: React.RefObject<HTMLDivElement | null>
 }
 
 export function FaderBase({

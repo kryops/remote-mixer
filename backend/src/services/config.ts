@@ -20,7 +20,7 @@ export interface RemoteMixerConfiguration {
 
 export const configDirectoryPath = join(__dirname, '../../../config')
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const userConfig: Partial<RemoteMixerConfiguration> = require(
   join(configDirectoryPath, 'remote-mixer-config')
 )

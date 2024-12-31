@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@remote-mixer/types": "*",
-    "sucrase": "^3.34.0",
+    "sucrase": "^3.35.0",
     "xlsx": "^0.18.5"
   }
 }

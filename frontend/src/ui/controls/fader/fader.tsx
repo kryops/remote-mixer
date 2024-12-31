@@ -18,7 +18,7 @@ export interface FaderProps {
   label?: string
   subLabel?: string
   color?: string
-  meterRef?: React.RefObject<HTMLDivElement>
+  meterRef?: React.RefObject<HTMLDivElement | null>
   onChange: (value: number) => void
   className?: string
 }

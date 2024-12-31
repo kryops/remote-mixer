@@ -6,7 +6,7 @@ import { getState, metersEvent, stateEvents } from '../api/state'
 export function useMeter(
   category: DeviceConfigurationCategory,
   id: string
-): React.RefObject<HTMLDivElement> | undefined {
+): React.RefObject<HTMLDivElement | null> | undefined {
   const meterRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

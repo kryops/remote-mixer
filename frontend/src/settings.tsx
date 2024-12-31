@@ -36,7 +36,7 @@ export const SettingsContext = createContext<SettingsWithUpdate>({
   updateSettings: () => {},
 })
 
-export function SettingsWrapper({ children }: PropsWithChildren<{}>) {
+export function SettingsWrapper({ children }: PropsWithChildren) {
   const [settings, setSettings] = useState<Settings>(initialSettings)
 
   const { lightMode } = settings

@@ -4,7 +4,7 @@ export function useDelayedState<T>(
   initialValue: T,
   ms = 300
 ): [T, (value: T, delay?: boolean) => void] {
-  const timeoutRef = useRef<any>()
+  const timeoutRef = useRef<any>(null)
   const [state, setState] = useState(initialValue)
 
   // clean up on unmount

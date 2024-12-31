@@ -1,4 +1,5 @@
 import { css } from '@linaria/core'
+import { JSX } from 'react'
 
 import { cx } from '../../util/styles'
 
