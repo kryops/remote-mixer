@@ -53,6 +53,7 @@ export function SettingsWrapper({ children }: PropsWithChildren) {
       updateSettings: partial =>
         setSettings(prevSettings => {
           const newSettings = { ...prevSettings, ...partial }
+          // eslint-disable-next-line react-compiler/react-compiler
           localStorage[localStorageKey] = JSON.stringify(newSettings)
           return newSettings
         }),

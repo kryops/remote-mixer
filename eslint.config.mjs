@@ -8,6 +8,7 @@ import tseslint from 'typescript-eslint'
 import eslintConfigPrettier from 'eslint-config-prettier'
 import pluginReactHooks from 'eslint-plugin-react-hooks'
 import pluginReact from 'eslint-plugin-react'
+import reactCompiler from 'eslint-plugin-react-compiler'
 
 export default tseslint.config(
   {
@@ -32,6 +33,7 @@ export default tseslint.config(
     plugins: {
       // @ts-ignore
       'react-hooks': pluginReactHooks,
+      'react-compiler': reactCompiler,
     },
 
     rules: {
@@ -66,6 +68,7 @@ export default tseslint.config(
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'error',
       'import/no-unresolved': 'off',
+      'react-compiler/react-compiler': 'error',
     },
     settings: {
       react: {
