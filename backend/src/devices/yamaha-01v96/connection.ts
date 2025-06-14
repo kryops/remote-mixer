@@ -1,9 +1,9 @@
-import midi, { MidiInputPort, MidiOutputPort } from 'midi'
+import midi, { Input, Output } from '@julusian/midi'
 
 const input = new midi.Input()
 const output = new midi.Output()
 
-function findAndOpenPort(midiPort: MidiInputPort | MidiOutputPort) {
+function findAndOpenPort(midiPort: Input | Output) {
   const portCount = midiPort.getPortCount()
 
   for (let i = 0; i < portCount; i++) {

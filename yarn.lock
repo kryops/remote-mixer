@@ -1978,6 +1978,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@julusian/midi@npm:^3.6.1":
+  version: 3.6.1
+  resolution: "@julusian/midi@npm:3.6.1"
+  dependencies:
+    node-addon-api: "npm:^6.1.0"
+    node-gyp: "npm:latest"
+    pkg-prebuilds: "npm:^1.0.0"
+  checksum: 10/071a4969d2c696ff05ddc9e13e334fe4b22447b4a1c57f3f391fe7892ddfd6fec0e323f777b606713312699ad3dffba343725be200e4dadf5902eb0a54a085dc
+  languageName: node
+  linkType: hard
+
 "@kryops/remote-mixer@workspace:.":
   version: 0.0.0-use.local
   resolution: "@kryops/remote-mixer@workspace:."
@@ -2170,6 +2181,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@remote-mixer/backend@workspace:backend"
   dependencies:
+    "@julusian/midi": "npm:^3.6.1"
     "@remote-mixer/controls": "npm:*"
     "@remote-mixer/types": "npm:*"
     "@remote-mixer/utils": "npm:*"
@@ -2181,7 +2193,6 @@ __metadata:
     compression: "npm:^1.7.5"
     cross-env: "npm:^7.0.3"
     express: "npm:^4.21.2"
-    midi: "npm:^2.0.0"
     nodemon: "npm:^3.1.9"
     osc: "npm:^2.4.5"
     source-map-support: "npm:^0.5.21"
@@ -4038,15 +4049,6 @@ __metadata:
   version: 2.3.0
   resolution: "binary-extensions@npm:2.3.0"
   checksum: 10/bcad01494e8a9283abf18c1b967af65ee79b0c6a9e6fcfafebfe91dbe6e0fc7272bafb73389e198b310516ae04f7ad17d79aacf6cb4c0d5d5202a7e2e52c7d98
-  languageName: node
-  linkType: hard
-
-"bindings@npm:~1.5.0":
-  version: 1.5.0
-  resolution: "bindings@npm:1.5.0"
-  dependencies:
-    file-uri-to-path: "npm:1.0.0"
-  checksum: 10/593d5ae975ffba15fbbb4788fe5abd1e125afbab849ab967ab43691d27d6483751805d98cb92f7ac24a2439a8a8678cd0131c535d5d63de84e383b0ce2786133
   languageName: node
   linkType: hard
 
@@ -6157,13 +6159,6 @@ __metadata:
   dependencies:
     flat-cache: "npm:^5.0.0"
   checksum: 10/fd67a9552f272ac4a1731c545e1350bd135e208659144cc5311baac6b8bbf55da7c8c3a0bf25c71ed78eff2bdd26d2a3a8f9ba3d8bec968fe8d1eeba6ab14a96
-  languageName: node
-  linkType: hard
-
-"file-uri-to-path@npm:1.0.0":
-  version: 1.0.0
-  resolution: "file-uri-to-path@npm:1.0.0"
-  checksum: 10/b648580bdd893a008c92c7ecc96c3ee57a5e7b6c4c18a9a09b44fb5d36d79146f8e442578bc0e173dc027adf3987e254ba1dfd6e3ec998b7c282873010502144
   languageName: node
   linkType: hard
 
@@ -8581,17 +8576,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"midi@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "midi@npm:2.0.0"
-  dependencies:
-    bindings: "npm:~1.5.0"
-    nan: "npm:^2.14.2"
-    node-gyp: "npm:latest"
-  checksum: 10/91a0e60439b26aa1efec499b7d9696fdcfa92203b1b40e456d1db17c36974d7f70f9dbc41ff84ab3653489837dc40bc045fbbf4bb345af8a208bc0fa0a252e61
-  languageName: node
-  linkType: hard
-
 "mime-db@npm:1.52.0":
   version: 1.52.0
   resolution: "mime-db@npm:1.52.0"
@@ -8839,15 +8823,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nan@npm:^2.14.2":
-  version: 2.22.0
-  resolution: "nan@npm:2.22.0"
-  dependencies:
-    node-gyp: "npm:latest"
-  checksum: 10/ab165ba910e549fcc21fd561a33f534d86e81ae36c97b1019dcfe506b09692ff867c97794a54b49c9a83b8b485f529f0f58d24966c3a11863c97dc70814f4d50
-  languageName: node
-  linkType: hard
-
 "nanoid@npm:^3.3.7":
   version: 3.3.8
   resolution: "nanoid@npm:3.3.8"
@@ -8915,6 +8890,15 @@ __metadata:
   dependencies:
     node-gyp: "npm:latest"
   checksum: 10/f1a54ae38f6cbd4cdfe69d1b2f3f0c4a3d227eb50f5073f0a3b985d29a0c39c94b82c88213e5075ee1bc262f2e869841c733ebe7111a5e376f1732649edf6a93
+  languageName: node
+  linkType: hard
+
+"node-addon-api@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "node-addon-api@npm:6.1.0"
+  dependencies:
+    node-gyp: "npm:latest"
+  checksum: 10/8eea1d4d965930a177a0508695beb0d89b4c1d80bf330646a035357a1e8fc31e0d09686e2374996e96e757b947a7ece319f98ede3146683f162597c0bcb4df90
   languageName: node
   linkType: hard
 
@@ -9552,6 +9536,18 @@ __metadata:
   dependencies:
     find-up: "npm:^6.3.0"
   checksum: 10/94298b20a446bfbbd66604474de8a0cdd3b8d251225170970f15d9646f633e056c80520dd5b4c1d1050c9fed8f6a9e5054b141c93806439452efe72e57562c03
+  languageName: node
+  linkType: hard
+
+"pkg-prebuilds@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "pkg-prebuilds@npm:1.0.0"
+  dependencies:
+    yargs: "npm:^17.7.2"
+  bin:
+    pkg-prebuilds-copy: bin/copy.mjs
+    pkg-prebuilds-verify: bin/verify.mjs
+  checksum: 10/219e0ef0d3b8f010900bfcf23e6ebb31774b0b375a3be3b3c6d0dcefb7a388747d4987bdbb9b9c388b89f2b570846b5df696f93d7f5e36a652658edc8d118aab
   languageName: node
   linkType: hard
 
@@ -12745,7 +12741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.3.1":
+"yargs@npm:^17.3.1, yargs@npm:^17.7.2":
   version: 17.7.2
   resolution: "yargs@npm:17.7.2"
   dependencies:
