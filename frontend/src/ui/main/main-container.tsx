@@ -1,7 +1,6 @@
 import { css } from '@linaria/core'
 
 import { baseline, iconShade } from '../styles'
-import { memoInProduction } from '../../util/development'
 import { Tabs } from '../containers/tabs'
 import { useDeviceConfiguration } from '../../api/state'
 import { CategoryControl } from '../../controls/category-control'
@@ -33,7 +32,7 @@ const content = css`
   }
 `
 
-export const MainContainer = memoInProduction(() => {
+export const MainContainer = () => {
   const { categories } = useDeviceConfiguration()
 
   return (
@@ -50,4 +49,4 @@ export const MainContainer = memoInProduction(() => {
       <CornerOverlay />
     </div>
   )
-})
+}

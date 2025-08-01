@@ -162,15 +162,19 @@ export function showModal<T>(
   registerCloseHandler?: (fn: (value: T) => void) => void
 ): Promise<T> {
   return new Promise<T>(resolve => {
-    const Overlay = () => (
-      <Modal
-        {...props}
-        onClose={value => {
-          removeOverlay(Overlay)
-          resolve(value)
-        }}
-      />
-    )
+    const Overlay = () => {
+      // https://github.com/facebook/react/issues/33978
+      'use no memo'
+      return (
+        <Modal
+          {...props}
+          onClose={value => {
+            removeOverlay(Overlay)
+            resolve(value)
+          }}
+        />
+      )
+    }
     addOverlay(Overlay)
 
     registerCloseHandler?.(value => {

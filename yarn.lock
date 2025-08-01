@@ -1023,17 +1023,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-constant-elements@npm:^7.27.1":
-  version: 7.27.1
-  resolution: "@babel/plugin-transform-react-constant-elements@npm:7.27.1"
-  dependencies:
-    "@babel/helper-plugin-utils": "npm:^7.27.1"
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 10/906ea336502a42ca942f492f386111db4041c28c08f9dcc63eb816b75a1a96121505c1522c5e721dd192bf42a244799b78a8991e4abbf3fa17748dac1b6f142e
-  languageName: node
-  linkType: hard
-
 "@babel/plugin-transform-react-display-name@npm:^7.27.1":
   version: 7.28.0
   resolution: "@babel/plugin-transform-react-display-name@npm:7.28.0"
@@ -1408,7 +1397,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.23.5, @babel/types@npm:^7.27.1, @babel/types@npm:^7.27.3, @babel/types@npm:^7.28.0, @babel/types@npm:^7.28.2, @babel/types@npm:^7.4.4":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.23.5, @babel/types@npm:^7.26.0, @babel/types@npm:^7.27.1, @babel/types@npm:^7.27.3, @babel/types@npm:^7.28.0, @babel/types@npm:^7.28.2, @babel/types@npm:^7.4.4":
   version: 7.28.2
   resolution: "@babel/types@npm:7.28.2"
   dependencies:
@@ -2131,6 +2120,7 @@ __metadata:
   resolution: "@kryops/remote-mixer@workspace:."
   dependencies:
     "@types/jest": "npm:^30.0.0"
+    babel-plugin-react-compiler: "npm:^19.1.0-rc.2"
     cross-env: "npm:^10.0.0"
     eslint: "npm:^9.32.0"
     eslint-config-prettier: "npm:^10.1.8"
@@ -2361,7 +2351,6 @@ __metadata:
   resolution: "@remote-mixer/frontend@workspace:frontend"
   dependencies:
     "@babel/core": "npm:^7.28.0"
-    "@babel/plugin-transform-react-constant-elements": "npm:^7.27.1"
     "@babel/plugin-transform-runtime": "npm:^7.28.0"
     "@babel/preset-env": "npm:^7.28.0"
     "@babel/preset-react": "npm:^7.27.1"
@@ -4319,6 +4308,15 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.4.0 || ^8.0.0-0 <8.0.0
   checksum: 10/ed1932fa9a31e0752fd10ebf48ab9513a654987cab1182890839523cb898559d24ae0578fdc475d9f995390420e64eeaa4b0427045b56949dace3c725bc66dbb
+  languageName: node
+  linkType: hard
+
+"babel-plugin-react-compiler@npm:^19.1.0-rc.2":
+  version: 19.1.0-rc.2
+  resolution: "babel-plugin-react-compiler@npm:19.1.0-rc.2"
+  dependencies:
+    "@babel/types": "npm:^7.26.0"
+  checksum: 10/4904021f1e47a8e7f9eb251b48b4c9c9cc3c9c91ff6ab4c8969ac5b6d0b34d91f3137770ba3e4d267a5ee2c113d938b99615f0e3ea3aa9a0948b87085710ef28
   languageName: node
   linkType: hard
 

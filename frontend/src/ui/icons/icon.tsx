@@ -2,7 +2,6 @@ import { css } from '@linaria/core'
 import { MouseEvent as ReactMouseEvent } from 'react'
 
 import { baseline, ColorShade, iconShade } from '../styles'
-import { memoInProduction } from '../../util/development'
 import { cx } from '../../util/styles'
 
 const iconSize = baseline(6)
@@ -54,45 +53,43 @@ export interface IconProps {
   onClick?: (event: ReactMouseEvent<SVGSVGElement, MouseEvent>) => void
 }
 
-export const Icon = memoInProduction(
-  ({
-    icon,
-    shade = 0,
-    className,
-    pathClassName,
-    color,
-    size,
-    inline,
-    padding,
-    hoverable,
-    onClick,
-  }: IconProps) => {
-    return (
-      <svg
-        viewBox="0 0 24 24"
-        className={cx(
-          iconSvg,
-          inline && icon_inline,
-          onClick && icon_clickable,
-          padding && icon_padding,
-          className
-        )}
-        style={{
-          fill: color ?? iconShade(shade),
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          '--color1': color ? color : iconShade(shade + 1),
-          '--color2': color ? color : iconShade(shade),
-          width: size ? baseline(size) : undefined,
-          height: size ? baseline(size) : undefined,
-        }}
-        onClick={onClick}
-      >
-        <path
-          d={icon}
-          className={cx(pathClassName, hoverable && icon_hoverable)}
-        />
-      </svg>
-    )
-  }
-)
+export const Icon = ({
+  icon,
+  shade = 0,
+  className,
+  pathClassName,
+  color,
+  size,
+  inline,
+  padding,
+  hoverable,
+  onClick,
+}: IconProps) => {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={cx(
+        iconSvg,
+        inline && icon_inline,
+        onClick && icon_clickable,
+        padding && icon_padding,
+        className
+      )}
+      style={{
+        fill: color ?? iconShade(shade),
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        '--color1': color ? color : iconShade(shade + 1),
+        '--color2': color ? color : iconShade(shade),
+        width: size ? baseline(size) : undefined,
+        height: size ? baseline(size) : undefined,
+      }}
+      onClick={onClick}
+    >
+      <path
+        d={icon}
+        className={cx(pathClassName, hoverable && icon_hoverable)}
+      />
+    </svg>
+  )
+}

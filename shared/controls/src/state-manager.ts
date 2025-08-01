@@ -21,7 +21,10 @@ export class StateManager {
         break
 
       case 'meters':
-        Object.assign(this.state.meters, message.meters)
+        this.state.meters = {
+          ...this.state.meters,
+          ...message.meters,
+        }
         break
 
       case 'change': {
@@ -36,7 +39,10 @@ export class StateManager {
         } else if (!categoryEntry[id]) {
           this.state.categories[category][id] = { [property]: value }
         } else {
-          this.state.categories[category][id][property] = value
+          this.state.categories[category][id] = {
+            ...this.state.categories[category][id],
+            [property]: value,
+          }
         }
         break
       }

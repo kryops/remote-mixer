@@ -24,15 +24,13 @@ module.exports = function (api) {
       '@wyw-in-js',
     ],
     plugins: [
+      'babel-plugin-react-compiler', // must run first!
       [
         '@babel/plugin-transform-runtime',
         {
           useESModules: !isTest,
         },
       ],
-
-      // optimization
-      '@babel/plugin-transform-react-constant-elements',
     ].filter(Boolean),
   }
 }

@@ -7,7 +7,7 @@ import {
   RemoteMixerState,
   StateCategoryEntry,
 } from '@remote-mixer/types'
-import { useEffect, useReducer } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { assertNever } from '@remote-mixer/utils'
 
 const stateManager = new StateManager()
@@ -18,8 +18,6 @@ export const stateEvents = new Emittery()
 
 export const metersEvent = 'meters'
 export const syncEvent = 'sync'
-
-const forceUpdateReducer = (prevState: number) => prevState + 1
 
 export function getState(): RemoteMixerState {
   return stateManager.state
@@ -71,24 +69,28 @@ export function useDeviceCategory(key: string): DeviceConfigurationCategory {
   return category
 }
 
-export function useStateEvent(eventName: string, withSync = true): void {
-  const [_updateKey, forceUpdate] = useReducer(forceUpdateReducer, 0)
-
-  useEffect(() => {
-    stateEvents.on(eventName, forceUpdate)
-    if (withSync) stateEvents.on(syncEvent, forceUpdate)
-
-    return () => {
-      stateEvents.off(eventName, forceUpdate)
-      stateEvents.off(syncEvent, forceUpdate)
-    }
-  }, [eventName, withSync])
-}
-
 export function useEntryState(
   category: string,
   id: string
 ): StateCategoryEntry | undefined {
-  useStateEvent(category + id)
-  return stateManager.state.categories[category]?.[id]
+  const eventName = category + id
+  const selector = useCallback(
+    () => stateManager.state.categories[category]?.[id],
+    [category, id]
+  )
+  const [state, setState] = useState(selector)
+
+  useEffect(() => {
+    const update = () => {
+      setState(selector())
+    }
+
+    stateEvents.on(eventName, update)
+
+    return () => {
+      stateEvents.off(eventName, update)
+    }
+  }, [eventName, selector])
+
+  return state
 }
