@@ -23,8 +23,9 @@ export const globalStyles = css`
       margin: 0;
       padding: 0;
       font-size: ${fontSizePx}px;
-      font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
-        Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+      font-family:
+        -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 
       /* remove 300ms click delay */
       touch-action: manipulation;
@@ -36,8 +37,6 @@ export const globalStyles = css`
     span,
     p {
       overflow-wrap: break-word;
-      word-wrap: break-word;
-      word-break: break-word;
     }
 
     a {

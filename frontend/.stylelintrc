@@ -3,10 +3,13 @@
   "customSyntax": "@linaria/postcss-linaria",
   "rules": {
     "block-no-empty": null,
+    "declaration-property-value-no-unknown": null,
     "media-query-no-invalid": null,
+    "nesting-selector-no-missing-scoping-root": null,
     "no-descending-specificity": null,
     "no-empty-source": null,
     "no-invalid-double-slash-comments": null,
+    "no-invalid-position-declaration": null,
     "selector-pseudo-class-no-unknown": [
       true,
       { "ignorePseudoClasses": ["global"] }
