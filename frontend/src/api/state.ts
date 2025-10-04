@@ -81,6 +81,10 @@ export function useEntryState(
   const [state, setState] = useState(selector)
 
   useEffect(() => {
+    setState(selector())
+  }, [selector])
+
+  useEffect(() => {
     const update = () => {
       setState(selector())
     }
