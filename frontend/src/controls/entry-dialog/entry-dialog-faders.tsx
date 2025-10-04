@@ -43,6 +43,8 @@ export function EntryDialogFaders({ category, id }: EntryDialogFadersProps) {
             step={1}
             label={label}
             meterRef={key === 'value' ? meterRef : undefined}
+            category={category}
+            id={id}
           />
         </Entry>
       ))}

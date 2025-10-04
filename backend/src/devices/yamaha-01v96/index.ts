@@ -56,8 +56,11 @@ export default class Yamaha01v96DeviceController implements DeviceController {
     )
     if (message) sendMessage(message)
 
-    if (category === 'ch' && (property === 'value' || property === 'on')) {
-      refreshDependentChannels(id, property)
+    if (
+      (category === 'ch' || category === 'aux' || category === 'bus') &&
+      (property === 'value' || property === 'on')
+    ) {
+      refreshDependentChannels(category, id, property)
     }
   }
 
