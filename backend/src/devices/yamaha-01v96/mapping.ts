@@ -215,9 +215,26 @@ export const messageMapping: MessageMapping[] = [
   // pairs
   {
     incoming: message => {
-      if (message.type !== 'kInputPair/kPair' || !message.data) return null
-      updateChannelPair(String(message.channel + 1), data2On(message.data))
-      return true
+      if (!message.type?.endsWith('Pair/kPair') || !message.data) return null
+
+      const category = message.type.startsWith('kInput')
+        ? 'ch'
+        : message.type.startsWith('kBus')
+          ? 'bus'
+          : 'aux'
+
+      const paired = data2On(message.data)
+      const channelId = String(message.channel + 1)
+
+      updateChannelPair(category, channelId, paired)
+
+      return {
+        type: 'change',
+        category,
+        id: channelId,
+        property: 'paired',
+        value: paired,
+      }
     },
   },
 

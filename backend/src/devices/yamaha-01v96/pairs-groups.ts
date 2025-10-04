@@ -4,7 +4,7 @@ import { sendMessage } from './connection'
 import { message } from './message'
 import { getRequestMessage } from './protocol'
 
-const pairedChannels = new Set<string>()
+const pairedChannels = new Map<string, Set<string>>()
 const activeGroups = new Set<string>()
 const channelsByGroup = new Map<string, Set<string>>()
 const groupsByChannel = new Map<string, Set<string>>()
@@ -12,6 +12,7 @@ const groupsByChannel = new Map<string, Set<string>>()
 const groupTypes = ['Fader', 'Mute']
 
 async function refreshChannels(
+  category: string,
   channelIds: Set<string>,
   properties = ['value', 'on']
 ) {
@@ -19,7 +20,7 @@ async function refreshChannels(
 
   for (const channelId of channelIds) {
     for (const property of properties) {
-      const message = getRequestMessage('ch', channelId, property)
+      const message = getRequestMessage(category, channelId, property)
       if (message) {
         sendMessage(message)
         messageCount++
@@ -30,25 +31,21 @@ async function refreshChannels(
 }
 
 export async function syncPairsAndGroups(): Promise<void> {
-  for (let channel = 1; channel <= 32; channel++) {
-    sendMessage(
-      message({
-        type: 'kInputPair/kPair',
-        channel: channel - 1,
-        isRequest: true,
-      })
-    )
+  const categories = {
+    kInputPair: 32,
+    kBusPair: 8,
+    kAUXPair: 8,
+  }
 
-    for (let groupIndex = 1; groupIndex <= 8; groupIndex++) {
-      for (const groupType of groupTypes) {
-        sendMessage(
-          message({
-            type: `kInputGroup/kInGroup${groupType}${groupIndex}`,
-            channel: channel - 1,
-            isRequest: true,
-          })
-        )
-      }
+  for (const [category, count] of Object.entries(categories)) {
+    for (let channel = 1; channel <= count; channel++) {
+      sendMessage(
+        message({
+          type: `${category}/kPair`,
+          channel: channel - 1,
+          isRequest: true,
+        })
+      )
     }
 
     await delay(20)
@@ -69,13 +66,14 @@ export async function syncPairsAndGroups(): Promise<void> {
 }
 
 export async function refreshDependentChannels(
+  category: string,
   channelId: string,
   property?: string
 ): Promise<void> {
   const channelsToRefresh = new Set<string>()
 
   // pairs
-  if (pairedChannels.has(channelId)) {
+  if (pairedChannels.get(category)?.has(channelId)) {
     const channelIdNumber = Number(channelId)
     const dependentChannel = String(
       channelIdNumber + (channelIdNumber % 2 === 0 ? -1 : 1)
@@ -102,12 +100,21 @@ export async function refreshDependentChannels(
 
   await delay(20)
 
-  await refreshChannels(channelsToRefresh, property ? [property] : undefined)
+  await refreshChannels(
+    category,
+    channelsToRefresh,
+    property ? [property] : undefined
+  )
 }
 
-export function updateChannelPair(channelId: string, paired: boolean): void {
-  if (paired) pairedChannels.add(channelId)
-  else pairedChannels.delete(channelId)
+export function updateChannelPair(
+  category: string,
+  channelId: string,
+  paired: boolean
+): void {
+  if (!pairedChannels.has(category)) pairedChannels.set(category, new Set())
+  if (paired) pairedChannels.get(category)!.add(channelId)
+  else pairedChannels.get(category)!.delete(channelId)
 }
 
 export function updateGroupActive(group: string, active: boolean): void {
