@@ -58,6 +58,8 @@ export function EntryControl({
         subLabel={state.name}
         color={state.color ?? undefined}
         meterRef={meterRef}
+        category={category}
+        id={id}
       />
       {effectiveMode !== 'iem' && (
         <Icon
