@@ -159,7 +159,7 @@ export const messageMapping: MessageMapping[] = [
     },
 
     outgoing: (category, id, property, value) => {
-      if (category !== 'ch' && !property.startsWith('aux')) return null
+      if (category !== 'ch' || !property.startsWith('aux')) return null
 
       const aux = property.slice(3)
       const type = `kInputAUX/kAUX${aux}Level`

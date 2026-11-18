@@ -11,6 +11,25 @@ import { deviceController } from './device'
 import { broadcastToSockets } from './http/websocket'
 import { applyStateFromMessage, getState } from './state'
 
+/** Validates untrusted client input before it reaches the state. */
+export function isApiInMessage(message: unknown): message is ApiInMessage {
+  if (typeof message !== 'object' || message === null) return false
+  const { type, category, id, property } = message as Record<string, unknown>
+
+  switch (type) {
+    case 'change':
+      return (
+        typeof category === 'string' &&
+        typeof id === 'string' &&
+        typeof property === 'string'
+      )
+    case 'sync-device':
+      return true
+    default:
+      return false
+  }
+}
+
 export function handleApiMessage(message: ApiInMessage, source: ws): void {
   if (!applyStateFromMessage(message)) return
 

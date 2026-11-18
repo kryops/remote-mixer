@@ -35,7 +35,7 @@ export class ConsoleLogAppender implements LogAppender {
     console.warn(date(), 'WARN', ...args)
   }
   error(...args: any[]): void {
-    console.error(date(), 'TRACE', ...args)
+    console.error(date(), 'ERROR', ...args)
   }
 }
 

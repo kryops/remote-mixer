@@ -28,14 +28,17 @@ const categoriesWithoutPadding = new Set(['dca'])
 function simpleMapping(
   suffix: string,
   property: string,
-  converter: DataConverter
+  converter: DataConverter,
+  suffixByCategory: { [category: string]: string } = {}
 ): MessageMapping {
+  const getSuffix = (category: string) => suffixByCategory[category] ?? suffix
+
   return {
     incoming: message => {
-      if (!message.address.endsWith(suffix)) return null
-
       for (const [prefix, category] of Object.entries(categoryByPrefix)) {
         if (message.address.startsWith(prefix)) {
+          if (!message.address.endsWith(getSuffix(category))) return null
+
           const id = globalCategories.has(category)
             ? '1'
             : data2Id(message.address.slice(prefix.length, prefix.length + 2))
@@ -63,7 +66,7 @@ function simpleMapping(
             : categoriesWithoutPadding.has(category)
               ? id
               : id2Data(id)
-          const address = prefix + idData + suffix
+          const address = prefix + idData + getSuffix(category)
           return {
             address,
             args: value !== undefined ? [converter.outgoing(value)] : [],
@@ -88,10 +91,11 @@ interface MessageMapping {
 
 export const messageMapping: MessageMapping[] = [
   // fader
-  simpleMapping('/mix/fader', 'value', faderConverter),
+  // DCAs have no mix section: /dca/[1..8]/fader and /dca/[1..8]/on
+  simpleMapping('/mix/fader', 'value', faderConverter, { dca: '/fader' }),
 
   // on
-  simpleMapping('/mix/on', 'on', onConverter),
+  simpleMapping('/mix/on', 'on', onConverter, { dca: '/on' }),
 
   // name
   simpleMapping('/config/name', 'name', nameConverter),

@@ -6,6 +6,8 @@ import {
 } from '@remote-mixer/types'
 import { assertNever } from '@remote-mixer/utils'
 
+const forbiddenKeys = new Set(['__proto__', 'constructor', 'prototype'])
+
 export class StateManager {
   state: RemoteMixerState = {
     categories: {},
@@ -29,6 +31,15 @@ export class StateManager {
 
       case 'change': {
         const { category, id, property, value } = message
+
+        // prevent prototype pollution through malicious keys
+        if (
+          forbiddenKeys.has(category) ||
+          forbiddenKeys.has(id) ||
+          forbiddenKeys.has(property)
+        ) {
+          return false
+        }
 
         const categoryEntry = this.state.categories[category]
 

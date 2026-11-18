@@ -28,7 +28,7 @@ function cacheKey(category: string, id: string) {
 export function handleNameMessage(message: MidiMessage): DeviceMessage | null {
   if (!message.data) return null
   if (!message.type?.includes('NameLong')) return null
-  const match = message.type?.match(/^(.+)(\d+)$/)
+  const match = message.type?.match(/^(.+?)(\d+)$/)
   if (!match) return null
   const prefix = match[1]
   const index = parseInt(match[2]) - 1

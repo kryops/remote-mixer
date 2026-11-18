@@ -106,9 +106,22 @@ export function Touchable({
             }
           : undefined
       }
+      onPointerCancel={
+        pointerEventSupport
+          ? e => {
+              if (pointerActive.current) onUp?.(normalizeTouchEvent(e))
+              pointerActive.current = false
+            }
+          : undefined
+      }
       onPointerMove={pointerEventSupport ? moveListener : undefined}
       onTouchStart={!pointerEventSupport ? downListener : undefined}
       onTouchEnd={!pointerEventSupport ? upListener : undefined}
+      onTouchCancel={
+        !pointerEventSupport && onUp
+          ? e => onUp(normalizeTouchEvent(e))
+          : undefined
+      }
       onTouchMove={!pointerEventSupport ? moveListener : undefined}
     >
       {children}

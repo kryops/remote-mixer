@@ -31,7 +31,7 @@ export default class Yamaha01v96DeviceController implements DeviceController {
         }
       }
 
-      if (message === null) {
+      if (internalMessage === null) {
         logger.debug('<== unhandled message', formatMessage(message))
       }
     })

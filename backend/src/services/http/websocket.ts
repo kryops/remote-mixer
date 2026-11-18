@@ -6,6 +6,7 @@ import {
   getApiHeartBeatMessage,
   getSyncMessage,
   handleApiMessage,
+  isApiInMessage,
 } from '../api'
 
 import { httpServer } from './express'
@@ -29,7 +30,18 @@ export async function initWebSocketServer(): Promise<void> {
     sockets.push(socket)
     socket.on('message', (message: Buffer) => {
       logger.trace('incoming message:', message)
-      handleApiMessage(JSON.parse(message.toString()), socket)
+      let parsed: unknown
+      try {
+        parsed = JSON.parse(message.toString())
+      } catch {
+        logger.warn('Ignoring unparsable WebSocket message')
+        return
+      }
+      if (!isApiInMessage(parsed)) {
+        logger.warn('Ignoring invalid WebSocket message', parsed)
+        return
+      }
+      handleApiMessage(parsed, socket)
     })
 
     socket.on('close', () => removeSocket(socket))

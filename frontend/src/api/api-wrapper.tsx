@@ -24,7 +24,22 @@ export function ApiWrapper({ children }: { children: JSX.Element }) {
   const [connected, setConnected] = useState(false)
 
   useEffect(() => {
+    let reconnectTimeout: ReturnType<typeof setTimeout> | undefined
+
+    /** Detaches all handlers so the old socket cannot trigger reconnects. */
+    function disposeSocket() {
+      if (!socket) return
+      socket.onopen = null
+      socket.onmessage = null
+      socket.onclose = null
+      socket.onerror = null
+      socket.close()
+      socket = undefined
+    }
+
     function connectWebSocket() {
+      reconnectTimeout = undefined
+      disposeSocket()
       socket = new WebSocket(`ws://${self.location.host}/websocket`)
 
       socket.onopen = () => {
@@ -58,12 +73,14 @@ export function ApiWrapper({ children }: { children: JSX.Element }) {
     function handleClose() {
       logger.warn('WebSocket connection was closed, reconnecting...')
       setConnected(false)
-      socket = undefined
+      disposeSocket()
       lastHeartBeat = undefined
-      setTimeout(connectWebSocket, 1000)
+      if (reconnectTimeout === undefined) {
+        reconnectTimeout = setTimeout(connectWebSocket, 1000)
+      }
     }
 
-    if (!socket || socket.readyState !== socket.OPEN) connectWebSocket()
+    connectWebSocket()
 
     const interval = setInterval(() => {
       if (!lastHeartBeat || Date.now() - lastHeartBeat < 5000) return
@@ -73,10 +90,8 @@ export function ApiWrapper({ children }: { children: JSX.Element }) {
     }, 2000)
 
     return () => {
-      if (socket) {
-        socket.close()
-        socket = undefined
-      }
+      disposeSocket()
+      if (reconnectTimeout !== undefined) clearTimeout(reconnectTimeout)
       clearInterval(interval)
     }
   }, [])

@@ -96,8 +96,9 @@ export async function refreshDependentChannels(
     channelsToRefresh.add(dependentChannel)
   }
 
-  // groups
-  const channelGroups = groupsByChannel.get(channelId)
+  // groups (membership is only tracked for input channels)
+  const channelGroups =
+    category === 'ch' ? groupsByChannel.get(channelId) : undefined
   if (channelGroups?.size) {
     for (const group of channelGroups) {
       if (!activeGroups.has(group)) continue

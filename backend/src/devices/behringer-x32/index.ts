@@ -33,7 +33,7 @@ export default class BehringerX32DeviceController implements DeviceController {
         }
       }
 
-      if (message === null) {
+      if (internalMessage === null) {
         logger.debug('<== unhandled message', message)
       }
     }, options).then(async () => {
