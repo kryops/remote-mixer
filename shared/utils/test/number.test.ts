@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vite-plus/test'
+
 import { ensureBetween, valueToFraction, fractionToValue } from '../src/number'
 
 describe('util/number', () => {

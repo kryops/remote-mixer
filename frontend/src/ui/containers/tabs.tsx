@@ -39,7 +39,7 @@ export function Tabs({ tabs }: TabsProps) {
 
   useEffect(() => {
     if (tabs.length && !tabs.find(tab => tab.id === activeTab)) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // oxlint-disable-next-line react-hooks/set-state-in-effect
       setActiveTab(tabs[0].id)
     }
   }, [tabs, activeTab])

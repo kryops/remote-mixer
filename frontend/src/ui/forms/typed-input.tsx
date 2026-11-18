@@ -32,7 +32,7 @@ export function NumberInput({ value, onChange, ...rest }: NumberInputProps) {
   const [internalValue, setInternalValue] = useState(value)
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // oxlint-disable-next-line react-hooks/set-state-in-effect
     setInternalValue(value)
   }, [value])
 

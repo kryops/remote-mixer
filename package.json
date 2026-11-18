@@ -15,48 +15,35 @@
   },
   "scripts": {
     "all": "yarn lint && yarn test && yarn build",
-    "clean": "yarn workspaces foreach -A run clean && rimraf node_modules/.cache .linaria-cache .eslintcache tsconfig.tsbuildinfo",
+    "clean": "yarn workspaces foreach -A run clean && rimraf node_modules/.cache .linaria-cache tsconfig.tsbuildinfo",
     "backend": "yarn workspace @remote-mixer/backend",
     "build": "yarn run clean && run-p 'backend build' 'frontend build'",
     "frontend": "yarn workspace @remote-mixer/frontend",
-    "lint": "run-p --continue-on-error lint:eslint lint:ts lint:prettier 'frontend lint:css'",
-    "lint:eslint": "eslint --cache 'frontend/**/*.@(ts|tsx)' 'backend/**/*.ts' 'shared/**/*.ts'",
+    "lint": "run-p --continue-on-error lint:oxlint lint:ts lint:format 'frontend lint:css'",
+    "lint:oxlint": "vp lint",
     "lint:ts": "tsc -b frontend backend",
     "lint:ts:watch": "tsc -b frontend backend --watch",
-    "lint:prettier": "prettier --check --cache '{backend,frontend,shared}/**/*.{ts,tsx}'",
-    "prepare": "rimraf node_modules/.cache .linaria-cache && yarn build",
-    "prettier": "prettier --cache --write '{backend,frontend,shared}/**/*.{ts,tsx}'",
+    "lint:format": "vp fmt --check",
+    "prepare": "vp config && rimraf node_modules/.cache .linaria-cache && yarn build",
+    "format": "vp fmt",
     "prod": "run-s build start",
     "dev": "run-p 'backend dev' 'frontend dev' 'backend build --watch --preserveWatchOutput' 'frontend tsc:watch'",
     "start": "cross-env NODE_ENV=production && node .",
-    "test": "jest"
+    "test": "vp test run"
   },
   "dependencies": {
     "cross-env": "^10.1.0",
     "tslib": "^2.9.1"
   },
   "devDependencies": {
-    "@swc/jest": "^0.2.39",
-    "@types/jest": "^30.0.0",
-    "babel-plugin-polyfill-corejs3": "^1.0.0",
-    "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^9.39.5",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-import-resolver-typescript": "^4.4.5",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jest": "^29.17.1",
-    "eslint-plugin-n": "^18.5.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "jest": "^30.5.2",
     "npm-run-all2": "^9.0.4",
-    "prettier": "^3.10.1",
     "rimraf": "^6.1.4",
-    "ts-node": "^10.9.2",
     "type-fest": "^6.0.1",
-    "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "typescript-eslint": "^8.73.0",
-    "typescript7": "npm:typescript@^7.0.2"
+    "typescript": "^7.0.2",
+    "vite-plus": "catalog:"
   },
-  "packageManager": "yarn@4.18.1"
+  "packageManager": "yarn@4.18.1",
+  "resolutions": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@8.3.8000"
+  }
 }

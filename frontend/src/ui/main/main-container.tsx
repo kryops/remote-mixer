@@ -107,7 +107,7 @@ export const MainContainer = () => {
 
   const availableSends = useMemo(
     () => getAvailableSends(categories),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
     [categories, stateVersion]
   )
 

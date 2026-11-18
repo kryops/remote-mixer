@@ -5,6 +5,6 @@
   "ext": "ts,js",
   "exec": "node ./dist/index.js",
   "ignore": ["**/*.test.ts"],
-  "watch": ["dist", "../frontend/webpack.config.ts", "../shared/*/dist"],
+  "watch": ["dist", "../shared/*/dist"],
   "delay": 500
 }

@@ -1,7 +1,6 @@
 .git
 .gitignore
 .editorconfig
-.eslintcache
 .linaria-cache
 .vscode
 .cache
@@ -11,7 +10,6 @@ dist
 test
 docker-build.sh
 docker-run.sh
-jest.config.js
 LICENSE.md
 node_modules
 README.md

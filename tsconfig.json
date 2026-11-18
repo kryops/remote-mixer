@@ -21,7 +21,6 @@
     "noEmitOnError": false,
     "paths": {
       "osc": ["./@types/osc"],
-      "midi": ["./@types/midi"],
       "@remote-mixer/controls": ["./shared/controls/src"],
       "@remote-mixer/types": ["./shared/types/src"],
       "@remote-mixer/utils": ["./shared/utils/src"],
@@ -29,7 +28,7 @@
     "resolveJsonModule": true,
     "strict": true,
     "noUncheckedSideEffectImports": false,
-    "types": ["node", "jest", "react", "react-dom"],
+    "types": ["node", "react", "react-dom"],
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "incremental": true

@@ -1,9 +1,7 @@
 {
   "recommendations": [
     "EditorConfig.EditorConfig",
-    "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint",
-    "christian-kohler.npm-intellisense",
+    "VoidZero.vite-plus-extension-pack",
     "styled-components.vscode-styled-components",
     "stylelint.vscode-stylelint"
   ]

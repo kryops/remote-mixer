@@ -25,7 +25,6 @@ process.on('unhandledRejection', err => {
 if (!isDevelopment) {
   process.on('SIGINT', () => {
     logger.warn('SIGINT received, exiting...')
-    // eslint-disable-next-line n/no-process-exit
     process.exit()
   })
 }
@@ -35,7 +34,7 @@ setLogLevel(logLevel)
 // actual initialization
 
 async function init() {
-  await Promise.all([initHttpServer()])
+  await initHttpServer()
 
   await new Promise<void>(resolve => httpServer.listen(httpPort, resolve))
 

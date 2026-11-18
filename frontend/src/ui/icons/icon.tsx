@@ -77,7 +77,6 @@ export const Icon = ({
       )}
       style={{
         fill: color ?? iconShade(shade),
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         '--color1': color ? color : iconShade(shade + 1),
         '--color2': color ? color : iconShade(shade),

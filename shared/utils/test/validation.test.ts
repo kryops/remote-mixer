@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vite-plus/test'
+
 import { isTruthy, isUnique } from '../src/validation'
 
 describe('util/validation', () => {

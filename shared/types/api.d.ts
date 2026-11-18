@@ -34,4 +34,7 @@ export interface ApiHeartBeatMessage {
 
 export type ApiInMessage = ApiChangeMessage | ApiSyncDeviceMessage
 export type ApiOutMessage =
-  ApiHeartBeatMessage | ApiSyncMessage | ApiMetersMessage | ApiChangeMessage
+  | ApiHeartBeatMessage
+  | ApiSyncMessage
+  | ApiMetersMessage
+  | ApiChangeMessage
