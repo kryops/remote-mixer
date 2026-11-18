@@ -1,5 +1,5 @@
 import { css } from '@linaria/core'
-import { forwardRef, PointerEvent, TouchEvent, useRef } from 'react'
+import { PointerEvent, ReactNode, Ref, TouchEvent, useRef } from 'react'
 
 import { NormalizedTouchEvent, normalizeTouchEvent } from '../../util/touch'
 import { cx } from '../../util/styles'
@@ -24,12 +24,20 @@ export interface TouchableProps {
   onMove?: TouchEventListener
   className?: string
   title?: string
+  children?: ReactNode
+  ref?: Ref<HTMLDivElement>
 }
 
-export const Touchable = forwardRef<
-  HTMLDivElement,
-  TouchableProps & { children: any }
->(({ onTouch, onDown, onUp, onMove, className, children, title }, ref) => {
+export function Touchable({
+  onTouch,
+  onDown,
+  onUp,
+  onMove,
+  className,
+  children,
+  title,
+  ref,
+}: TouchableProps) {
   const pointerActive = useRef(false)
 
   const downListener: RawTouchEventListener | undefined =
@@ -106,4 +114,4 @@ export const Touchable = forwardRef<
       {children}
     </div>
   )
-})
+}

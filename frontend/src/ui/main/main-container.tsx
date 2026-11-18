@@ -1,11 +1,13 @@
 import { css } from '@linaria/core'
-import { DeviceConfigurationCategory, FaderProperty } from '@remote-mixer/types'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  DeviceConfigurationCategory,
+  FaderProperty,
+  RemoteMixerState,
+} from '@remote-mixer/types'
+import { useEffect, useMemo } from 'react'
 
 import {
-  getState,
-  stateEvents,
-  syncEvent,
+  useSyncedState,
   updateIemSendSelection,
   useDeviceConfiguration,
   useIemSendSelection,
@@ -46,11 +48,11 @@ const content = css`
 `
 
 function getAvailableSends(
-  categories: DeviceConfigurationCategory[]
+  categories: DeviceConfigurationCategory[],
+  state: RemoteMixerState
 ): FaderProperty[] {
   const sends: FaderProperty[] = []
   const seenKeys = new Set<string>()
-  const state = getState()
 
   for (const category of categories) {
     if (category.faderProperties) {
@@ -95,20 +97,11 @@ export const MainContainer = () => {
   const { categories } = useDeviceConfiguration()
   const effectiveMode = useEffectiveRemoteMixerMode()
   const iemSend = useIemSendSelection()
-  const [stateVersion, setStateVersion] = useState(0)
-
-  useEffect(() => {
-    const listener = () => setStateVersion(v => v + 1)
-    stateEvents.on(syncEvent, listener)
-    return () => {
-      stateEvents.off(syncEvent, listener)
-    }
-  }, [])
+  const state = useSyncedState()
 
   const availableSends = useMemo(
-    () => getAvailableSends(categories),
-    // oxlint-disable-next-line react-hooks/exhaustive-deps
-    [categories, stateVersion]
+    () => getAvailableSends(categories, state),
+    [categories, state]
   )
 
   useEffect(() => {

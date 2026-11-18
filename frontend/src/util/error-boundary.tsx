@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { Component, ReactNode } from 'react'
 import { logger } from '@remote-mixer/utils'
 
 interface ErrorInfo {
@@ -12,7 +12,7 @@ interface ErrorBoundaryState {
 }
 
 export class ErrorBoundary extends Component<
-  { children?: any },
+  { children?: ReactNode },
   ErrorBoundaryState
 > {
   state: ErrorBoundaryState = {}

@@ -27,9 +27,17 @@ const defaultSettings: Settings = {
   lightMode: true,
 }
 
-const initialSettings = localStorage[localStorageKey]
-  ? JSON.parse(localStorage[localStorageKey])
-  : defaultSettings
+function loadSettings(): Settings {
+  try {
+    const stored = localStorage[localStorageKey]
+    if (stored) return { ...defaultSettings, ...JSON.parse(stored) }
+  } catch {
+    // corrupted or inaccessible storage, fall back to the defaults
+  }
+  return defaultSettings
+}
+
+const initialSettings = loadSettings()
 
 export const SettingsContext = createContext<SettingsWithUpdate>({
   ...initialSettings,
@@ -47,22 +55,20 @@ export function SettingsWrapper({ children }: PropsWithChildren) {
     else root.classList.remove(lightTheme)
   }, [lightMode])
 
+  useEffect(() => {
+    localStorage[localStorageKey] = JSON.stringify(settings)
+  }, [settings])
+
   const settingsWithUpdate: SettingsWithUpdate = useMemo<SettingsWithUpdate>(
     () => ({
       ...settings,
       updateSettings: partial =>
-        setSettings(prevSettings => {
-          const newSettings = { ...prevSettings, ...partial }
-          localStorage[localStorageKey] = JSON.stringify(newSettings)
-          return newSettings
-        }),
+        setSettings(prevSettings => ({ ...prevSettings, ...partial })),
     }),
     [settings]
   )
 
   return (
-    <SettingsContext.Provider value={settingsWithUpdate}>
-      {children}
-    </SettingsContext.Provider>
+    <SettingsContext value={settingsWithUpdate}>{children}</SettingsContext>
   )
 }

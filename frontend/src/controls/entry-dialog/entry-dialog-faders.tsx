@@ -22,7 +22,7 @@ export function EntryDialogFaders({ category, id }: EntryDialogFadersProps) {
     { key: 'value', label: 'Value' },
   ]
 
-  function change(changedProperty: string, value: any) {
+  function change(changedProperty: string, value: unknown) {
     sendApiMessage({
       type: 'change',
       category,

@@ -12,11 +12,12 @@ import {
 import { iconClose } from '../icons'
 import { lightTheme } from '../../settings'
 
-import { removeOverlay, addOverlay } from './overlay'
+import { removeOverlay, addOverlay, OverlayProps } from './overlay'
 import { ModalButton } from './buttons'
 
 export interface ModalProps<T> {
-  onClose: (result: T) => void
+  /** Called with null if the modal was dismissed without a result */
+  onClose: (result: T | null) => void
   showCloseButton?: boolean
   closeOnBackDrop?: boolean
   title?: string | ReactElement
@@ -123,7 +124,7 @@ export function Modal<T>({
   return (
     <div
       className={backDrop}
-      onClick={closeOnBackDrop ? () => onClose(null as any) : undefined}
+      onClick={closeOnBackDrop ? () => onClose(null) : undefined}
     >
       <div className={modalContainer}>
         <div className={modal} onClick={e => e.stopPropagation()}>
@@ -132,7 +133,7 @@ export function Modal<T>({
               icon={iconClose}
               className={closeButton}
               hoverable
-              onClick={() => onClose(null as any)}
+              onClick={() => onClose(null)}
             />
           )}
           {title && <h2 className={titleStyle}>{title}</h2>}
@@ -140,9 +141,9 @@ export function Modal<T>({
           {Content && <Content onClose={onClose} />}
           {buttons && buttons.length > 0 && (
             <div className={buttonContainer}>
-              {buttons.map(({ icon, label, value }, index) => (
+              {buttons.map(({ icon, label, value }) => (
                 <a
-                  key={index}
+                  key={label}
                   className={buttonStyle}
                   onClick={() => onClose?.(value)}
                 >
@@ -161,21 +162,20 @@ export function Modal<T>({
 export function showModal<T>(
   props: Omit<ModalProps<T>, 'onClose'>,
   registerCloseHandler?: (fn: (value: T) => void) => void
-): Promise<T> {
-  return new Promise<T>(resolve => {
-    const Overlay = () => {
-      // https://github.com/facebook/react/issues/33978
-      'use no memo'
-      return (
-        <Modal
-          {...props}
-          onClose={value => {
-            removeOverlay(Overlay)
-            resolve(value)
-          }}
-        />
-      )
-    }
+): Promise<T | null> {
+  return new Promise<T | null>(resolve => {
+    // onClose is provided by the OverlayContainer and removes this overlay.
+    // It must not reference Overlay itself, as the React compiler hoists
+    // the closure out of the component.
+    const Overlay = ({ onClose }: OverlayProps) => (
+      <Modal
+        {...props}
+        onClose={value => {
+          onClose?.()
+          resolve(value)
+        }}
+      />
+    )
     addOverlay(Overlay)
 
     registerCloseHandler?.(value => {

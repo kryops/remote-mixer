@@ -5,16 +5,23 @@ export interface OverlayProps {
 }
 
 let currentOverlays: ComponentType<OverlayProps>[] = []
-let overlaysChanged: (() => void) | null = null
+const listeners = new Set<() => void>()
+const overlayKeys = new WeakMap<ComponentType<OverlayProps>, number>()
+let nextOverlayKey = 0
+
+function notify() {
+  listeners.forEach(listener => listener())
+}
 
 export function addOverlay(component: ComponentType<OverlayProps>) {
+  overlayKeys.set(component, nextOverlayKey++)
   currentOverlays = [...currentOverlays, component]
-  overlaysChanged?.()
+  notify()
 }
 
 export function removeOverlay(component: ComponentType<OverlayProps>) {
   currentOverlays = currentOverlays.filter(it => it !== component)
-  overlaysChanged?.()
+  notify()
 }
 
 export function hasActiveOverlays(): boolean {
@@ -22,8 +29,10 @@ export function hasActiveOverlays(): boolean {
 }
 
 function subscribe(callback: () => void) {
-  overlaysChanged = callback
-  return () => (overlaysChanged = null)
+  listeners.add(callback)
+  return () => {
+    listeners.delete(callback)
+  }
 }
 
 export const OverlayContainer = ({ children }: PropsWithChildren) => {
@@ -32,8 +41,11 @@ export const OverlayContainer = ({ children }: PropsWithChildren) => {
   return (
     <>
       {children}
-      {overlays.map((Overlay, index) => (
-        <Overlay key={index} onClose={() => removeOverlay(Overlay)} />
+      {overlays.map(Overlay => (
+        <Overlay
+          key={overlayKeys.get(Overlay)}
+          onClose={() => removeOverlay(Overlay)}
+        />
       ))}
     </>
   )

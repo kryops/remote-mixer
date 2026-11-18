@@ -38,7 +38,7 @@ export function EntryDialog({ category, id }: EntryDialogProps) {
   const state = useEntryState(category, id) ?? ({} as StateCategoryEntry)
   const effectiveMode = useEffectiveRemoteMixerMode()
 
-  function change(changedProperty: string, value: any) {
+  function change(changedProperty: string, value: unknown) {
     sendApiMessage({
       type: 'change',
       category,

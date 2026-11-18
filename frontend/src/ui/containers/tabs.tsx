@@ -25,7 +25,7 @@ const activeTabStyle = css`
 `
 
 export interface Tab {
-  id: any
+  id: string
   label: string
   content: ReactNode
 }

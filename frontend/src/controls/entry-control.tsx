@@ -31,7 +31,7 @@ export function EntryControl({
   const categoryInfo = useDeviceCategory(category)
   const effectiveMode = useEffectiveRemoteMixerMode()
 
-  function change(changedProperty: string, value: any) {
+  function change(changedProperty: string, value: unknown) {
     sendApiMessage({
       type: 'change',
       category,

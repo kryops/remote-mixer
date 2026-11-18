@@ -9,7 +9,7 @@ import {
 } from '@remote-mixer/types'
 import { assertNever } from '@remote-mixer/utils'
 import Emittery from 'emittery'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 
 import {
   IemSendSelection,
@@ -73,18 +73,47 @@ export function handleApiMessage(message: ApiOutMessage): void {
   }
 }
 
+function subscribeTo(event: string) {
+  return (callback: () => void) => {
+    stateEvents.on(event, callback)
+    return () => {
+      stateEvents.off(event, callback)
+    }
+  }
+}
+
+const subscribeToSync = subscribeTo(syncEvent)
+const subscribeToIemSend = subscribeTo(iemSendEvent)
+const subscribeToBypassIemMode = subscribeTo(bypassIemModeEvent)
+
+const getDeviceConfiguration = () => deviceConfiguration
+const getRemoteMixerMode = () => remoteMixerMode
+const getIemSend = () => iemSendSelection
+const getBypassIemMode = () => bypassIemMode
+
+/** The state object is replaced on every sync, but not on changes. */
+export function useSyncedState(): RemoteMixerState {
+  return useSyncExternalStore(subscribeToSync, getState)
+}
+
 export function useDeviceConfiguration(): DeviceConfiguration {
-  if (!deviceConfiguration)
+  const configuration = useSyncExternalStore(
+    subscribeToSync,
+    getDeviceConfiguration
+  )
+  if (!configuration)
     throw new Error('deviceConfiguration accessed before it was set!')
-  return deviceConfiguration
+  return configuration
 }
 
 export function useRemoteMixerMode(): RemoteMixerMode {
-  return remoteMixerMode
+  return useSyncExternalStore(subscribeToSync, getRemoteMixerMode)
 }
 
 export function useDeviceCategory(key: string): DeviceConfigurationCategory {
-  const category = deviceConfigurationMap.get(key)
+  const category = useSyncExternalStore(subscribeToSync, () =>
+    deviceConfigurationMap.get(key)
+  )
   if (!category)
     throw new Error(
       'deviceConfiguration accessed before it was set or category not defined!'
@@ -97,48 +126,18 @@ export function useEntryState(
   id: string
 ): StateCategoryEntry | undefined {
   const eventName = category + id
-  const selector = useCallback(
-    () => stateManager.state.categories[category]?.[id],
-    [category, id]
+  const subscribe = useCallback(
+    (callback: () => void) => subscribeTo(eventName)(callback),
+    [eventName]
   )
-  const [state, setState] = useState(selector)
-
-  useEffect(() => {
-    // oxlint-disable-next-line react-hooks/set-state-in-effect
-    setState(selector())
-  }, [selector])
-
-  useEffect(() => {
-    const update = () => {
-      setState(selector())
-    }
-
-    stateEvents.on(eventName, update)
-
-    return () => {
-      stateEvents.off(eventName, update)
-    }
-  }, [eventName, selector])
-
-  return state
+  return useSyncExternalStore(
+    subscribe,
+    () => stateManager.state.categories[category]?.[id]
+  )
 }
 
 export function useIemSendSelection(): IemSendSelection | null {
-  const [send, setSend] = useState<IemSendSelection | null>(iemSendSelection)
-
-  useEffect(() => {
-    const update = () => {
-      setSend(iemSendSelection)
-    }
-
-    stateEvents.on(iemSendEvent, update)
-
-    return () => {
-      stateEvents.off(iemSendEvent, update)
-    }
-  }, [])
-
-  return send
+  return useSyncExternalStore(subscribeToIemSend, getIemSend)
 }
 
 export function updateIemSendSelection(send: IemSendSelection): void {
@@ -148,21 +147,7 @@ export function updateIemSendSelection(send: IemSendSelection): void {
 }
 
 export function useBypassIemMode(): boolean {
-  const [bypass, setBypass] = useState(bypassIemMode)
-
-  useEffect(() => {
-    const update = () => {
-      setBypass(bypassIemMode)
-    }
-
-    stateEvents.on(bypassIemModeEvent, update)
-
-    return () => {
-      stateEvents.off(bypassIemModeEvent, update)
-    }
-  }, [])
-
-  return bypass
+  return useSyncExternalStore(subscribeToBypassIemMode, getBypassIemMode)
 }
 
 export function useEffectiveRemoteMixerMode(): RemoteMixerMode {

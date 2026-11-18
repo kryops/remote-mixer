@@ -8,7 +8,7 @@ export async function showDialog<T = true>(
   buttons: ModalButton<T>[] = [buttonOk as ModalButton<any>],
   additionalProps: Partial<ModalProps<T>> = {},
   registerCloseHandler?: (fn: (value: T) => void) => void
-): Promise<T> {
+): Promise<T | null> {
   return showModal(
     { ...additionalProps, content, buttons },
     registerCloseHandler
