@@ -41,6 +41,9 @@ export function ApiWrapper({ children }: { children: JSX.Element }) {
       reconnectTimeout = undefined
       disposeSocket()
       socket = new WebSocket(`ws://${self.location.host}/websocket`)
+      // start the timeout right away, so a connection that hangs before
+      // delivering its first heartbeat still fails over
+      lastHeartBeat = Date.now()
 
       socket.onopen = () => {
         logger.info('WebSocket connection established')
