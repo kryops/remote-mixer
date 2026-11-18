@@ -6,6 +6,7 @@ import {
   useEntryState,
   useEffectiveRemoteMixerMode,
 } from '../api/state'
+import { useEntryColor } from '../hooks/entry-color'
 import { useMeter } from '../hooks/meter'
 import { Button } from '../ui/buttons/button'
 import { Entry } from '../ui/containers/entry'
@@ -41,6 +42,7 @@ export function EntryControl({
   }
 
   const meterRef = useMeter(categoryInfo, id)
+  const color = useEntryColor(id, state)
 
   return (
     <Entry inactive={!state.on}>
@@ -56,10 +58,8 @@ export function EntryControl({
         step={1}
         label={(categoryInfo.namePrefix ?? '') + id}
         subLabel={state.name}
-        color={state.color ?? undefined}
+        color={color}
         meterRef={meterRef}
-        category={category}
-        id={id}
       />
       {effectiveMode !== 'iem' && (
         <Icon

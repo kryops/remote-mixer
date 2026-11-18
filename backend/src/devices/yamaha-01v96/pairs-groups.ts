@@ -46,9 +46,24 @@ export async function syncPairsAndGroups(): Promise<void> {
           isRequest: true,
         })
       )
-    }
 
-    await delay(20)
+      // group membership is only available for input channels
+      if (category === 'kInputPair') {
+        for (let groupIndex = 1; groupIndex <= 8; groupIndex++) {
+          for (const groupType of groupTypes) {
+            sendMessage(
+              message({
+                type: `kInputGroup/kInGroup${groupType}${groupIndex}`,
+                channel: channel - 1,
+                isRequest: true,
+              })
+            )
+          }
+        }
+      }
+
+      await delay(20)
+    }
   }
 
   // group: active

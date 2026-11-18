@@ -5,6 +5,7 @@ import { EntryContainer } from '../../ui/containers/entry-container'
 import { Fader } from '../../ui/controls/fader/fader'
 import { useDeviceCategory, useEntryState } from '../../api/state'
 import { sendApiMessage } from '../../api/api-wrapper'
+import { useEntryColor } from '../../hooks/entry-color'
 import { useMeter } from '../../hooks/meter'
 
 export interface EntryDialogFadersProps {
@@ -17,6 +18,7 @@ export function EntryDialogFaders({ category, id }: EntryDialogFadersProps) {
   const categoryInfo = useDeviceCategory(category)
 
   const meterRef = useMeter(categoryInfo, id)
+  const color = useEntryColor(id, state)
 
   const properties = categoryInfo.faderProperties ?? [
     { key: 'value', label: 'Value' },
@@ -43,8 +45,7 @@ export function EntryDialogFaders({ category, id }: EntryDialogFadersProps) {
             step={1}
             label={label}
             meterRef={key === 'value' ? meterRef : undefined}
-            category={category}
-            id={id}
+            color={color}
           />
         </Entry>
       ))}
