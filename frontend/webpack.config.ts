@@ -75,6 +75,10 @@ export const webpackConfiguration = (env: Env = {}): Configuration => {
               loader: '@wyw-in-js/webpack-loader',
               options: {
                 sourceMap: true,
+                // polished is evaluated at build time via a runtime require()
+                importOverrides: {
+                  polished: { unknown: 'allow' },
+                },
               },
             },
           ],

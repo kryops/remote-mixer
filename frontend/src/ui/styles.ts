@@ -18,13 +18,7 @@ export const backgroundColor = `var(${backgroundColorVariable})`
 export type ColorShade = 0 | 1 | 2 | 3 | 4
 
 export type ThemeColor =
-  | 'background'
-  | 'primary'
-  | 'success'
-  | 'error'
-  | 'warn'
-  | 'text'
-  | 'icon'
+  'background' | 'primary' | 'success' | 'error' | 'warn' | 'text' | 'icon'
 
 const colors: { [key in ThemeColor]: string | [string, string] } = {
   // the first letter must be unique

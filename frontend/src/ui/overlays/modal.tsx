@@ -35,6 +35,7 @@ const backDrop = css`
   overflow-y: auto;
   z-index: ${zOverlay};
 
+  /* stylelint-disable-next-line selector-no-invalid -- placeholder of the interpolation */
   .${lightTheme} & {
     background: rgba(200, 200, 200, 0.8);
   }
