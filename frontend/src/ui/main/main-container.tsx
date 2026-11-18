@@ -14,11 +14,11 @@ import {
 import { CategoryControl } from '../../controls/category-control'
 import { Tabs } from '../containers/tabs'
 import { baseline, iconShade } from '../styles'
+import { hasActiveOverlays } from '../overlays/overlay'
 
 import { CornerOverlay } from './corner-overlay'
 import { showIemSendSelectorDialog } from './iem-view-selector-dialog'
 import { IemSendToggle } from './iem-view-toggle'
-import { hasActiveOverlays } from '../overlays/overlay'
 
 const mainContainer = css`
   display: flex;
