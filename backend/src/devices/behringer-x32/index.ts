@@ -22,7 +22,7 @@ export default class BehringerX32DeviceController implements DeviceController {
     private listener: DeviceMessageListener,
     options: X32Options
   ) {
-    connect(message => {
+    void connect(message => {
       const internalMessage = interpretIncomingMessage(message)
       if (internalMessage && typeof internalMessage === 'object') {
         if (internalMessage.type === 'meters') {
@@ -52,7 +52,7 @@ export default class BehringerX32DeviceController implements DeviceController {
   change(category: string, id: string, property: string, value: unknown): void {
     const message = getChangeMessage(category, id, property, value)
     logger.debug(
-      `==> change ${category} ${id} ${property} ${value} =>`,
+      `==> change ${category} ${id} ${property} ${String(value)} =>`,
       message
     )
     if (message) sendMessage(message)
@@ -60,6 +60,6 @@ export default class BehringerX32DeviceController implements DeviceController {
 
   sync(): void {
     logger.debug('==> synchronizing...')
-    sync()
+    void sync()
   }
 }

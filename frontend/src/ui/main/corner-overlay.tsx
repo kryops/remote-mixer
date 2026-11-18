@@ -25,9 +25,9 @@ const cornerIcon = css`
 
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen()
+    void document.documentElement.requestFullscreen()
   } else if (document.exitFullscreen) {
-    document.exitFullscreen()
+    void document.exitFullscreen()
   }
 }
 

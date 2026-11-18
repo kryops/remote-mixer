@@ -119,11 +119,13 @@ export const MainContainer = () => {
       iemSend === null &&
       availableSends.length > 0
     ) {
-      showIemSendSelectorDialog(availableSends, false).then(selectedSend => {
-        if (selectedSend !== null) {
-          updateIemSendSelection(selectedSend)
+      void showIemSendSelectorDialog(availableSends, false).then(
+        selectedSend => {
+          if (selectedSend !== null) {
+            updateIemSendSelection(selectedSend)
+          }
         }
-      })
+      )
     }
   }, [effectiveMode, iemSend, availableSends])
 

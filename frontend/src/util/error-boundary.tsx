@@ -18,7 +18,7 @@ export class ErrorBoundary extends Component<
   state: ErrorBoundaryState = {}
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    this.prepareError(error, info)
+    void this.prepareError(error, info)
   }
 
   async prepareError(error: Error, { componentStack }: ErrorInfo) {

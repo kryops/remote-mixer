@@ -1,5 +1,5 @@
 import { css } from '@linaria/core'
-import { ReactNode, useDeferredValue, useEffect, useState } from 'react'
+import { ReactNode, useDeferredValue, useState } from 'react'
 
 import { cx } from '../../util/styles'
 import { backgroundColor, baseline, iconShade } from '../styles'
@@ -37,14 +37,12 @@ export interface TabsProps {
 export function Tabs({ tabs }: TabsProps) {
   const [activeTab, setActiveTab] = useState(tabs[0]?.id ?? null)
 
-  useEffect(() => {
-    if (tabs.length && !tabs.find(tab => tab.id === activeTab)) {
-      // oxlint-disable-next-line react-hooks/set-state-in-effect
-      setActiveTab(tabs[0].id)
-    }
-  }, [tabs, activeTab])
+  // Fall back to the first tab if the selected one disappeared
+  const effectiveActiveTab = tabs.some(tab => tab.id === activeTab)
+    ? activeTab
+    : (tabs[0]?.id ?? null)
 
-  const deferredActiveTab = useDeferredValue(activeTab)
+  const deferredActiveTab = useDeferredValue(effectiveActiveTab)
 
   if (tabs.length === 0) return null
   if (tabs.length === 1) return <>{tabs[0].content}</>
@@ -56,7 +54,10 @@ export function Tabs({ tabs }: TabsProps) {
           <Clickable
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={cx(tabStyle, tab.id === activeTab && activeTabStyle)}
+            className={cx(
+              tabStyle,
+              tab.id === effectiveActiveTab && activeTabStyle
+            )}
           >
             {tab.label}
           </Clickable>

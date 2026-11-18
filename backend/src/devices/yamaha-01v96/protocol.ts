@@ -14,8 +14,8 @@ export function interpretIncomingMessage(
 
   const midiMessage = parseMessage(message)
 
-  for (const { incoming } of messageMapping) {
-    const result = incoming(midiMessage)
+  for (const mapping of messageMapping) {
+    const result = mapping.incoming(midiMessage)
     if (result) return result
   }
 
@@ -28,8 +28,8 @@ export function getChangeMessage(
   property: string,
   value: unknown
 ): number[] | null {
-  for (const { outgoing } of messageMapping) {
-    const result = outgoing?.(category, id, property, value)
+  for (const mapping of messageMapping) {
+    const result = mapping.outgoing?.(category, id, property, value)
     if (result && typeof result === 'object') return message(result)
     if (result) break
   }
@@ -42,8 +42,8 @@ export function getRequestMessage(
   id: string,
   property: string
 ): number[] | null {
-  for (const { outgoing } of messageMapping) {
-    const result = outgoing?.(category, id, property)
+  for (const mapping of messageMapping) {
+    const result = mapping.outgoing?.(category, id, property)
     if (result && typeof result === 'object')
       return message({ ...result, isRequest: true })
     if (result) break

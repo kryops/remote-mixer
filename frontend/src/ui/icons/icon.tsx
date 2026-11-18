@@ -1,5 +1,5 @@
 import { css } from '@linaria/core'
-import { MouseEvent as ReactMouseEvent } from 'react'
+import { CSSProperties, MouseEvent as ReactMouseEvent } from 'react'
 
 import { baseline, ColorShade, iconShade } from '../styles'
 import { cx } from '../../util/styles'
@@ -75,14 +75,15 @@ export const Icon = ({
         padding && icon_padding,
         className
       )}
-      style={{
-        fill: color ?? iconShade(shade),
-        // @ts-ignore
-        '--color1': color ? color : iconShade(shade + 1),
-        '--color2': color ? color : iconShade(shade),
-        width: size ? baseline(size) : undefined,
-        height: size ? baseline(size) : undefined,
-      }}
+      style={
+        {
+          fill: color ?? iconShade(shade),
+          '--color1': color ? color : iconShade(shade + 1),
+          '--color2': color ? color : iconShade(shade),
+          width: size ? baseline(size) : undefined,
+          height: size ? baseline(size) : undefined,
+        } as CSSProperties
+      }
       onClick={onClick}
     >
       <path

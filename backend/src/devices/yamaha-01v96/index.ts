@@ -36,7 +36,7 @@ export default class Yamaha01v96DeviceController implements DeviceController {
       }
     })
 
-    sync()
+    void sync()
 
     setInterval(() => {
       sendMessage(getMeterReqest())
@@ -51,7 +51,7 @@ export default class Yamaha01v96DeviceController implements DeviceController {
 
     const message = getChangeMessage(category, id, property, value)
     logger.debug(
-      `==> change ${category} ${id} ${property} ${value} =>`,
+      `==> change ${category} ${id} ${property} ${String(value)} =>`,
       formatMessage(message)
     )
     if (message) sendMessage(message)
@@ -60,12 +60,12 @@ export default class Yamaha01v96DeviceController implements DeviceController {
       (category === 'ch' || category === 'aux' || category === 'bus') &&
       (property === 'value' || property === 'on')
     ) {
-      refreshDependentChannels(category, id, property)
+      void refreshDependentChannels(category, id, property)
     }
   }
 
   sync(): void {
     logger.debug('==> synchronizing...')
-    sync()
+    void sync()
   }
 }

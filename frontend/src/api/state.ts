@@ -54,15 +54,15 @@ export function handleApiMessage(message: ApiOutMessage): void {
       if (message.mode) {
         remoteMixerMode = message.mode
       }
-      stateEvents.emit(syncEvent)
+      void stateEvents.emit(syncEvent)
       break
 
     case 'meters':
-      stateEvents.emit(metersEvent)
+      void stateEvents.emit(metersEvent)
       break
 
     case 'change':
-      stateEvents.emit(message.category + message.id)
+      void stateEvents.emit(message.category + message.id)
       break
 
     case 'heartbeat':
@@ -144,7 +144,7 @@ export function useIemSendSelection(): IemSendSelection | null {
 export function updateIemSendSelection(send: IemSendSelection): void {
   iemSendSelection = send
   setIemSendSelection(send)
-  stateEvents.emit(iemSendEvent)
+  void stateEvents.emit(iemSendEvent)
 }
 
 export function useBypassIemMode(): boolean {
@@ -173,5 +173,5 @@ export function useEffectiveRemoteMixerMode(): RemoteMixerMode {
 
 export function toggleBypassIemMode(): void {
   bypassIemMode = !bypassIemMode
-  stateEvents.emit(bypassIemModeEvent)
+  void stateEvents.emit(bypassIemModeEvent)
 }

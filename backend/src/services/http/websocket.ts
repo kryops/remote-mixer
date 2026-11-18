@@ -1,4 +1,4 @@
-import { ApiInMessage, ApiOutMessage } from '@remote-mixer/types'
+import { ApiOutMessage } from '@remote-mixer/types'
 import ws from 'ws'
 import { removeFromMutableArray, logger } from '@remote-mixer/utils'
 
@@ -27,7 +27,7 @@ export async function initWebSocketServer(): Promise<void> {
   wsServer.on('connection', socket => {
     logger.info('Socket connected')
     sockets.push(socket)
-    socket.on('message', (message: ApiInMessage) => {
+    socket.on('message', (message: Buffer) => {
       logger.trace('incoming message:', message)
       handleApiMessage(JSON.parse(message.toString()), socket)
     })

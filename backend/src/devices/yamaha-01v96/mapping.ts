@@ -274,7 +274,7 @@ export const messageMapping: MessageMapping[] = [
   {
     incoming: message => {
       if (message.dataType === 0x10) {
-        sync()
+        void sync()
       }
       return null
     },

@@ -6,8 +6,8 @@ import { messageMapping } from './mapping'
 export function interpretIncomingMessage(
   message: OSC.Message
 ): DeviceMessage | true | null {
-  for (const { incoming } of messageMapping) {
-    const result = incoming(message)
+  for (const mapping of messageMapping) {
+    const result = mapping.incoming(message)
     if (result) return result
   }
 
@@ -20,8 +20,8 @@ export function getChangeMessage(
   property: string,
   value: unknown
 ): OSC.Message | null {
-  for (const { outgoing } of messageMapping) {
-    const result = outgoing?.(category, id, property, value)
+  for (const mapping of messageMapping) {
+    const result = mapping.outgoing?.(category, id, property, value)
     if (result && typeof result === 'object') return result
     if (result) break
   }
@@ -34,8 +34,8 @@ export function getRequestMessage(
   id: string,
   property: string
 ): OSC.Message | null {
-  for (const { outgoing } of messageMapping) {
-    const result = outgoing?.(category, id, property)
+  for (const mapping of messageMapping) {
+    const result = mapping.outgoing?.(category, id, property)
     if (result && typeof result === 'object') return result
     if (result) break
   }
