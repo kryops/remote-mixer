@@ -10,7 +10,7 @@ import {
   backgroundColor,
 } from '../styles'
 import { iconClose } from '../icons'
-import { lightTheme } from '../../settings'
+import { lightTheme } from '../light-theme'
 
 import { removeOverlay, addOverlay, OverlayProps } from './overlay'
 import { ModalButton } from './buttons'

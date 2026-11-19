@@ -1,4 +1,3 @@
-import { css } from '@linaria/core'
 import {
   useState,
   useMemo,
@@ -7,11 +6,7 @@ import {
   useEffect,
 } from 'react'
 
-import { getCssVariableDefinitions } from './ui/styles'
-
-export const lightTheme = css`
-  ${getCssVariableDefinitions(true)}
-`
+import { lightTheme } from './ui/light-theme'
 
 export interface Settings {
   lightMode: boolean
